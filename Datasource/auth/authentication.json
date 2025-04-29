@@ -1,8 +1,25 @@
 [
     {
-        "id": 1,
-        "name": "admin",
-        "password": "admin",
-        "role": "admin"
+        "admins": [
+            {
+                "email": "admin@gmail.com",
+                "password": "admin",
+                "role": "admin"
+            }
+        ],
+        "Customers": [
+            {
+                "email": "name@example.com",
+                "password": "password",
+                "role": "customer"
+            }
+        ],
+        "seller": [
+            {
+                "email": "name@example.com",
+                "password": "password",
+                "role": "seller"
+            }
+        ]
     }
 ]

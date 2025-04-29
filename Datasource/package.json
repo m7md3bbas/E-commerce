@@ -1,0 +1,15 @@
+{
+  "name": "e-commerce-authentication",
+  "version": "1.0.0",
+  "description": "Authentication system for E-commerce app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Mohamed Abbas",
+  "license": "ISC",
+  "dependencies": {
+    "validator": "^13.15.0"
+  }
+}
