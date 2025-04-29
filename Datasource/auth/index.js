@@ -21,6 +21,10 @@ app.post('/auth/login', async (req, res) => {
         return res.status(400).json({ message: 'Invalid email format' });
     }
 
+    if (!password) {
+        return res.status(400).json({ message: 'Password is required' });
+    }
+
     const userTypes = ['admins', 'Customers', 'seller'];
     for (let type of userTypes) {
         const user = data[type]?.find(u => u.email === email);
