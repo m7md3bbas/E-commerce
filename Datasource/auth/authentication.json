@@ -1,25 +1,18 @@
-[
-    {
-        "admins": [
-            {
-                "email": "admin@gmail.com",
-                "password": "admin",
-                "role": "admin"
-            }
-        ],
-        "Customers": [
-            {
-                "email": "name@example.com",
-                "password": "password",
-                "role": "customer"
-            }
-        ],
-        "seller": [
-            {
-                "email": "name@example.com",
-                "password": "password",
-                "role": "seller"
-            }
-        ]
-    }
-]
+{
+    "admins": [
+        {
+            "email": "admin@gmail.com",
+            "password": "admin1234",
+            "role": "admin1234"
+        }
+    ],
+    "Customers": [
+        {
+            "name": "mohamed emad abbas",
+            "email": "mhmdabass330@gmail.com",
+            "password": "mohamedemad abbas",
+            "role": "customer"
+        }
+    ],
+    "seller": []
+}

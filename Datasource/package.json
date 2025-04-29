@@ -4,12 +4,14 @@
   "description": "Authentication system for E-commerce app",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "dev": "nodemon index.js"
+    "start": "nodemon auth/index.js"
   },
   "author": "Mohamed Abbas",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
     "validator": "^13.15.0"
   }
 }
