@@ -2,116 +2,129 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="../../assets/libs/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/libs/hover-min.css" />
     <style>
-        .auth-image {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            border-radius: 10px;
+        .form-login {
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 3px solid rgba(133, 129, 129, 0.252);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
         }
 
-        .form-signin {
-            background: #ffffff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        h1 {
+            color: whitesmoke !important;
         }
 
         body {
-            background-color: #f8f9fa;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('../../assets/imgs/Auth/cropped-image-woman-inputting-card-information-key-phone-laptop-while-shopping-online%20(1).jpg') center/cover no-repeat;
+            background-attachment: fixed;
+        }
+
+        button {
+            border: none;
+        }
+
+        .hvr-rectangle-out:active,
+        .hvr-rectangle-out:focus,
+        .hvr-rectangle-out:hover {
+            background-color: #501f1f !important;
+            border-radius: 20px;
+        }
+
+        .hvr-rectangle-out:before {
+            background-color: #501f1f;
+            border-radius: 20px;
+            transition: all 0.8s ease-in-out;
+        }
+
+        button:active {
+            border: none;
+        }
+
+        a {
+            color: whitesmoke;
+            text-decoration: none;
         }
     </style>
-</head>
-
-<body>
-    <div class="container">
-        <div class="row justify-content-center align-items-center mt-5">
-            <div class="col-lg-7 d-none d-lg-block">
-                <img src="../../assets/imgs/Auth/cropped-image-woman-inputting-card-information-key-phone-laptop-while-shopping-online (1).jpg"
-                    alt="Shopping Online" class="auth-image">
-            </div>
-            <div class="col-lg-5 col-md-7">
-                <form class="form-signin" id="loginForm">
-                    <h1 class="h3 mb-3 text-center">Please sign in</h1>
-                    <div class="form-floating mb-3">
-                        <select name="role" id="role" class="form-control" required>
-                            <option value="">Select a role</option>
-                            <option value="admin">Admin</option>
-                            <option value="customer">Customer</option>
-                            <option value="seller">Seller</option>
-                        </select>
-                        <label for="role">Role</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="email" id="inputEmail" class="form-control" placeholder="name@example.com" required
-                            autofocus>
-                        <label for="inputEmail">Email address</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                        <label for="inputPassword">Password</label>
-                    </div>
-
-                    <div class="form-check mb-3">
-                        <input type="checkbox" class="form-check-input" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Remember me</label>
-                    </div>
-
-                    <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-
-                    <p class="mt-5 mb-3 text-muted text-center">
-                        Don't have an account? <a href="register.html" class="fw-bold">Sign up</a>
-                    </p>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        window.addEventListener("load", function () {
+            const loginForm = document.getElementById("loginForm");
+            const email = document.getElementById("email");
+            const password = document.getElementById("password");
+            const loginBtn = loginForm.querySelector("button");
 
-            const email = document.getElementById('inputEmail').value;
-            const password = document.getElementById('inputPassword').value;
-            const role = document.getElementById('role').value;
+            loginForm.addEventListener("submit", function (e) {
+                e.preventDefault();
 
-            try {
-                const response = await fetch('http://localhost:3000/auth/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, password, role })
-                });
-
-                const data = await response.json();
-                console.log(data);
-                if (response.ok) {
-                    alert('Login successful! Role: ' + data.user.role);
-                    if (data.user.role === 'admin') {
-                        window.location.assign('../admin/admin-dashboard.html');
-                    } else if (data.user.role === 'seller') {
-                        window.location.href = '/seller-dashboard.html';
-                    } else if (data.user.role === 'customer') {
-                        window.location.href = '/customer-dashboard.html';
-                    }
-                } else {
-                    alert('Login failed: ' + data.message);
+                if (!loginForm.checkValidity()) {
+                    loginForm.classList.add("was-validated");
+                    return;
                 }
-            } catch (error) {
-                alert('Error connecting to server.');
-                console.error(error);
+
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...`;
+
+                setTimeout(() => {
+                    const foundUser = loaduserData();
+
+                    if (foundUser) {
+
+                        window.location.replace("../admin/admin-dashboard.html");
+                    } else {
+                        alert("Invalid email or password.");
+                        loginBtn.disabled = false;
+                        loginBtn.innerHTML = "Log In";
+                    }
+                }, 2000);
+            });
+
+            function loaduserData() {
+                const users = JSON.parse(localStorage.getItem("userData")) || [];
+                return users.find(
+                    (user) => user.email === email.value && user.password === password.value
+                );
             }
         });
     </script>
+
+</head>
+
+<body>
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="col-12 col-md-12 col-lg-6">
+            <form class="form-login needs-validation" id="loginForm" novalidate>
+                <h1 class="h3 mb-3 text-center">Welcome Back</h1>
+
+                <div class="form-floating mb-3">
+                    <input type="email" id="email" class="form-control" placeholder="name@example.com" required />
+                    <label for="email">Email address</label>
+                    <div class="invalid-feedback">Please enter your email.</div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="password" id="password" class="form-control" placeholder="Password" required />
+                    <label for="password">Password</label>
+                    <div class="invalid-feedback">Please enter your password.</div>
+                </div>
+
+                <button class="btn w-100 py-2 hvr-rectangle-out" type="submit">Log In</button>
+
+                <p class="mt-5 mb-3 text-muted text-center">
+                    Don't have an account?
+                    <a href="register.html" class="fw-bold">Sign up</a>
+                </p>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>
