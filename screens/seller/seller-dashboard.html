@@ -6,110 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة تحكم البائع</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            height: 100vh;
-            width: 220px;
-            background-color: #343a40;
-            padding-top: 60px;
-            color: white;
-            z-index: 1000;
-        }
-
-        html[dir="rtl"] .sidebar {
-            right: 0;
-        }
-
-        html[dir="ltr"] .sidebar {
-            left: 0;
-        }
-
-        .sidebar a {
-            display: block;
-            padding: 15px;
-            color: white;
-            text-decoration: none;
-        }
-
-        .sidebar a:hover,
-        .sidebar a.active {
-            background-color: #495057;
-        }
-
-        .content {
-            padding: 20px;
-        }
-
-        html[dir="rtl"] .content {
-            margin-right: 220px;
-        }
-
-        html[dir="ltr"] .content {
-            margin-left: 220px;
-        }
-
-        .product-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            text-align: center;
-            background-color: #f9f9f9;
-        }
-
-        .product-card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-
-        .lang-toggle {
-            position: fixed;
-            top: 15px;
-            z-index: 1100;
-        }
-
-        html[dir="rtl"] .lang-toggle {
-            left: 15px;
-        }
-
-        html[dir="ltr"] .lang-toggle {
-            right: 15px;
-        }
-
-        #addProductForm {
-            max-width: 600px;
-        }
-
-        .page-content {
-            display: none;
-        }
-
-        .page-content.active {
-            display: block;
-        }
-
-        #product-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        #addProduct {
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="seller_home_styles.css">
 </head>
 
 <body>
+    <script src="seller_home_logic.js"></script>
+
     <button class="btn btn-sm btn-outline-primary lang-toggle" onclick="toggleLanguage()">EN</button>
 
     <div class="sidebar">
@@ -123,34 +25,52 @@
     </div>
 
     <div class="content">
-        <!-- الرئيسية تعرض المنتجات فقط -->
         <div id="home" class="page-content active">
             <h2 id="yourProducts">منتجاتك</h2>
             <div class="row" id="product-list"></div>
         </div>
-
-        <!-- صفحة إضافة منتج -->
         <div id="addProduct" class="page-content">
             <h4 id="addProductHeader">إضافة منتج جديد</h4>
-            <form id="addProductForm">
-                <div class="mb-3">
-                    <label for="productName" class="form-label" id="nameLabel">اسم المنتج</label>
-                    <input type="text" class="form-control" id="productName">
+            <form id="addProductForm" class="d-flex flex-column flex-md-row">
+                <div class="form-group">
+                    <div class="mb-3">
+                        <label for="productName" class="form-label" id="nameLabel">اسم المنتج</label>
+                        <input type="text" class="form-control" id="productName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="productNameEn" class="form-label" id="nameEnLabel">Product Name (EN)</label>
+                        <input type="text" class="form-control" id="productNameEn">
+                    </div>
+                    <div class="mb-3">
+                        <label for="productPrice" class="form-label" id="priceLabel">السعر</label>
+                        <input type="number" class="form-control" id="productPrice">
+                    </div>
+                    <div class="mb-3">
+                        <label for="productQuantity" class="form-label" id="quantityLabel">الكمية</label>
+                        <input type="number" class="form-control" id="productQuantity">
+                    </div>
+                    <div class="mb-3">
+                        <label for="productImage" class="form-label" id="imageLabel">رابط الصورة</label>
+                        <input type="text" class="form-control" id="productImage" placeholder="أو ضع رابط الصورة هنا">
+                    </div>
+                    <div class="mb-3">
+                        <label for="productImageUpload" class="form-label" id="imageUploadLabel">أو اختر صورة من
+                            جهازك</label>
+                        <input type="file" class="form-control" id="productImageUpload" accept="image/*">
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="productNameEn" class="form-label" id="nameEnLabel">Product Name (EN)</label>
-                    <input type="text" class="form-control" id="productNameEn">
+
+                <!-- حاوية المعاينة -->
+                <div class="mb-3 d-flex align-items-center justify-content-center" id="imagePreviewContainer"
+                    style="display: none;">
+                    <label for="imagePreview" class="form-label">معاينة الصورة:</label>
+                    <div id="imagePreviewBox" class="image-preview-box">
+                        <img id="imagePreview" src="" alt="معاينة الصورة" class="img-fluid" />
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="productPrice" class="form-label" id="priceLabel">السعر</label>
-                    <input type="number" class="form-control" id="productPrice">
-                </div>
-                <div class="mb-3">
-                    <label for="productImage" class="form-label" id="imageLabel">رابط الصورة</label>
-                    <input type="text" class="form-control" id="productImage">
-                </div>
-                <button type="button" class="btn btn-primary" onclick="addProduct()" id="submitBtn">إضافة</button>
             </form>
+
+            <button type="button" class="btn btn-primary" onclick="addProduct()" id="submitBtn">إضافة</button>
         </div>
 
         <div id="manageProducts" class="page-content">
@@ -174,134 +94,6 @@
         </div>
     </div>
 
-    <script>
-        let currentLang = 'ar';
-
-        const translations = {
-            en: {
-                sellerPanel: "Seller Panel",
-                homeLink: "Home",
-                addProductLink: "Add Product",
-                manageProductsLink: "Manage Products",
-                ordersLink: "Orders",
-                analyticsLink: "Sales Analytics",
-                accountLink: "Account Settings",
-                yourProducts: "Your Products",
-                addProductHeader: "Add New Product",
-                nameLabel: "Product Name (AR)",
-                nameEnLabel: "Product Name (EN)",
-                priceLabel: "Price",
-                imageLabel: "Image URL",
-                submitBtn: "Add"
-            },
-            ar: {
-                sellerPanel: "لوحة البائع",
-                homeLink: "الرئيسية",
-                addProductLink: "إضافة منتج",
-                manageProductsLink: "إدارة المنتجات",
-                ordersLink: "الطلبات",
-                analyticsLink: "إحصائيات المبيعات",
-                accountLink: "إعدادات الحساب",
-                yourProducts: "منتجاتك",
-                addProductHeader: "إضافة منتج جديد",
-                nameLabel: "اسم المنتج (عربي)",
-                nameEnLabel: "اسم المنتج (إنجليزي)",
-                priceLabel: "السعر",
-                imageLabel: "رابط الصورة",
-                submitBtn: "إضافة"
-            }
-        };
-
-        const defaultImage = "https://via.placeholder.com/200x150?text=No+Image";  // صورة افتراضية
-
-        function toggleLanguage() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            document.documentElement.lang = currentLang;
-            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            document.querySelector(".lang-toggle").innerText = currentLang === 'ar' ? 'EN' : 'AR';
-
-            for (const key in translations[currentLang]) {
-                const element = document.getElementById(key);
-                if (element) element.innerText = translations[currentLang][key];
-            }
-
-            updateProductCards();
-        }
-
-        const sellerProducts = [
-            {
-                id: 1,
-                name: { ar: "تيشيرت رجالي", en: "Men's T-shirt" },
-                price: 200,
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDZtF5rfMcbRQtx72_ahxf5VF5sCq4KW_OEA&s"
-            },
-            {
-                id: 2,
-                name: { ar: "ساعة يد", en: "Wrist Watch" },
-                price: 350,
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXWZJM4R65A4N4u2UfV2ztQE653eoNqvKtw&s"
-            },
-            {
-                id: 3,
-                name: { ar: "سماعات لاسلكية", en: "Wireless Earbuds" },
-                price: 500,
-                image: "https://cdn-ilbfkgh.nitrocdn.com/ufOfZzcZUionBYkswpRXSFNIvhnpfCcf/assets/images/optimized/rev-12e2347/ehabgroup.com/media/2025/02/apple-airpods-4-anc-.png"
-            }
-        ];
-
-        function updateProductCards() {
-            const productList = document.getElementById("product-list");
-            productList.innerHTML = "";
-
-            sellerProducts.forEach(product => {
-                const productCard = document.createElement("div");
-                productCard.className = "product-card";
-                productCard.innerHTML = `
-                    <img src="${product.image}" alt="${product.name[currentLang]}" class="img-fluid">
-                    <h5 class="mt-2">${product.name[currentLang]}</h5>
-                    <p>${translations[currentLang].priceLabel}: ${product.price} EGP</p>
-                `;
-                productList.appendChild(productCard);
-            });
-        }
-
-        function showPage(page) {
-            document.querySelectorAll('.page-content').forEach(content => {
-                content.classList.remove('active');
-            });
-
-            document.getElementById(page).classList.add('active');
-
-            document.querySelectorAll('.sidebar a').forEach(anchor => {
-                anchor.classList.remove('active');
-            });
-
-            document.getElementById(page + 'Link').classList.add('active');
-        }
-
-        function addProduct() {
-            const nameAr = document.getElementById("productName").value.trim();
-            const nameEn = document.getElementById("productNameEn").value.trim();
-            const price = parseFloat(document.getElementById("productPrice").value);
-            const image = document.getElementById("productImage").value.trim() || defaultImage;
-
-            if (nameAr && nameEn && !isNaN(price) && image) {
-                const newProduct = {
-                    id: sellerProducts.length + 1,
-                    name: { ar: nameAr, en: nameEn },
-                    price,
-                    image
-                };
-                sellerProducts.push(newProduct);
-                updateProductCards();
-                document.getElementById("addProductForm").reset();
-            } else {
-                alert(currentLang === 'ar' ? 'يرجى ملء جميع الحقول بشكل صحيح.' : 'Please fill all fields correctly.');
-            }
-        }
-
-        updateProductCards();
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
