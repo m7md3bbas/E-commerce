@@ -73,8 +73,6 @@
     </style>
 
     <script>
-        let users = JSON.parse(localStorage.getItem("userData")) || [];
-
         window.addEventListener("load", function () {
             const signupForm = document.getElementById("signupForm");
             const name = document.getElementById("name");
@@ -103,16 +101,50 @@
                     isSeller: isSeller.checked
                 };
 
-                saveUserData(userData);
 
-                window.location.href = "../auth/login.html";
+                setTimeout(() => {
+                    saveUserData(userData);
+                    window.location.href = "../auth/login.html";
+                }, 2000);
             });
         });
 
-        function saveUserData(user) {
-            users.push(user);
-            localStorage.setItem("userData", JSON.stringify(users));
+        async function saveUserData(user) {
+            await fetch("../../Datasource/auth/auth.json")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch user data.");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (user.isSeller) {
+                        if (data.seller.some(existingUser => existingUser.email === user.email)) {
+                            alert("Seller with this email already exists.");
+                            return;
+                        }
+                        user.id = data.seller.length + 1;
+                        data.seller.push(user);
+                    } else {
+                        if (data.customer.some(existingUser => existingUser.email === user.email)) {
+                            alert("Customer with this email already exists.");
+                            return;
+                        }
+                        user.id = data.customer.length + 1;
+                        data.customer.push(user);
+                    }
+                    console.log("Updated user data:", JSON.stringify(data));
+                    return fetch("../../Datasource/auth/auth.json", {
+                        method: "post",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    });
+                })
         }
+
+
     </script>
 </head>
 
@@ -133,7 +165,6 @@
                     <label for="email">Email address</label>
                     <div class="invalid-feedback">Please provide a valid email.</div>
                 </div>
-
                 <div class="row g-2">
                     <div class="col-md-6">
                         <div class="form-floating mb-3">
