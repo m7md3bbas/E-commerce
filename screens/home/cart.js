@@ -65,3 +65,5 @@ function updateCartTotal() {
   
   updateCartTotal();
   
+
+
