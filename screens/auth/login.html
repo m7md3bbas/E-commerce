@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
 
-    <link rel="stylesheet" href="../../assets/libs/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../assets/libs/hover-min.css" />
+    <link rel="stylesheet" href="../../assets/libs/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/libs/css/hover-min.css"/>
     <style>
         .form-login {
             padding: 2rem;
@@ -73,8 +73,13 @@
                 loginBtn.disabled = true;
                 loginBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...`;
 
+
+                userData = {
+                    email: email.value.trim(),
+                    password: password.value.trim(),
+                }
                 setTimeout(() => {
-                    const foundUser = loaduserData();
+                    const foundUser = loaduserData(userData);
 
                     if (foundUser) {
 
@@ -87,11 +92,12 @@
                 }, 2000);
             });
 
-            function loaduserData() {
-                const users = JSON.parse(localStorage.getItem("userData")) || [];
-                return users.find(
-                    (user) => user.email === email.value && user.password === password.value
-                );
+            async function loaduserData(userData) {
+                const user = await fetch("../../Datasource/auth/auth.json");
+                const userInfo = await user.json();
+                if (userData.email.contains("@admin.com")) {
+                    return userInfo.admin.find(user => user.email === userData.email && user.password === userData.password);
+                }
             }
         });
     </script>

@@ -1,0 +1,135 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 220px;
+    background-color: #343a40;
+    padding-top: 60px;
+    color: white;
+    z-index: 1000;
+}
+
+html[dir="rtl"] .sidebar {
+    right: 0;
+}
+
+html[dir="ltr"] .sidebar {
+    left: 0;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px;
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background-color: #495057;
+}
+
+.content {
+    padding: 20px;
+}
+
+html[dir="rtl"] .content {
+    margin-right: 220px;
+}
+
+html[dir="ltr"] .content {
+    margin-left: 220px;
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.product-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.lang-toggle {
+    position: fixed;
+    top: 15px;
+    z-index: 1100;
+}
+
+html[dir="rtl"] .lang-toggle {
+    left: 15px;
+}
+
+html[dir="ltr"] .lang-toggle {
+    right: 15px;
+}
+
+#addProductForm {
+    max-width: 600px;
+}
+
+.page-content {
+    display: none;
+}
+
+.page-content.active {
+    display: block;
+}
+
+#product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+#addProduct {
+    margin-top: 20px;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px;
+    background-color: #4CAF50;
+    /* اللون الأخضر عند النجاح */
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    z-index: 1000;
+    opacity: 0.9;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.notification.error {
+    background-color: #f44336;
+    /* اللون الأحمر عند حدوث خطأ */
+}
+
+.notification.success {
+    background-color: #4CAF50;
+    /* اللون الأخضر عند النجاح */
+}
+
+.form-group {
+    flex: 1;
+    margin-right: 20px;
+}
+
+#addProductForm {
+    display: flex;
+    flex-direction: column;
+}
