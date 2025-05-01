@@ -1,0 +1,61 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  /* background-color: #f8f9fa; */
+  background-color: #F8F9FA;
+}
+:root {
+  --main-font: "Dancing Script", cursive;
+  --secondary-font: "Cormorant Garamond", serif;
+  --main-color: rgb(12, 190, 131);
+  /* --main-color: #007BFF; */
+}
+h1 {
+  color: var(--main-color);
+  position: relative;
+  font-family: var(--main-font);
+}
+h1::after {
+  content: "";
+  position: absolute;
+  top: 103%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8%;
+  height: 3px;
+  background-color: var(--main-color);
+  cursor: pointer;
+  transition: width 1s;
+
+}
+h1:hover::after {
+  width: 12%;
+}
+h2 {
+  font-family: var(--secondary-font);
+
+  color: rgb(20, 164, 116);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: rgb(203, 12, 12);
+}
+.card{
+  cursor:pointer;
+   transition: all 1s; 
+}
+
+.card:hover{
+  /* transform: scale(1.1); */
+  transform: translateY(-10px);
+}
+
+.cartTotal{
+  color:var(--main-color);
+}

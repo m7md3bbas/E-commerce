@@ -28,10 +28,13 @@ function updateCartTotal() {
     }
   
     minusBtn.addEventListener('click', function () {
-      if (quantity > 1) {
+      if(quantity == 1){
+        product.remove();
+      }else if (quantity > 1) {
         quantity--;
         updateTotal();
       }
+     
     });
   
     plusBtn.addEventListener('click', function () {
