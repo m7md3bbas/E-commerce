@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"
+        defer></script>
+    <script src="jquery/jquery-3.7.1.min.js"></script>
+    <script src="admin.js" defer></script>
+
+    <style>
+        #sidebarMenu {
+            height: 100vh;
+            background-color: rgb(183, 245, 228);
+            position: relative;
+            z-index: 1
+        }
+
+
+        /* header {
+            background-color: rgb(160, 237, 216);
+            position: fixed;
+        }
+
+        #header {
+            height: 8vh;
+        } */
+
+        .nav-item {
+            margin: 6px;
+        }
+
+        .nav-link:hover {
+            background-color: rgb(129, 129, 189);
+            /* border: 1px solid blue; */
+            border-radius: 5px;
+            transform: scale(1.1);
+            transition: 0.2s;
+            color: white;
+        }
+
+        .nav-link.active {
+            color: #fff;
+            background-color: rgb(129, 129, 189);
+            border-radius: 5px;
+        }
+
+        .nav-link:hover {
+            color: white;
+            transition: 0.2s;
+        }
+
+        #contain {
+            margin: 0px;
+            padding: 0px;
+            height: 92vh;
+            display: flex;
+            flex-direction: row;
+            position: fixed;
+            width: 100%;
+        }
+
+        @media (max-width: 767.98px) {
+
+            #contain {
+                height: 100vh;
+            }
+
+            #Tbtn {
+                position: fixed;
+                top: 5px;
+                right: 10px;
+                z-index: 1;
+            }
+
+            #search {
+                margin: 5px;
+            }
+        }
+
+        /* @media (max-width: 767.98px) {
+            .sidebar {
+                top: 5rem;
+            }
+        } */
+    </style>
+    <script>
+
+        // $(function () {
+        //     $('.nav-item:gt(1)').click(function (e) {
+        //         // $('.nav-item:first')
+        //         e.target.classList.add('active');
+        //     })
+        // })
+
+
+
+    </script>
+</head>
+
+
+<body>
+
+
+    <!-- This is the header for admin page----------------------------------------------------------------------------------- -->
+
+    <!-- <header id="header" class="navbar navbar-expand-md  flex-md-nowrap p-2 shadow ">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fw-bold" href="#">Admin Page</a>
+        <button id="Tbtn" class="navbar-toggler position-absolute  d-md-none collapsed" type="button"
+            data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <input id="search" class="form-control w-100" type="text" placeholder="Search" aria-label="Search">
+
+        <div class="navbar-nav">
+            <div class="nav-item text-nowrap">
+                <a class="nav-link px-3" href="#"><i class="fas fa-bell me-1"></i>
+                    <span
+                        class="position-absolute top-25 start-75 translate-middle badge rounded-pill bg-danger">3</span></a>
+
+            </div>
+        </div>
+        <div class="navbar-nav">
+            <div class="nav-item text-nowrap">
+                <a class="nav-link px-3" href="#"><i class="fas fa-sign-out-alt me-1"></i> Sign out</a>
+            </div>
+        </div>
+    </header> -->
+
+    <!-- This is the End of header----------------------------------------------------------------------------------- -->
+
+    <!-- Start for sidebar menu----------------------------------------------------------------------------------- -->
+
+    <div id="contain" class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <p class="h2 p-3 text-primary fw-bolder">Admin Page</p>
+            <div class="sidebar-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-section="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="orders">
+                            <i class="fas fa-shopping-cart"></i>Orders</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="products">
+                            <i class="fas fa-box"></i>
+                            Products
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="customers">
+                            <i class="fas fa-users"></i>
+                            Customers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="analytics">
+                            <i class="fas fa-chart-bar"></i>
+                            Analytics
+                        </a>
+                    </li>
+                </ul>
+
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Store Management</span>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="categories">
+                            <i class="fas fa-tags"></i>
+                            Categories
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="discounts">
+                            <i class="fas fa-percent"></i>
+                            Discounts
+                        </a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="settings">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="settings">
+                            <i class="fas fa-sign-out"></i>
+                            Sing Out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="col-md-9 col-lg-10 p-3 m-0">
+
+            <iframe id="dashboard" class="collapse w-100 show p-0 m-0" src="dashboard/dashboard.html"
+                height="99%"></iframe>
+            <iframe id="orders" class="collapse w-100 p-0 m-0" src="orders/orders.html" height="99%"></iframe>
+            <iframe id="products" class="collapse w-100 p-0 m-0" src="analyze/analyze.html" height="99%"></iframe>
+            <iframe id="customers" class="collapse w-100 p-0 m-0" src="users/customer.html" height="99%"></iframe>
+            <iframe id="analytics" class="collapse w-100 p-0 m-0" src="products/product.html" height="99%"></iframe>
+            <iframe id="settings" class="collapse w-100 p-0 m-0" src="setting/setting.html" height="99%"></iframe>
+
+        </div>
+
+    </div>
+    <!-- end for sidebar menu----------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+</body>
+
+</html>
