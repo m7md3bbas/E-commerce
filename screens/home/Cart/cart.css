@@ -59,3 +59,12 @@ h2 {
 .cartTotal{
   color:var(--main-color);
 }
+
+@media  screen and (max-width:768px) {
+ 
+  .card{
+    padding: 0;
+    margin: auto;
+  }
+  
+}
