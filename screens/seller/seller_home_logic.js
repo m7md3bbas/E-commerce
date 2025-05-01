@@ -183,29 +183,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateProductCards();
 
-    // Image preview logic
-    $("#productImageUpload").addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                // Set the image preview source
-                $("#imagePreview").src = reader.result;
-                // Make the preview container visible
-                $("#imagePreviewContainer").style.display = "block";
-            };
-            reader.readAsDataURL(file);
-        }
-    });
 
 });
 
-async function testGetProducts() {
-    await fetch('data.json')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => console.error('Error loading JSON file:', error));
-}
-testGetProducts();
