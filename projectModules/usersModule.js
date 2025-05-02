@@ -24,12 +24,6 @@ class User {
     image,
     type
   ) {
-    // if (new.target.name === "User") {
-    //   throw new Error(
-    //     "Abstract Class, you can't create an instance of User directly!"
-    //   );
-    // }
-
     this.#id = id;
     this.setName(name);
     this.setEmail(email);
@@ -232,19 +226,6 @@ export const updateUser = function (
   return null;
 };
 
-// Sample usage
-// pushUser(
-//   1,
-//   "Mohamad Eldabaa",
-//   "maldb0907@gmail.com",
-//   "123456",
-//   "Tanta",
-//   "male",
-//   "2000-01-01",
-//   "facebook",
-//   "+201000000000",
-//   "https://example.com/image1.jpg",
-//   "user"
-// );
+
 
 console.log("start");

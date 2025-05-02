@@ -28,12 +28,6 @@ class Product {
     tags,
     images
   ) {
-    // if (new.target.name === "Product") {
-    //   throw new Error(
-    //     "Abstract Class, you can't create an instance of Product directly!"
-    //   );
-    // }
-
     this.#id = id;
     this.setProductName(productName);
     this.setDescription(description);
@@ -194,39 +188,6 @@ export const pushProduct = function (
   tags,
   images
 ) {
-  // class ConcreteProduct extends Product {
-  //   constructor(
-  //     id,
-  //     productName,
-  //     description,
-  //     price,
-  //     category,
-  //     stock,
-  //     rating,
-  //     reviews,
-  //     seller,
-  //     sellerEmail, // FIXED
-  //     createdTime,
-  //     tags,
-  //     images
-  //   ) {
-  //     super(
-  //       id,
-  //       productName,
-  //       description,
-  //       price,
-  //       category,
-  //       stock,
-  //       rating,
-  //       reviews,
-  //       seller,
-  //       sellerEmail, // FIXED
-  //       createdTime,
-  //       tags,
-  //       images
-  //     );
-  //   }
-  // }
   const product = new Product(
     id,
     productName,
@@ -303,21 +264,3 @@ export const updateProduct = function (
   return null;
 };
 
-// Example usage (uncomment to test):
-// pushProduct(
-//   1,
-//   "Wireless Mouse",
-//   "A smooth and responsive wireless mouse",
-//   29.99,
-//   "Electronics",
-//   100,
-//   4.5,
-//   ["Great quality!", "Works well with my laptop."],
-//   "TechStore",
-//   "techstore@example.com",
-//   "2024-12-01T10:00:00Z",
-//   ["electronics", "mouse", "wireless"],
-//   ["https://example.com/image1.jpg", "https://example.com/image2.jpg"]
-// );
-
-// console.log(getProducts());

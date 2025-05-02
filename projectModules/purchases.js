@@ -1,22 +1,3 @@
-// import {
-//   pushUser,
-//   getUsers,
-//   getUserByID,
-//   deleteUser,
-//   updateUser,
-//   getUserByEmail,
-// } from "../projectModules/usersModule.js";
-
-// import {
-//   pushProduct,
-//   getProducts,
-//   getProductById,
-//   getProductsBySellerName,
-//   getProductsBySellerEmail,
-//   deleteProduct,
-//   updateProduct,
-// } from "../projectModules/usersModule.js";
-
 class Purchase {
   #id;
   #status;
