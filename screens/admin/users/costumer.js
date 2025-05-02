@@ -34,7 +34,7 @@ arr.forEach((item, index) => {
   $("#cards-container").append(`
         <div class="col-6 col-xl-4 d-flex justify-content-center itemCard">
             <div class="card  mt-3" style="width: 100%;">
-                <img src="../img/vic.png" class="card-img-top" alt="Customer">
+                <img src="../../../assets/imgs/admin/img/vic.png" class="card-img-top" alt="Customer">
                 <div class="card-body">
                     <h5 class="card-title">${item.name}</h5>
                     <br>
@@ -58,7 +58,7 @@ arr_seller.forEach((item, index) => {
   $("#cards-container-seller").append(`
         <div class="col-6 col-xl-4 d-flex justify-content-center itemCard">
             <div class="card  mt-3" style="width: 100%;">
-                <img src="../img/vic.png" class="card-img-top" alt="Customer">
+                <img src="../../../assets/imgs/admin/img/vic.png" class="card-img-top" alt="Customer">
                 <div class="card-body">
                     <h5 class="card-title">${item.name}</h5>
                     <br>
