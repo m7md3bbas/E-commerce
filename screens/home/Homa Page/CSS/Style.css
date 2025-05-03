@@ -116,10 +116,15 @@ button:hover  , .card:hover button{
    font-size: 18px;
 } 
 
+.home button:hover{
+    border: 1px solid  #be985a;
+    background-color:#be985a;
+}
+
+
 /*Style Category*/
 .Categories img{
     height: 300px;
-
   }
 
 
@@ -132,8 +137,7 @@ button:hover  , .card:hover button{
 /*Catalog Style*/
 
  .catalog img{
-    height: 250px;
-    object-fit: contain;
+    height: 300px;
     
  }
 
@@ -144,6 +148,10 @@ button:hover  , .card:hover button{
  .card{
     overflow: hidden;
     position: relative;
+    transition: scale .5s;
+}
+.card:hover{
+    scale: 1.05;
 }
 .item img{
     position: relative;
@@ -162,7 +170,6 @@ button:hover  , .card:hover button{
 }
   .card:hover  .links{
     transition: transform .5s .5s ;
-   
     transform:translatex(0%) ;
 }
 
@@ -170,8 +177,13 @@ button:hover  , .card:hover button{
     font-size: 20px;
     padding-block: 10px ;
     color:#be985a;
+    transition: color .5s;
 } 
 
+.card  .links li i:hover{
+   
+    color:black;
+}
 
 
 /*Style Conatct Us*/
