@@ -8,7 +8,7 @@ $(document).ready(function () {
   });
 });
 
-$("#cart").click(function () {
+$("#cartHome").click(function () {
   $(this).css("cursor", "pointer");
   console.log("hiii");
   window.location.href = "/screens/home/Cart/cart.html";
