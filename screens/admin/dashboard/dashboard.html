@@ -6,54 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../../../assets/libs/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"
         defer></script>
-    <script src="jquery/jquery-3.7.1.min.js"></script>
-    <!-- <script src="admin.js" defer></script> -->
+    <script src="../../../assets/libs/js/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js" defer></script>
     <style>
         * {
             box-sizing: border-box;
             padding: 0px;
             margin: 0px;
         }
+        .card_graph:hover{
+            transform: scale(1.06);
+            transition: 0.5s;
+        }
 
         .dashboard-card:hover {
             transform: scale(1.05);
             transition: 0.3s;
+            /* box-shadow: 10px 10px 10px green; */
         }
-
-        #header {
-            position: fixed;
-            top: 0;
-            left: 0;
+        body::-webkit-scrollbar {
+            display: none;
         }
     </style>
 
 </head>
 
 <body>
+    <div class="p-3">
 
     <header id="header" class="navbar navbar-expand-md col-12 p-2  border-bottom">
         <h1 class="h2">Dashboard</h1>
     </header>
 
-    <section class="col-12" style="margin-top: 80px;">
+    <section class="col-12" style="margin-top: 40px;">
+        <div id="cards-container" class="row p-0 m-0"></div>
+    </section>
+
+    
+    <!-- <section>
         <div class="row p-0 m-0 mt-2">
-            <div class="col-12 col-md-6 col-lg-3 mt-2">
-                <div class="card dashboard-card bg-primary text-light border p-3">
-                    <div class="d-flex flex-row justify-content-between">
+            <div class="col-12 col-md-4 mt-2 card-container">
+                <div class="card dashboard-card border-primary p-3 shadow" style="border-left: 5px solid;">
+                    <div class="card-body d-flex flex-row justify-content-between">
                         <div>
-                            <p class="h6">Total Orders</p>
+                            <p class="card-title text-muted bold h6">Total Orders</p>
                             <p class="h1">0,000</p>
                         </div>
-                        <i class="fas fa-shopping-cart fa-2x mt-3"></i>
+                        <div class="text-center fs-6">
+                            <i class="fas fa-shopping-cart fa-2x text-primary p-3 mt-3 bg-primary-subtle"
+                                style="border-radius: 4px;"></i>
+                        </div>
                     </div>
-                    <div class="mt-2">
+                    <div>
                         <span><i class="fas fa-arrow-up"></i> 0.0% since last month</span>
                     </div>
                 </div>
@@ -61,60 +73,118 @@
 
 
 
-            <div class="col-12 col-md-6 col-lg-3 mt-2">
-                <div class="card dashboard-card bg-success text-light border p-3">
-                    <div class="d-flex flex-row justify-content-between">
+            <div class="col-12 col-md-4 mt-2 card-container">
+                <div class="card dashboard-card border-success p-3 shadow" style="border-left: 5px solid;">
+                    <div class="card-body d-flex flex-row justify-content-between">
                         <div>
-                            <p class="h6">Total Revenue</p>
+                            <p class="card-title text-muted bold h6">Completed Orders</p>
                             <p class="h1">0,000</p>
                         </div>
-                        <i class="fas fa-dollar-sign fa-2x mt-3"></i>
+                        <div class="text-center fs-6">
+                            <i class="fas fa-check fa-2x text-success p-3 mt-3 bg-success-subtle"
+                                style="border-radius: 4px;"></i>
+                        </div>
                     </div>
-                    <div class="mt-2">
+                    <div>
                         <span><i class="fas fa-arrow-up"></i> 0.0% since last month</span>
                     </div>
                 </div>
             </div>
 
 
-
-            <div class="col-12 col-md-6 col-lg-3 mt-2">
-                <div class="card dashboard-card bg-warning text-light border p-3">
-                    <div class="d-flex flex-row justify-content-between">
+            <div class="col-12 col-md-4 mt-2 card-container">
+                <div class="card dashboard-card border-danger p-3 shadow" style="border-left: 5px solid;">
+                    <div class="card-body d-flex flex-row justify-content-between">
                         <div>
-                            <p class="h6">Total Products</p>
+                            <p class="card-title text-muted bold h6">Cancelled Orders</p>
                             <p class="h1">0,000</p>
                         </div>
-                        <i class="fas fa-box fa-2x mt-3"></i>
+                        <div class="text-center fs-6">
+                            <i class="fas fa-ban fa-2x text-danger p-3 mt-3 bg-danger-subtle"
+                                style="border-radius: 4px;"></i>
+                        </div>
                     </div>
-                    <div class="mt-2">
+                    <div>
                         <span><i class="fas fa-arrow-up"></i> 0.0% since last month</span>
                     </div>
                 </div>
             </div>
 
+        </div>
+    </section> -->
 
-            <div class="col-12 col-md-6 col-lg-3 mt-2">
-                <div class="card dashboard-card bg-info text-light border p-3">
-                    <div class="d-flex flex-row justify-content-between">
-                        <div>
-                            <p class="h6">Total Customers</p>
-                            <p class="h1">0,000</p>
-                        </div>
-                        <i class="fas fa-users fa-2x mt-3"></i>
-                    </div>
-                    <div class="mt-2">
-                        <span><i class="fas fa-arrow-up"></i> 0.0% since last month</span>
+<!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
+
+    <section class="col-12 p-5 bg-info-subtle mb-5 shadow" style="margin-top: 80px;border-radius: 10px; border: 2px solid black;">
+        <h1 class="text-capitalize text-center mb-5">Customers Graph</h1>
+        <div class="d-md-flex flex-row justify-content-between ">
+            <div class="col-12 col-md-6">
+                <div class="card col-11 shadow-sm m-auto card_graph">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Products Graph For last seven month</h5>
+                        <div class="col-12" style="height: 300px;"><canvas id="pieChart4" class="m-2"></canvas></div>
                     </div>
                 </div>
             </div>
 
+            <div class="col-12 col-md-6">
+                <div class="card col-11 shadow-sm m-auto card_graph" style="">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Best salles in places</h5>
+                        <div class="col-12" style="height: 300px;"><canvas id="pieChart5" class="m-2"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+    </section>
 
+<!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
+    <section  id="users_analyze" class="col-12 p-4 bg-warning-subtle mb-5 shadow" style="margin-top: 80px;border-radius: 10px; border: 2px solid black;">
+        <h1 class="text-capitalize text-center mb-5">Customers Graph</h1>
+        <div class="d-md-flex flex-row justify-content-evenly">
+            
+            <div class="col-12 col-md-4 p-2">
+                <div class="card_graph ">
+                    <div class="card col-12 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Customer Gender Graph</h5>
+                            <div class="col-12" style="height: 300px;"><canvas id="pieChart" class="m-2"></canvas></div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
 
+            
+
+            <div class="col-12 col-md-4 p-2">
+                <div class="card_graph ">
+                    <div class="card col-12 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Ages Graph</h5>
+                            <div class="col-12" style="height: 300px;"><canvas id="pieChart2" class="m-2"></canvas></div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4 p-2">
+                <div class="card_graph ">
+                    <div class="card col-12 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Social Graph</h5>
+                            <div class="col-12" style="height: 300px;"><canvas id="pieChart3" class="m-2"></canvas></div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+
+            
         </div>
     </section>
 
+
+</div>
 </body>
 
 </html>

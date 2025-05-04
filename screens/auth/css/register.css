@@ -1,0 +1,75 @@
+
+.form-login,
+.form-signin {
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 3px solid rgba(133, 129, 129, 0.252);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    background-color: transparent;
+}
+
+h1 {
+    color: whitesmoke !important;
+}
+
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.518), rgba(0, 0, 0, 0.5)),
+        url('../../../assets/imgs/Auth/cropped-image-woman-inputting-card-information-key-phone-laptop-while-shopping-online\ \(1\).jpg') center/cover no-repeat !important;
+    background-attachment: fixed;
+}
+
+button {
+    border: none;
+    background-color: whitesmoke;
+}
+
+button:active {
+    border: none;
+}
+
+.hvr-rectangle-out:active,
+.hvr-rectangle-out:focus,
+.hvr-rectangle-out:hover {
+    background-color: #501f1f !important;
+    border-radius: 20px;
+}
+
+.hvr-rectangle-out:before {
+    background-color: #000000;
+    border-radius: 20px;
+    transition: all 0.3s;
+}
+
+.auth-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.blur-wrapper {
+    position: relative;
+    z-index: 0;
+}
+
+a {
+    color: whitesmoke;
+    text-decoration: none;
+}
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #6c757d;
+    z-index: 2;
+}
+
+.form-floating input[type="password"]+.password-toggle,
+.form-floating input[type="text"]+.password-toggle {
+    right: 1rem;
+}

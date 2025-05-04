@@ -1,15 +1,3 @@
-window.addEventListener('load',function (){
-  const imgs = Array.from(document.images).map(img => img.src);
-  localStorage.setItem('productImgs', JSON.stringify(imgs));
-  
-
-  console.log(imgs);
-
-
-})
-
-localStorage.setItem('productImgs',JSON.stringify)
-
 function updateCartTotal() {
     const allTotalSpans = document.querySelectorAll('.total-price');
     let total = 0;
@@ -21,9 +9,6 @@ function updateCartTotal() {
     if (cartTotal) {
       cartTotal.textContent = total;
     }
-
-    localStorage.setItem('totalCartPrice', cartTotal.textContent);
-
   }
   
   function initProduct(product) {
@@ -39,20 +24,14 @@ function updateCartTotal() {
     function updateTotal() {
       quantityBtn.textContent = quantity;
       totalPriceSpan.textContent = `${unitPrice * quantity} EGP`;
-      localStorage.setItem('totalCartPrice',JSON.stringify(totalPriceSpan.textContent))
-      console.log(JSON.parse(localStorage.getItem('totalPriceSpan')));
-      
       updateCartTotal();
     }
   
     minusBtn.addEventListener('click', function () {
-      if(quantity == 1){
-        product.remove();
-      }else if (quantity > 1) {
+      if (quantity > 1) {
         quantity--;
         updateTotal();
       }
-     
     });
   
     plusBtn.addEventListener('click', function () {
@@ -66,7 +45,7 @@ function updateCartTotal() {
       
         const remainingProducts = document.querySelectorAll('.product');
         if (remainingProducts.length === 0) {
-          document.getElementById('cart').innerHTML = `<h3 class="alert alert-warning text-center">No Product in Your Cart</h3>`;
+          document.getElementById('cart').innerHTML = `<p class="alert alert-warning text-center">No Product in Your Cart</p>`;
         }
       });
   
@@ -79,18 +58,10 @@ function updateCartTotal() {
 
   document.getElementById('clearCart').addEventListener('click', function () {
     const cart = document.getElementById('cart');
-    cart.innerHTML = `<h3 class="alert alert-warning text-center">No Product in Your Cart</h3>`;
+    cart.innerHTML = `<p class="alert alert-warning text-center">No Product in Your Cart</p>`;
     updateCartTotal();
   });
   
   
   updateCartTotal();
   
-
-
-  document.querySelector('.checkOut').addEventListener('click',()=>{
-    console.log('hiiii');
-    
-    window.open('../CheckOut/checkOut.html','_self')
-  })
-
