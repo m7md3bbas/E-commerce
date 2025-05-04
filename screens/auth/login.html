@@ -7,101 +7,8 @@
     <title>Login</title>
 
     <link rel="stylesheet" href="../../assets/libs/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../assets/libs/css/hover-min.css"/>
-    <style>
-        .form-login {
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border: 3px solid rgba(133, 129, 129, 0.252);
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(12px);
-        }
-
-        h1 {
-            color: whitesmoke !important;
-        }
-
-        body {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                url('../../assets/imgs/Auth/cropped-image-woman-inputting-card-information-key-phone-laptop-while-shopping-online%20(1).jpg') center/cover no-repeat;
-            background-attachment: fixed;
-        }
-
-        button {
-            border: none;
-        }
-
-        .hvr-rectangle-out:active,
-        .hvr-rectangle-out:focus,
-        .hvr-rectangle-out:hover {
-            background-color: #501f1f !important;
-            border-radius: 20px;
-        }
-
-        .hvr-rectangle-out:before {
-            background-color: #501f1f;
-            border-radius: 20px;
-            transition: all 0.8s ease-in-out;
-        }
-
-        button:active {
-            border: none;
-        }
-
-        a {
-            color: whitesmoke;
-            text-decoration: none;
-        }
-    </style>
-
-    <script>
-        window.addEventListener("load", function () {
-            const loginForm = document.getElementById("loginForm");
-            const email = document.getElementById("email");
-            const password = document.getElementById("password");
-            const loginBtn = loginForm.querySelector("button");
-
-            loginForm.addEventListener("submit", function (e) {
-                e.preventDefault();
-
-                if (!loginForm.checkValidity()) {
-                    loginForm.classList.add("was-validated");
-                    return;
-                }
-
-                loginBtn.disabled = true;
-                loginBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...`;
-
-
-                userData = {
-                    email: email.value.trim(),
-                    password: password.value.trim(),
-                }
-                setTimeout(() => {
-                    const foundUser = loaduserData(userData);
-
-                    if (foundUser) {
-
-                        window.location.replace("../admin/admin-dashboard.html");
-                    } else {
-                        alert("Invalid email or password.");
-                        loginBtn.disabled = false;
-                        loginBtn.innerHTML = "Log In";
-                    }
-                }, 2000);
-            });
-
-            async function loaduserData(userData) {
-                const user = await fetch("../../Datasource/auth/auth.json");
-                const userInfo = await user.json();
-                if (userData.email.contains("@admin.com")) {
-                    return userInfo.admin.find(user => user.email === userData.email && user.password === userData.password);
-                }
-            }
-        });
-    </script>
-
+    <link rel="stylesheet" href="../../assets/libs/css/hover-min.css" />
+    <link rel="stylesheet" href="css/login.css">
 </head>
 
 <body>
@@ -116,10 +23,14 @@
                     <div class="invalid-feedback">Please enter your email.</div>
                 </div>
 
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-3 position-relative">
                     <input type="password" id="password" class="form-control" placeholder="Password" required />
                     <label for="password">Password</label>
+                    <span class="password-toggle" data-target="password">👁️</span>
                     <div class="invalid-feedback">Please enter your password.</div>
+                </div>
+                <div class="text-center mb-3">
+                    <a href="forgetpassword.html" class="text-decoration-none">Forgot your password?</a>
                 </div>
 
                 <button class="btn w-100 py-2 hvr-rectangle-out" type="submit">Log In</button>
@@ -131,6 +42,7 @@
             </form>
         </div>
     </div>
+    <script type="module" src="js/login.js"></script>
 </body>
 
 </html>
