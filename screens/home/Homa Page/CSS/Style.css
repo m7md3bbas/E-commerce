@@ -17,18 +17,14 @@ a{
 }
 
 p{
-
-    font-family: "Winky Rough", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: weight;
-    font-style: normal;
-    font-size: 20px;
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
 
 }
 
 h1,h2,h3,h4{
-    font-family: "Righteous", sans-serif;
-    font-weight: 400;
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
 }
 
 h2{
@@ -136,12 +132,12 @@ button:hover  , .card:hover button{
 
 /*Catalog Style*/
 
- .catalog img{
+ .catalog img , .ralatedProduct img{
     height: 300px;
     
  }
 
- .catalog button{
+ .catalog button , .ralatedProduct button{
     border-radius: 0;
  }
 
@@ -232,8 +228,47 @@ textarea{
 
 
 
- 
+ /*******************************************************************/
 
 
 
 
+
+.detail .size button{
+   border: none;
+   padding: 3px 20px;
+   font-size: 18px;
+   background-color: transparent;
+   transition: background-color .5s ,color .5s;
+   border: 1px solid #f0f0f0;
+   border-radius: 5px;
+}
+.detail .size button:hover{
+    background-color: #be985a;
+    color: white !important;
+}
+.detail .button button , button{
+    border: none;
+    background-color: #be985a;
+    padding: 10px 25px;
+    border-radius: 3px;
+    transition: background-color .5s;
+    color: white;
+
+}
+
+.detail .button button:hover ,button:hover{
+    background-color: black;
+}
+
+.icondetail{
+    transform: translate(150%);
+}
+
+
+.review img{
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 50%;
+}

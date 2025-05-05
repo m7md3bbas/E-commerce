@@ -93,8 +93,8 @@ const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".nav-link");
 
 const observerOptions = {
-    root: null, // يراقب ضمن نافذة العرض
-    threshold: 0.5 // يظهر عندما يكون 50% من العنصر مرئيًا
+    root: null, 
+    threshold: 0.5 
 };
 
 const observer = new IntersectionObserver((entries) => {
