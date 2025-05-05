@@ -95,3 +95,24 @@ document.querySelectorAll('.addToCart').forEach(button => {
     alert('Product added successfully to cart');
   });
 });
+
+
+
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-link");
+
+const observerOptions = {
+    root: null, // يراقب ضمن نافذة العرض
+    threshold: 0.5 // يظهر عندما يكون 50% من العنصر مرئيًا
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            navLinks.forEach(link => link.classList.remove("active"));
+            document.querySelector(`.nav-link[href="#${entry.target.id}"]`).classList.add("active");
+        }
+    });
+}, observerOptions);
+
+sections.forEach(section => observer.observe(section));
