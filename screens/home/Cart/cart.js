@@ -95,7 +95,7 @@ function initProduct(product) {
 
       const remainingProducts = document.querySelectorAll('.product');
       if (remainingProducts.length === 0) {
-        document.getElementById('cart').innerHTML = `<p class="alert alert-warning text-center">No Product in Your Cart</p>`;
+        document.getElementById('cart').innerHTML = `<h2 class="alert alert-warning text-center ">No Product in Your Cart</h2>`;
       }
     }
   });

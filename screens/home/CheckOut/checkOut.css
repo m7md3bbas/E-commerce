@@ -1,6 +1,12 @@
 :root{
     --main-color:#be985a;
     --main-background:#f4f1ec;
+
+}
+*{
+  font-family: "Chilanka", cursive;
+  color:var(--main-color);
+
 }
 .form-control:focus{
     border-color: var(--main-color) !important;
@@ -28,6 +34,8 @@
 }
 h1 {
     position: relative;
+    font-family: "Chilanka", cursive;
+    text-shadow: 10px 10px 10px var(--main-color);
   }
 h1::after{
       content: '';
@@ -48,3 +56,10 @@ h1:hover::after{
 .background-main{
     background-color: var(--main-background);
 } 
+h3{
+    color:var(--main-color);
+}
+
+#cardDetails{
+    box-shadow:5px 5px 20px var(--main-color);
+}

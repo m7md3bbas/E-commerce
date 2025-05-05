@@ -1,6 +1,8 @@
 * {
   padding: 0;
   margin: 0;
+  font-family: "Chilanka", cursive;
+ 
 }
 body {
   background-color: #f8f9fa;
@@ -10,9 +12,9 @@ body {
   --secondary-font: "Cormorant Garamond", serif;
 }
 h1 {
+  font-family: "Chilanka", cursive;
   color: var(--main-color);
    position: relative;
-  transition: width 2s ;
 }
 h1::after{
     content: '';
@@ -29,10 +31,7 @@ h1::after{
 h1:hover::after{
    width: 10%;
 }
-h2 {
-  font-family: var(--secondary-font);
 
-}
 
 .cursor-pointer{
     cursor: pointer;

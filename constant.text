@@ -31,11 +31,15 @@ color: #be985a;
     cursor: pointer;
 }
 
- 
+.background-main{
+    background-color: var(--main-background);
+} 
 
 
 h1 {
     position: relative;
+  color: var(--main-color);
+
   }
 h1::after{
       content: '';
@@ -52,3 +56,10 @@ h1::after{
 h1:hover::after{
     width: 10%;
  }
+
+
+    >>>>>>>>>>>>  font 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Chilanka&display=swap" rel="stylesheet">
+    
+    font-family: "Chilanka", cursive;

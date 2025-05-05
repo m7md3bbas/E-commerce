@@ -18,9 +18,9 @@ window.addEventListener('load', function () {
     cardDetails.forEach(item => {
       viewProduct.innerHTML += `
         <div class="col-4">
-          <div class='border border-2 main-border text-center mb-3'>
-            <img src="${item.img}" style="width:100px;" alt="Product Image">
-            <h6 class='main-color'>Price: ${item.unitPrice}</h6>
+          <div class='border border-2 main-border text-center mb-3' >
+            <img src="${item.img}" class='w-100' alt="Product Image">
+            <h6 class='main-color pt-3'>Price: ${item.unitPrice}</h6>
           </div>
         </div>
       `;
@@ -120,7 +120,8 @@ function submitPayment() {
     cardDetails.style.display = 'block';
   } else {
     cardDetails.style.display = 'none';
-    alert("Cash on Delivery Selected");
+    alert("Cash on Delivery Selected , Wish see you again .....");
+    window.location.href='./thankYou.html'
   }
 }
 
@@ -184,7 +185,14 @@ function validationCardData() {
   }
 
   if (isValid) {
-    alert("Card details are valid!");
-     window.location.href='../Home_Page/index.html';
+    // alert("Thanks, Wish see you again .....");
+     window.location.href='./thankYou.html';
   }
 }
+
+
+document.querySelector('.backToHome').addEventListener('click',function(){
+  console.log('hii');
+  
+  window.location.href='../Home_Page/index.html'
+})
