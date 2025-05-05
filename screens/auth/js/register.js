@@ -3,7 +3,7 @@ import {
     getUsers,
 } from "../../../projectModules/usersModule.js";
 
-const users = getUsers();
+
 
 addEventListener("load", function () {
     const signupForm = document.getElementById("signupForm");
@@ -14,6 +14,7 @@ addEventListener("load", function () {
     const isSeller = document.getElementById("isSeller");
     const loginBtn = document.querySelector("button");
 
+    let type = "user";
     const toggleIcons = document.querySelectorAll(".password-toggle");
     toggleIcons.forEach(icon => {
         icon.addEventListener("click", () => {
@@ -27,6 +28,11 @@ addEventListener("load", function () {
             }
         });
     });
+
+    isSeller.addEventListener("change", () => {
+        type = isSeller.checked ? "seller" : "user";
+    });
+    console.log(type);
 
     signupForm.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -50,6 +56,7 @@ addEventListener("load", function () {
         loginBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...`;
 
         setTimeout(() => {
+            const users = getUsers();
             const id = users.length + 1;
 
             pushUser(
@@ -63,7 +70,9 @@ addEventListener("load", function () {
                 null,
                 null,
                 null,
-                isSeller.checked ? "seller" : "user"
+                null
+                ,
+                type
             );
 
             const newUser = getUsers().find(user => user.getId() === id);
@@ -91,7 +100,7 @@ addEventListener("load", function () {
             setTimeout(() => {
                 loginBtn.disabled = false;
                 loginBtn.innerHTML = "Register";
-                window.location.href = "../../home/Home Page/";
+                window.location.href="./login.html";
             }, 1500);
 
         }, 2000);
