@@ -77,7 +77,7 @@ function initProduct(product) {
     updateTotal();
   });
 
-  closeBtn.addEventListener('click', function () {
+  closeBtn.addEventListener('click', function (e) {
     const wrapper = product.closest('.col-md-4, .col-lg-3');
     if (wrapper) {
       wrapper.remove();

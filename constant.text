@@ -19,6 +19,8 @@ color: #be985a;
 .bg-main{
     background-color: var(--main-color);
 }
+
+   >>>> button
 .btn-main{
     border:2px solid var(--main-color);
     color:var(--main-color);
@@ -27,6 +29,9 @@ color: #be985a;
     background-color: var(--main-color);
     color:#fff;
 } 
+
+
+
 .cursor-pointer{
     cursor: pointer;
 }
