@@ -1,12 +1,11 @@
-let arr = [ {name:"Golelmo Vicario", email:"gvicario123@gmail.com", phone:"010123456789", address:"123 Main St, City, Country",img:''},
-    {name:"son hung men", email:"sonhungm@gmail.com", phone:"01963852741", address:"123 Main St, Tanta, Country"},
-    {name:"cute romero", email:"abdo@gmail.com", phone:"01012397654", address:"123 Main St, Danmanhour, Country"},
-    {name:"disteny oudegy", email:"yasersteny@gmail.com", phone:"010123456789", address:"123 Main St, City, Country"},
-    {name:"pedro porro", email:"pedroporro@gmail.com", phone:"010123456789", address:"123 Main St, City, Country"},
-    {name:"van de ven", email:"vandeven@gmail.com", phone:"010123456789", address:"123 Main St, City, Country"},
-    {name:"Lucas vergival", email:"lucasvergival@gmail.com", phone:"010123456789", address:"123 Main St, City, Country"},
-    {name:"Dominek solanki", email:"dominsola@gmail.com", phone:"010123456789", address:"123 Main St, City, Country"},
-]
+import {
+  pushUser,
+  getUsers,
+  deleteUser,
+  deleteLastUser,
+} from "../../../projectModules/usersModule.js";
+
+let arr = getUsers();
 
 let arr_seller = [
   {
@@ -31,51 +30,53 @@ let arr_seller = [
 ];
 
 arr.forEach((item, index) => {
-  $("#cards-container").append(`
+  if (item.getType() === "user") {
+    $("#cards-container").append(`
         <div class="col-6 col-xl-4 d-flex justify-content-center itemCard">
             <div class="card  mt-3" style="width: 100%;">
-                <img src="../../../assets/imgs/admin/img/vic.png" class="card-img-top" alt="Customer">
+                <img src="../../../assets/imgs/admin/img/default.png" class="card-img-top" alt="Customer">
                 <div class="card-body">
-                    <h5 class="card-title">${item.name}</h5>
+                    <h5 class="card-title">${item.getName()}</h5>
                     <br>
                     <p class="card-text"><i
-                            class="fa-solid fa-envelope me-3"></i>${item.email}</p>
-                    <p class="card-text"><i class="fa-solid fa-phone  me-3"></i>${item.phone}</p>
+                            class="fa-solid fa-envelope me-3"></i>${item.getEmail()}</p>
+                    <p class="card-text"><i class="fa-solid fa-phone  me-3"></i>${item.getPhone()}</p>
                     <p class="card-text"><i
-                            class="fa-solid fa-location-dot  me-3"></i>${item.address}</p>
+                            class="fa-solid fa-location-dot  me-3"></i>${item.getAddress()}</p>
                 </div>
                 <div class="card-body d-flex flex-row justify-content-evenly">
-                    <button class="btn btn-warning col-5">remove</button>
-                    <button class="btn btn-danger col-5">block</button>
+                    <button data-id=${item.getId()} class="btn btn-danger col-11 remove-btn">remove</button>
                 </div>
             </div>
         </div>
         `);
-  console.log(index);
+    console.log(index);
+  }
 });
 
-arr_seller.forEach((item, index) => {
-  $("#cards-container-seller").append(`
+arr.forEach((item, index) => {
+  if (item.getType() === "seller" && index > 0) {
+    $("#cards-container-seller").append(`
         <div class="col-6 col-xl-4 d-flex justify-content-center itemCard">
             <div class="card  mt-3" style="width: 100%;">
-                <img src="../../../assets/imgs/admin/img/vic.png" class="card-img-top" alt="Customer">
+                <img src="../../../assets/imgs/admin/img/default.png" class="card-img-top" alt="Customer">
                 <div class="card-body">
-                    <h5 class="card-title">${item.name}</h5>
+                    <h5 class="card-title">${item.getName()}</h5>
                     <br>
                     <p class="card-text"><i
-                            class="fa-solid fa-envelope me-3"></i>${item.email}</p>
-                    <p class="card-text"><i class="fa-solid fa-phone  me-3"></i>${item.phone}</p>
+                            class="fa-solid fa-envelope me-3"></i>${item.getEmail()}</p>
+                    <p class="card-text"><i class="fa-solid fa-phone  me-3"></i>${item.getPhone()}</p>
                     <p class="card-text"><i
-                            class="fa-solid fa-location-dot  me-3"></i>${item.address}</p>
+                            class="fa-solid fa-location-dot  me-3"></i>${item.getAddress()}</p>
                 </div>
                 <div class="card-body d-flex flex-row justify-content-evenly">
-                    <button class="btn btn-warning col-5">remove</button>
-                    <button class="btn btn-danger col-5">block</button>
+                    <button data-id=${item.getId()} class="btn btn-danger col-11 remove-btn">remove</button>
                 </div>
             </div>
         </div>
         `);
-  console.log(index);
+    console.log(index);
+  }
 });
 
 $("#searchItem").on("keyup", function () {
@@ -99,21 +100,106 @@ $("#searchItem-seller").on("keyup", function () {
     }
   });
 });
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
+document.getElementById("userForm").addEventListener("submit", function (e) {
+  e.preventDefault();
 
+  if (!this.checkValidity()) {
+    this.reportValidity();
+    return;
+  }
 
+  let newId =
+    getUsers().length > 0 ? getUsers()[getUsers().length - 1].getId() + 1 : 1;
 
+  let name = $("#User-name").val();
+  let email = $("#user-email").val();
+  let passowrd = $("#user-password").val();
+  let address = $("#user-address").val();
+  let gender = $("#user-gender").val();
+  let birth = $("#user-birth").val();
+  let phone = $("#user-phone").val();
 
+  pushUser(
+    newId,
+    name,
+    email,
+    passowrd,
+    0,
+    address,
+    gender,
+    birth,
+    "Friend",
+    phone,
+    "../../../assets/imgs/admin/img/default.png",
+    "user"
+  );
 
-// $(":text:first").keyup(function () {
+  const modal = bootstrap.Modal.getInstance(
+    document.getElementById("userModal")
+  );
+  modal.hide();
+  this.reset();
+  location.reload();
+});
 
-//     var userinput = $(this).val();
-//     $("tr:gt(0)").each(function () {
-//         var tdvalue = $(this).children("td:first").text();
-//         if (tdvalue.toLowerCase().indexOf(userinput.toLowerCase()) != -1) {
-//             $(this).show(500);
-//         } else {
-//             $(this).hide(500);
-//         }
-//     });//end of each for all tr
-// });
+/////remove - customer//////////////////////////////////////////////////////////////////////////////////////////////////
+
+$(document).on("click", ".remove-btn", function () {
+  let result = confirm("Are you sure?");
+
+  if (result) {
+    let userId = $(this).data("id");
+    // console.log(userId);
+    deleteUser(userId);
+    alert("User deleted successfully");
+    location.reload();
+  }
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+document.getElementById("sellerForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  let newId =
+    getUsers().length > 0 ? getUsers()[getUsers().length - 1].getId() + 1 : 1;
+
+  if (!this.checkValidity()) {
+    this.reportValidity();
+    return;
+  }
+
+  const sellerData = {
+    name: $("#seller-name").val(),
+    email: $("#seller-email").val(),
+    password: $("#seller-password").val(),
+    phone: $("#seller-Phone").val(),
+    address: $("#seller-address").val(),
+    gender: $("#seller-gender").val(),
+  };
+
+  pushUser(
+    newId,
+    sellerData.name,
+    sellerData.email,
+    sellerData.password,
+    0,
+    sellerData.address,
+    sellerData.gender,
+    null,
+    null,
+    sellerData.phone,
+    "../../../assets/imgs/admin/img/default.png",
+    "seller"
+  );
+
+  const modal = bootstrap.Modal.getInstance(
+    document.getElementById("sellerModal")
+  );
+  modal.hide();
+  this.reset();
+  location.reload();
+});
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
