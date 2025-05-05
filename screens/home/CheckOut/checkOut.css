@@ -1,4 +1,65 @@
+:root{
+    --main-color:#be985a;
+    --main-background:#f4f1ec;
+
+}
+*{
+  font-family: "Chilanka", cursive;
+  color:var(--main-color);
+
+}
 .form-control:focus{
-    border-color: rgb(85, 208, 232) !important;
-    box-shadow: 0 0 0 0.25rem rgb(138, 160, 223) !important;
+    border-color: var(--main-color) !important;
+    box-shadow: 0 0 0 0.25rem var(--main-color)!important;
+}
+.main-border{
+    border-color:var(--main-color) !important;
+}
+.main-color{
+    color: var(--main-color);
+}
+.bg-main{
+    background-color: var(--main-color);
+}
+.btn-main{
+    border:2px solid var(--main-color);
+    color:var(--main-color);
+}  
+.btn-main:hover{
+    background-color: var(--main-color);
+    color:#fff;
+} 
+.cursor-pointer{
+    cursor: pointer;
+}
+h1 {
+    position: relative;
+    font-family: "Chilanka", cursive;
+    text-shadow: 10px 10px 10px var(--main-color);
+  }
+h1::after{
+      content: '';
+      position: absolute;
+      top: 103%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 5%;
+      height: 3px;
+      background-color:var(--main-color);
+      transition: width 1s ;
+
+}
+h1:hover::after{
+    width: 10%;
+ }
+
+.background-main{
+    background-color: var(--main-background);
+} 
+h3{
+    color:var(--main-color);
+}
+
+#cardDetails{
+    box-shadow:5px 5px 20px var(--main-color);
 }

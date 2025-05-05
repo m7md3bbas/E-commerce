@@ -2,64 +2,265 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/seller_home_styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/seller_home_styles.css" />
 </head>
 
 <body>
+    <div class="container d-flex flex-column flex-md-row gap-4 mt-4">
+        <!-- Form Section -->
+        <div class="col-12 col-md-6">
+            <h4 id="addProductHeader">Add New Product</h4>
+            <form id="addProductForm">
+                <!-- Product Name -->
+                <div class="mb-3">
+                    <label for="productName" class="form-label">Product Name</label>
+                    <input type="text" class="form-control" id="productName" />
+                </div>
 
-    <div>
-        <h4 id="addProductHeader">إضافة منتج جديد</h4>
-        <form id="addProductForm" class="d-flex flex-column flex-md-row  ">
-            <div class="form-group">
+
+                <!-- Category -->
                 <div class="mb-3">
-                    <label for="productName" class="form-label" id="nameLabel">اسم المنتج</label>
-                    <input type="text" class="form-control" id="productName">
-                </div>
-                <div class="mb-3">
-                    <label for="productNameEn" class="form-label" id="nameEnLabel">Product Name (EN)</label>
-                    <input type="text" class="form-control" id="productNameEn">
-                </div>
-                <!-- Product Category dropdown -->
-                <!-- Electronics , Clothing , Furniture  -->
-                <div class="mb-3">
-                    <label for="productCategory" class="form-label" id="categoryLabel">القسم</label>
+                    <label for="productCategory" class="form-label">Category</label>
                     <select class="form-select" id="productCategory">
                         <option value="Electronics">Electronics</option>
                         <option value="Clothing">Clothing</option>
                         <option value="Furniture">Furniture</option>
                     </select>
                 </div>
+
+
+                <!-- Description -->
                 <div class="mb-3">
-                    <label for="productDescription" class="form-label" id="descriptionLabel">وصف المنتج</label>
+                    <label for="productDescription" class="form-label">Product Description</label>
                     <textarea class="form-control" id="productDescription" rows="3"></textarea>
                 </div>
+
+                <!-- Price -->
                 <div class="mb-3">
-                    <label for="productPrice" class="form-label" id="priceLabel">السعر</label>
-                    <input type="number" class="form-control" id="productPrice">
+                    <label for="productPrice" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="productPrice" />
                 </div>
+
+                <!-- Quantity -->
                 <div class="mb-3">
-                    <label for="productQuantity" class="form-label" id="quantityLabel">الكمية</label>
-                    <input type="number" class="form-control" id="productQuantity">
+                    <label for="productQuantity" class="form-label">Quantity</label>
+                    <input type="number" class="form-control" id="productQuantity" />
                 </div>
+                <!-- Image URLs -->
                 <div class="mb-3">
-                    <label for="productImage" class="form-label" id="imageLabel">رابط الصورة</label>
-                    <input type="text" class="form-control" id="productImage" placeholder="أو ضع رابط الصورة هنا">
+                    <label class="form-label">Image URLs</label>
+                    <div id="imageUrlContainer">
+                        <div class="d-flex align-items-center mb-2 gap-2">
+                            <input type="text" class="form-control" placeholder="Enter image URL"
+                                oninput="handleImageUrlInput(this)" />
+                        </div>
+                    </div>
+
                 </div>
+
+                <!-- Upload Multiple Images -->
                 <div class="mb-3">
-                    <label for="productImageUpload" class="form-label" id="imageUploadLabel">أو اختر صورة من
-                        جهازك</label>
-                    <input type="file" class="form-control" id="productImageUpload" accept="image/*">
+                    <label for="productImages" class="form-label">Upload Product Images</label>
+                    <input type="file" class="form-control" id="productImages" multiple accept="image/*" />
+                </div>
+                <button type="button" class="btn btn-primary" onclick="addProduct()">Add</button>
+            </form>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="col-12 col-md-6">
+            <h4>Product Preview</h4>
+            <div class="card">
+                <img id="previewImage" src="" class="card-img-top" style="max-height: 250px; object-fit: contain" />
+                <div class="card-body">
+                    <h5 class="card-title" id="previewName">Product Name</h5>
+                    <p class="card-text" id="previewDescription">Product Description</p>
+                    <div id="previewImages" class="d-flex flex-wrap mt-2"></div>
+                    <p><strong>Price:</strong> <span id="previewPrice">--</span></p>
+                    <p><strong>Quantity:</strong> <span id="previewQuantity">--</span></p>
+                    <p><strong>Category:</strong> <span id="previewCategory">--</span></p>
                 </div>
             </div>
-        </form>
-
-        <button type="button" class="btn btn-primary" onclick="addProduct()" id="submitBtn">إضافة</button>
+        </div>
     </div>
 
+    <script>
+        // Show uploaded images
+        document.getElementById("productImages").addEventListener("change", function () {
+            updatePreview();
+        });
+
+        function handleImageUrlInput(input) {
+            const container = document.getElementById("imageUrlContainer");
+            const inputs = container.querySelectorAll("input");
+
+            // لو آخر input مش فاضي، أضف واحد جديد مع زر الحذف
+            if (input === inputs[inputs.length - 1] && input.value.trim() !== "") {
+                const wrapper = document.createElement("div");
+                wrapper.className = "d-flex align-items-center mb-2 gap-2";
+
+                const newInput = document.createElement("input");
+                newInput.type = "text";
+                newInput.className = "form-control";
+                newInput.placeholder = "Enter image URL";
+                newInput.oninput = function () {
+                    handleImageUrlInput(this);
+                    updatePreview();
+                };
+
+                const removeBtn = document.createElement("button");
+                removeBtn.type = "button";
+                removeBtn.className = "btn btn-sm btn-danger";
+                removeBtn.innerText = "✖";
+                removeBtn.onclick = function () {
+                    container.removeChild(wrapper);
+                    updatePreview();
+                };
+
+                wrapper.appendChild(newInput);
+                wrapper.appendChild(removeBtn);
+                container.appendChild(wrapper);
+            }
+
+            updatePreview();
+        }
+
+        // Get all entered URLs
+        function getImageUrls() {
+            const inputs = document.querySelectorAll("#imageUrlContainer input");
+            return Array.from(inputs)
+                .map(input => input.value.trim())
+                .filter(url => url !== "");
+        }
+
+        // Update preview
+        function updatePreview() {
+            document.getElementById("previewName").innerText =
+                document.getElementById("productName").value || "Product Name";
+            document.getElementById("previewDescription").innerText =
+                document.getElementById("productDescription").value || "Product Description";
+            document.getElementById("previewPrice").innerText =
+                document.getElementById("productPrice").value || "--";
+            document.getElementById("previewQuantity").innerText =
+                document.getElementById("productQuantity").value || "--";
+            document.getElementById("previewCategory").innerText =
+                document.getElementById("productCategory").value || "--";
+
+            const imageUrls = getImageUrls();
+            const previewImage = document.getElementById("previewImage");
+
+            if (imageUrls.length > 0) {
+                previewImage.src = imageUrls[0];
+            } else {
+                previewImage.src = "";
+            }
+
+            const previewContainer = document.getElementById("previewImages");
+            previewContainer.innerHTML = "";
+
+            // Add image URLs
+            imageUrls.forEach(url => {
+                const img = document.createElement("img");
+                img.src = url;
+                img.className = "img-thumbnail m-1";
+                img.style.width = "100px";
+                img.style.height = "100px";
+                previewContainer.appendChild(img);
+            });
+
+            // Add uploaded images
+            const files = document.getElementById("productImages").files;
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.className = "img-thumbnail m-1";
+                    img.style.width = "100px";
+                    img.style.height = "100px";
+                    previewContainer.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Update on input change
+        ["productName", "productDescription", "productPrice", "productQuantity", "productCategory"].forEach(id => {
+            document.getElementById(id).addEventListener("input", updatePreview);
+        });
+
+
+        function addProduct() {
+            const name = document.getElementById("productName").value.trim();
+            const category = document.getElementById("productCategory").value;
+            const description = document.getElementById("productDescription").value.trim();
+            const price = parseFloat(document.getElementById("productPrice").value);
+            const quantity = parseInt(document.getElementById("productQuantity").value);
+            const imageUrls = getImageUrls();
+            const imageFiles = document.getElementById("productImages").files;
+
+            // === Validation ===
+            if (!name) return alert("❌ Please enter the product name (Arabic).");
+            if (!category) return alert("❌ Please select a category.");
+            if (!description) return alert("❌ Please enter a product description.");
+            if (isNaN(price) || price <= 0) return alert("❌ Please enter a valid price greater than 0.");
+            if (isNaN(quantity) || quantity < 0) return alert("❌ Please enter a valid quantity (0 or more).");
+            if (imageUrls.length === 0 && imageFiles.length === 0) {
+                return alert("❌ Please upload at least one product image or provide image URLs.");
+            }
+
+            const uploadedImages = [];
+            const fileReaders = [];
+
+            // Read all uploaded files
+            Array.from(imageFiles).forEach(file => {
+                const reader = new FileReader();
+                fileReaders.push(reader);
+                reader.onload = e => {
+                    uploadedImages.push(e.target.result);
+                    if (uploadedImages.length === fileReaders.length) {
+                        saveProduct();
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // If no files, just save directly
+            if (imageFiles.length === 0) {
+                saveProduct();
+            }
+
+            function saveProduct() {
+                const allImages = [...imageUrls, ...uploadedImages];
+                const product = {
+                    name,
+                    category,
+                    description,
+                    price,
+                    quantity,
+                    images: allImages,
+                    createdAt: new Date().toISOString()
+                };
+
+                let products = JSON.parse(localStorage.getItem("products")) || [];
+                products.push(product);
+                localStorage.setItem("products", JSON.stringify(products));
+
+                console.log("✅ Product saved:", product);
+                alert("✅ Product added successfully!");
+
+                document.getElementById("addProductForm").reset();
+                document.getElementById("previewImages").innerHTML = "";
+                document.getElementById("previewImage").src = "";
+                updatePreview();
+            }
+        }
+
+    </script>
 </body>
 
 </html>
