@@ -136,10 +136,10 @@ button:hover  , .card:hover button{
 
 /*Catalog Style*/
 
- /* .catalog img{
+ .catalog img{
     height: 300px;
     
- } */
+ }
 
  .catalog button{
     border-radius: 0;
