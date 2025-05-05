@@ -1,73 +1,6 @@
-let currentLang = localStorage.getItem("lang") || 'ar';
-
 const $ = selector => document.querySelector(selector);
 
-const translations = {
-    en: {
-        sellerPanel: "Seller Panel",
-        homeLink: "Home",
-        addProductLink: "Add Product",
-        manageProductsLink: "Manage Products",
-        ordersLink: "Orders",
-        analyticsLink: "Sales Analytics",
-        accountLink: "Account Settings",
-        yourProducts: "Your Products",
-        addProductHeader: "Add New Product",
-        nameLabel: "Product Name (AR)",
-        nameEnLabel: "Product Name (EN)",
-        priceLabel: "Price",
-        imageLabel: "Image URL",
-        submitBtn: "Add",
-        addProductMessage: "Please fill out all fields correctly.",
-        addProductSuccess: "Product added successfully!",
-        quantityLabel: "Quantity",
-        viewDetails: "View Details",
-        price: "Price",
-        quantity: "Quantity"
-    },
-    ar: {
-        sellerPanel: "لوحة البائع",
-        homeLink: "الرئيسية",
-        addProductLink: "إضافة منتج",
-        manageProductsLink: "إدارة المنتجات",
-        ordersLink: "الطلبات",
-        analyticsLink: "إحصائيات المبيعات",
-        accountLink: "إعدادات الحساب",
-        yourProducts: "منتجاتك",
-        addProductHeader: "إضافة منتج جديد",
-        nameLabel: "اسم المنتج (عربي)",
-        nameEnLabel: "اسم المنتج (إنجليزي)",
-        priceLabel: "السعر",
-        imageLabel: "رابط الصورة",
-        submitBtn: "إضافة",
-        addProductMessage: "يرجى ملء جميع الحقول بشكل صحيح.",
-        addProductSuccess: "تمت إضافة المنتج بنجاح!",
-        quantityLabel: "الكمية",
-        viewDetails: "عرض التفاصيل",
-        price: "السعر",
-        quantity: "الكمية"
-    }
-};
-
 const defaultImage = "https://placehold.co/600x400?text=No+Image";
-
-function applyLanguage() {
-    document.documentElement.lang = currentLang;
-    document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-    $(".lang-toggle").innerText = currentLang === 'ar' ? 'EN' : 'AR';
-
-    for (const key in translations[currentLang]) {
-        const element = document.getElementById(key);
-        if (element) element.innerText = translations[currentLang][key];
-    }
-}
-
-function toggleLanguage() {
-    currentLang = currentLang === 'ar' ? 'en' : 'ar';
-    localStorage.setItem("lang", currentLang);
-    applyLanguage();
-    updateProductCards();
-}
 
 function loadProducts() {
     const products = localStorage.getItem("products");
@@ -96,13 +29,13 @@ function updateProductCards() {
         productCard.className = "product-card position-relative border rounded p-3 m-2 shadow-sm";
 
         productCard.innerHTML = `
-            <img class="product-image" src="${mainImage}" alt="${product.name?.[currentLang] || 'Product Image'}">
+            <img class="product-image" src="${mainImage}" alt="${product.name || 'Product Image'}">
             <div>
-                <h5 class="mt-2">${product.name?.[currentLang] || 'No Name'}</h5>
-                <p>${translations[currentLang].price || 'Price'}: ${product.price?.toFixed(2) || '0.00'} EGP</p>
-                <p>${translations[currentLang].quantity || 'Quantity'}: ${product.quantity || '0'}</p>
+                <h5 class="mt-2">${product.name || 'No Name'}</h5>
+                <p>Price: ${product.price?.toFixed(2) || '0.00'} EGP</p>
+                <p>Quantity: ${product.quantity || '0'}</p>
                 <button class="btn btn-sm btn-outline-primary view-details" data-index="${index}">
-                    ${translations[currentLang].viewDetails || 'View Details'}
+                    View Details
                 </button>
             </div>
         `;
@@ -139,7 +72,7 @@ function addProduct() {
     const image = $("#productImage").value.trim() || defaultImage;
 
     if (!nameAr || !nameEn || isNaN(price) || price <= 0 || isNaN(quantity) || quantity <= 0) {
-        showNotification(translations[currentLang].addProductMessage, "error");
+        showNotification("Please fill out all fields correctly.", "error");
         return;
     }
 
@@ -165,7 +98,7 @@ function addProduct() {
     updateProductCards();
     $("#addProductForm").reset();
 
-    showNotification(translations[currentLang].addProductSuccess, "success");
+    showNotification("Product added successfully!", "success");
 }
 
 function showNotification(message, type) {
@@ -183,7 +116,7 @@ function showNotification(message, type) {
 function showProductModal(product) {
     const productImages = product.images || [defaultImage];
 
-    document.getElementById("modalProductName").textContent = product.name?.[currentLang] || 'No Name';
+    document.getElementById("modalProductName").textContent = product.name || 'No Name';
     document.getElementById("modalProductPrice").textContent = (product.price?.toFixed(2) || '0.00') + " EGP";
     document.getElementById("modalProductQuantity").textContent = product.quantity || '0';
 
@@ -202,16 +135,16 @@ function mapImagesToCarousel(images = [defaultImage]) {
     } else {
         carouselInner.innerHTML = "";
     }
+
     let carouselIndicators = myCarousel.querySelector(".carousel-indicators");
     if (!carouselIndicators) {
         carouselIndicators = document.createElement("div");
         carouselIndicators.className = "carousel-indicators";
-
         myCarousel.appendChild(carouselIndicators);
     } else {
         carouselIndicators.innerHTML = "";
     }
-    //sliding interval in ms
+
     myCarousel.setAttribute('data-bs-interval', '1500');
 
     images.forEach((img, index) => {
@@ -259,22 +192,18 @@ function searchProducts() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    applyLanguage();
-
     if (!localStorage.getItem("products")) {
         saveProducts([
             {
                 id: 1,
                 sellerId: 1,
                 rateAvg: 4.5,
-                name: { ar: "تيشيرت رجالي", en: "Men's T-shirt" },
+                name: "Men's T-shirt",
                 price: 200,
                 images: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDZtF5rfMcbRQtx72_ahxf5VF5sCq4KW_OEA&s",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDZtF5rfMcbRQtx72_ahxf5VF5sCq4KW_OEA&s",
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDZtF5rfMcbRQtx72_ahxf5VF5sCq4KW_OEA&s"
                 ],
-                category: "electronics",
+                category: "clothing",
                 quantity: 10,
                 description: "High quality cotton t-shirt",
                 seller: "Fashion Store",
@@ -284,14 +213,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 id: 2,
                 sellerId: 1,
                 rateAvg: 4.5,
-                name: { ar: "ساعة يد", en: "Wrist Watch" },
+                name: "Wrist Watch",
                 price: 350,
                 images: [
-                    "https://m.media-amazon.com/images/I/610OiiTm9PL.jpg",
-                    "https://m.media-amazon.com/images/I/610OiiTm9PL.jpg",
                     "https://m.media-amazon.com/images/I/610OiiTm9PL.jpg"
                 ],
-                category: "electronics",
+                category: "accessories",
                 quantity: 10,
                 description: "Luxury wrist watch",
                 seller: "Watch Store",
@@ -301,11 +228,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 id: 3,
                 sellerId: 1,
                 rateAvg: 4.5,
-                name: { ar: "سماعات لاسلكية", en: "Wireless Earbuds" },
+                name: "Wireless Earbuds",
                 price: 500,
                 images: [
-                    "https://three-egypt.com/cdn/shop/files/AweiTrueWirelessSportsEarbudsT26Prothreestore_5.webp?v=1720103238",
-                    "https://three-egypt.com/cdn/shop/files/AweiTrueWirelessSportsEarbudsT26Prothreestore_5.webp?v=1720103238",
                     "https://three-egypt.com/cdn/shop/files/AweiTrueWirelessSportsEarbudsT26Prothreestore_5.webp?v=1720103238"
                 ],
                 category: "electronics",
