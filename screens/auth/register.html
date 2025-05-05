@@ -5,190 +5,53 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up</title>
-
-    <link rel="stylesheet" href="../../assets/libs/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../assets/libs/hover-min.css" />
-    <style>
-        .auth-image {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        .form-signin {
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border: 3px solid rgba(133, 129, 129, 0.252);
-            height: auto;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(12px);
-            position: relative;
-            z-index: 1;
-        }
-
-        .blur-wrapper {
-            position: relative;
-            z-index: 0;
-        }
-
-        h1 {
-            color: whitesmoke !important;
-        }
-
-        body {
-            background-color: #f8f9fa;
-        }
-
-        button {
-            background-color: whitesmoke;
-        }
-
-        .hvr-rectangle-out:before {
-            background-color: #000000;
-            border-radius: 20px;
-            transition: all 0.3s;
-        }
-
-
-        button:active {
-            border: none;
-        }
-
-        body {
-            background: linear-gradient(rgba(0, 0, 0, 0.518), rgba(0, 0, 0, 0.5)),
-                url('../../assets/imgs/Auth/cropped-image-woman-inputting-card-information-key-phone-laptop-while-shopping-online\ \(1\).jpg') center/cover no-repeat;
-            background-attachment: fixed
-        }
-
-        form {
-            background-color: transparent;
-        }
-
-        a {
-            color: whitesmoke;
-            text-decoration: none;
-        }
-    </style>
-
-    <script>
-        window.addEventListener("load", function () {
-            const signupForm = document.getElementById("signupForm");
-            const name = document.getElementById("name");
-            const email = document.getElementById("email");
-            const password = document.getElementById("password");
-            const confirmPassword = document.getElementById("confirmPassword");
-            const isSeller = document.getElementById("isSeller");
-
-            signupForm.addEventListener("submit", function (e) {
-                e.preventDefault();
-
-                if (!signupForm.checkValidity()) {
-                    signupForm.classList.add("was-validated");
-                    return;
-                }
-
-                if (password.value !== confirmPassword.value) {
-                    alert("Passwords do not match.");
-                    return;
-                }
-
-                let userData = {
-                    name: name.value.trim(),
-                    email: email.value.trim(),
-                    password: password.value.trim(),
-                    isSeller: isSeller.checked
-                };
-
-
-                setTimeout(() => {
-                    saveUserData(userData);
-                    window.location.href = "../auth/login.html";
-                }, 2000);
-            });
-        });
-
-        async function saveUserData(user) {
-            await fetch("../../Datasource/auth/auth.json")
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Failed to fetch user data.");
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (user.isSeller) {
-                        if (data.seller.some(existingUser => existingUser.email === user.email)) {
-                            alert("Seller with this email already exists.");
-                            return;
-                        }
-                        user.id = data.seller.length + 1;
-                        data.seller.push(user);
-                    } else {
-                        if (data.customer.some(existingUser => existingUser.email === user.email)) {
-                            alert("Customer with this email already exists.");
-                            return;
-                        }
-                        user.id = data.customer.length + 1;
-                        data.customer.push(user);
-                    }
-                    console.log("Updated user data:", JSON.stringify(data));
-                    return fetch("../../Datasource/auth/auth.json", {
-                        method: "post",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(data)
-                    });
-                })
-        }
-
-
-    </script>
+    <link rel="stylesheet" href="../../assets/libs/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/libs/css/hover-min.css" />
+    <link rel="stylesheet" href="css/login.css" />
 </head>
 
 <body>
     <div class="container blur-wrapper d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-        <div class=" col-12 col-md-12 col-lg-6 ">
-            <form class="form-signin needs-validation  " id="signupForm" novalidate>
+        <div class="col-12 col-md-12 col-lg-6">
+            <form class="form-signin " id="signupForm" >
                 <h1 class="h3 mb-3 text-center">Create an account</h1>
 
                 <div class="form-floating mb-3">
                     <input type="text" id="name" class="form-control" placeholder="Your name" required />
                     <label for="name">Name</label>
-                    <div class="invalid-feedback">Name is required.</div>
                 </div>
 
                 <div class="form-floating mb-3">
                     <input type="email" id="email" class="form-control" placeholder="name@example.com" required />
                     <label for="email">Email address</label>
-                    <div class="invalid-feedback">Please provide a valid email.</div>
                 </div>
+
                 <div class="row g-2">
-                    <div class="col-md-6">
+                    <div class="col-md-6 position-relative">
                         <div class="form-floating mb-3">
                             <input type="password" id="password" class="form-control" placeholder="Password" required
                                 minlength="6" />
                             <label for="password">Password</label>
-                            <div class="invalid-feedback">Password must be at least 6 characters.</div>
+                            <span class="password-toggle" data-target="password">👁️</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+
+                    <div class="col-md-6 position-relative">
                         <div class="form-floating mb-3">
                             <input type="password" id="confirmPassword" class="form-control"
                                 placeholder="Confirm Password" required minlength="6" />
                             <label for="confirmPassword">Confirm Password</label>
-                            <div class="invalid-feedback">Please confirm your password.</div>
+                            <span class="password-toggle" data-target="confirmPassword">👁️</span>
                         </div>
                     </div>
                 </div>
+
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" id="isSeller" name="isSeller" />
                     <label class="form-check-label" for="isSeller">Do you want to be a seller?</label>
                 </div>
 
-                <button class="btn w-100 py-2 hvr-rectangle-out " type="submit">Sign up</button>
+                <button class="btn w-100 py-2 hvr-rectangle-out" type="submit">Sign up</button>
 
                 <p class="mt-5 mb-3 text-muted text-center">
                     Already have an account?
@@ -197,6 +60,8 @@
             </form>
         </div>
     </div>
+
+    <script type="module" src="js/register.js"></script>
 </body>
 
 </html>
