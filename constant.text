@@ -31,9 +31,7 @@ color: #be985a;
     cursor: pointer;
 }
 
-.background-main{
-    background-color: var(--main-background);
-} 
+ 
 
 
 h1 {
