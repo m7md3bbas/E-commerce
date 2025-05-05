@@ -14,41 +14,7 @@ $(".cartHome").click(function () {
 });
 
 
-// $('.addToCart').click(function(){
-//   let category =$('#productCategory').val()
-//   let productItem=$('#productItem').val()
-//   let price=$('#price').val()
-//   let card = this.closest('.card'); 
-//   let img = card.querySelector('img');
-//   let imgSrc=img.src
 
-//   let item=`<div class="col-md-4 col-lg-3 ">
-//                     <div class="card m-2 product" >
-//                         <img src=${imgSrc} class="card-img-top" alt="productImg">
-//                         <div class="card-body">
-//                             <h2 class="main-color">${category}</h2>
-//                             <p>${productItem}</p>
-//                             <h4 >Price: <span class="text-secondary price" >${price}</span></h4>
-//                             <h5>Total Price: <span class="text-secondary total-price"  >2000 EGP</span></h5>
-//                          <hr>
-                            
-//                          <div class="d-flex justify-content-between align-items-center">
-//                             <div class="btn-group"  role="group" aria-label="Basic outlined example">
-//                                 <button type="button" class="btn btn-outline-light text-black border">-</button>
-//                                 <button type="button" class="btn btn-outline-light text-black border">3</button>
-//                                 <button type="button" class="btn btn-outline-light text-black border">+</button>
-//                             </div>
-//                             <div >
-//                               <i  class="close-btn fa-solid fa-trash cursor-pointer fa-lg ms-auto" data-bs-dismiss="product" ></i>
-//                               </div>
-//                          </div>
-//                         </div>
-//                     </div>
-//                 </div>`
-  
-//   addToCart(item)
-//   alert('Product added successflly to cart')
-// })
 
 document.querySelectorAll('.addToCart').forEach(button => {
   button.addEventListener('click', function () {

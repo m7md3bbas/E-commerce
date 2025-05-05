@@ -24,10 +24,16 @@ console.log(cartItems);
 
 let container = document.querySelector('.addProduct');
 
-cartItems.forEach(itemHTML => {
-  container.innerHTML += itemHTML;
-});
 
+cartItems.forEach(itemHTML => {
+  const temp = document.createElement('div');
+  temp.innerHTML = itemHTML.trim();
+  const productEl = temp.firstElementChild;
+  container.appendChild(productEl);
+
+ 
+  initProduct(productEl);
+});
 
 
 });
@@ -77,7 +83,8 @@ function updateCartTotal() {
     });
   
     closeBtn.addEventListener('click', function () {
-        product.remove();
+      const wrapper = product.closest('.col-md-4, .col-lg-3'); 
+      if (wrapper) wrapper.remove();
         updateCartTotal();
       
         const remainingProducts = document.querySelectorAll('.product');
