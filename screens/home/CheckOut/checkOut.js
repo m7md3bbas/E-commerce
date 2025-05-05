@@ -77,12 +77,7 @@ function addressValidation() {
       apartmentErrorMsg.textContent = '';
     }
 
-    if (!cityInput.value.trim()) {
-      cityErrorMsg.textContent = "City is required.";
-      isValid = false;
-    } else {
-      cityErrorMsg.textContent = '';
-    }
+   
 
     let regex = /^01[0125][0-9]{8}$/;
     if (phoneInput.value.trim() === '') {
@@ -104,11 +99,12 @@ function addressValidation() {
 
 // Add space after every 4 digits in card number
 const cardNumberInput = document.getElementById('cardNumber');
-
-cardNumberInput.addEventListener('input', function (e) {
-  let value = e.target.value.replace(/\D/g, '').slice(0, 16);
-  e.target.value = value.replace(/(.{4})/g, '$1 ').trim();
-});
+if (cardNumberInput) {
+  cardNumberInput.addEventListener('input', function (e) {
+    let value = e.target.value.replace(/\D/g, '').slice(0, 16);
+    e.target.value = value.replace(/(.{4})/g, '$1 ').trim();
+  });
+}
 
 // Submit payment method selection
 function submitPayment() {
@@ -191,8 +187,9 @@ function validationCardData() {
 }
 
 
-document.querySelector('.backToHome').addEventListener('click',function(){
-  console.log('hii');
-  
-  window.location.href='../Home_Page/index.html'
-})
+const backBtn = document.querySelector('#backToHome');
+if (backBtn) {
+  backBtn.addEventListener('click', function() {
+    window.location.href = '../Home_Page/index.html';
+  });
+}
