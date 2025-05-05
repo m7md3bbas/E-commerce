@@ -12,10 +12,10 @@ addEventListener("load", function () {
             const input = document.getElementById(icon.dataset.target);
             if (input.type === "password") {
                 input.type = "text";
-                icon.textContent = "🙈";
+                icon.innerHTML = '<i class="fa-solid fs-5 fa-eye-slash"></i>';
             } else {
                 input.type = "password";
-                icon.textContent = "👁️";
+                icon.innerHTML = '<i class="fa-solid fs-5 fa-eye"></i>';
             }
         });
     });
@@ -47,8 +47,7 @@ addEventListener("load", function () {
                 alert("Invalid email or password.");
                 return;
             }
-
-            window.location.href = "../../home/Home Page/index.html";
+            window.location.replace("./../home/Home_Page/index.html");
         }, 1500); 
     });
 });

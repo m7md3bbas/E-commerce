@@ -19,6 +19,8 @@ color: #be985a;
 .bg-main{
     background-color: var(--main-color);
 }
+
+   >>>> button
 .btn-main{
     border:2px solid var(--main-color);
     color:var(--main-color);
@@ -27,6 +29,9 @@ color: #be985a;
     background-color: var(--main-color);
     color:#fff;
 } 
+
+
+
 .cursor-pointer{
     cursor: pointer;
 }
@@ -63,3 +68,15 @@ h1:hover::after{
     <link href="https://fonts.googleapis.com/css2?family=Chilanka&display=swap" rel="stylesheet">
     
     font-family: "Chilanka", cursive;
+
+
+  //notification
+    function showNotification(message, type) {
+    const notification = document.createElement("div");
+    notification.className = `notification ${type}`;
+    notification.innerText = message;
+    document.body.appendChild(notification);
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
