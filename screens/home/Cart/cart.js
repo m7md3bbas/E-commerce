@@ -1,4 +1,21 @@
 window.addEventListener('load', function () {
+
+    // Retrieve and render cart items from localStorage
+    let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    console.log(cartItems);
+    
+    let container = document.querySelector('.addProduct');
+  
+    cartItems.forEach(itemHTML => {
+      const temp = document.createElement('div');
+      temp.innerHTML = itemHTML.trim();
+      const productEl = temp.firstElementChild;
+      container.appendChild(productEl);
+      initProduct(productEl); 
+    });
+  
+  
+
   // Retrieve and render product images and details
   const allImgs = document.images;
   const imgSrcArray = Array.from(allImgs).map(img => img.src);
@@ -13,22 +30,9 @@ window.addEventListener('load', function () {
   });
 
   localStorage.setItem('cardDetails', JSON.stringify(cardsData));
-
-  // Retrieve and render cart items from localStorage
-  let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-  console.log(cartItems);
   
-  let container = document.querySelector('.addProduct');
-
-  cartItems.forEach(itemHTML => {
-    const temp = document.createElement('div');
-    temp.innerHTML = itemHTML.trim();
-    const productEl = temp.firstElementChild;
-    container.appendChild(productEl);
-    initProduct(productEl); 
-  });
-
   updateCartTotal(); 
+
 });
 
 function updateCartTotal() {

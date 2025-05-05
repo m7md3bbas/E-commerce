@@ -1,5 +1,6 @@
 :root{
     --main-color:#be985a;
+    --main-background:#f4f1ec;
 }
 .form-control:focus{
     border-color: var(--main-color) !important;
@@ -43,3 +44,7 @@ h1::after{
 h1:hover::after{
     width: 10%;
  }
+
+.background-main{
+    background-color: var(--main-background);
+} 

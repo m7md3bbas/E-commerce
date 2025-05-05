@@ -72,6 +72,10 @@ h2 {
   color:#fff;
 } 
 
+.background-main{
+  background-color: #f4f1ec;
+} 
+
 @media screen and (max-width:768px){
   .foot{
     flex-direction: column;
