@@ -100,6 +100,7 @@ $("#searchItem-seller").on("keyup", function () {
     }
   });
 });
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 document.getElementById("userForm").addEventListener("submit", function (e) {
