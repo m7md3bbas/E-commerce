@@ -15,7 +15,7 @@
         defer></script>
     <script src="../../../assets/libs/js/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="dashboard.js" defer></script>
+    <script type="module" src="dashboard.js" defer></script>
     <style>
         * {
             box-sizing: border-box;
@@ -30,7 +30,8 @@
         .dashboard-card:hover {
             transform: scale(1.05);
             transition: 0.3s;
-            /* box-shadow: 10px 10px 10px green; */
+            border: 1px solid black !important;
+            box-shadow: rgb(73, 215, 73) 2px 2px 40px !important;
         }
         body::-webkit-scrollbar {
             display: none;

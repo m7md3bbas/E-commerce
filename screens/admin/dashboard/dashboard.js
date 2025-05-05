@@ -1,3 +1,59 @@
+import { pushUser, getUsers } from "../../../projectModules/usersModule.js";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+let users = getUsers();
+let customers = 0;
+let male = 0;
+let female = 0;
+
+let social_facebook = 0;
+let social_x = 0;
+let social_instegram = 0;
+let social_telegram = 0;
+let social_friend = 0;
+let socila_other = 0;
+
+let age1 = 0;
+let age2 = 0;
+let age3 = 0;
+let age4 = 0;
+let age5 = 0;
+let other_age = 0;
+
+users.forEach(function (item) {
+  // console.log(item.getGender());
+
+  if (item.getType() === "user") {
+    customers++;
+    if (item.getGender() === "male") male++;
+    else female++;
+
+    let listen = item.getListen();
+    if (listen === "Facebook") social_facebook++;
+    else if (listen === "X") social_x++;
+    else if (listen === "Instagram") social_instegram++;
+    else if (listen === "Telegram") social_telegram++;
+    else if (listen === "Friend") social_friend++;
+    else socila_other++;
+
+    // let age = item.getAge();
+
+    const today = new Date();
+    const birthDate = new Date(item.getDateOfBirth());
+    let age = today.getFullYear() - birthDate.getFullYear();
+    // console.log(age);
+
+    if (age >= 12 && age <= 18) age1++;
+    else if (age > 18 && age <= 30) age2++;
+    else if (age > 30 && age <= 40) age3++;
+    else if (age > 40 && age <= 50) age4++;
+    else if (age > 50 && age <= 65) age5++;
+    else other_age++;
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 let arr = [
   {
     cardName: "Total Orders",
@@ -13,7 +69,7 @@ let arr = [
   },
   {
     cardName: "Total Customers",
-    cardValue: "0.000",
+    cardValue: `${customers}`,
     cardIcon: "fa-solid fa-users",
     color: "bg-warning",
   },
@@ -46,11 +102,11 @@ arr.forEach((item) => {
 });
 
 const data = {
-  labels: ["Female user part", "Male user part"],
+  labels: ["Female", "Male"],
   datasets: [
     {
       label: "Client number",
-      data: [247, 146],
+      data: [female, male],
       backgroundColor: ["rgb(255, 99, 132)", "rgb(54, 162, 235)"],
       hoverOffset: 5,
     },
@@ -62,14 +118,22 @@ new Chart(document.getElementById("pieChart"), {
   data: data,
 });
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const data2 = {
-  labels: ["Facebook", "Friend", "instgram", "X", "Telegram"],
+  labels: ["Facebook", "Friend", "insta", "X", "Telegram", "other"],
   datasets: [
     {
       label: "Client number",
-      data: [247, 54, 87, 222, 146],
-      backgroundColor: ["blue", "pink", "green", "black", "orange"],
-      hoverOffset: 5,
+      data: [
+        social_facebook,
+        social_friend,
+        social_instegram,
+        social_x,
+        social_telegram,
+        socila_other,
+      ],
+      backgroundColor: ["blue", "pink", "green", "black", "orange", "purple"],
+      hoverOffset: 6,
     },
   ],
 };
@@ -79,24 +143,28 @@ new Chart(document.getElementById("pieChart2"), {
   data: data2,
 });
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const data3 = {
   labels: [
     "age: 12-18",
-    "age: 19-25",
-    "age: 26-35",
-    "age: 35-50",
-    "age: 50-...",
+    "age: 19-30",
+    "age: 31-40",
+    "age: 41-50",
+    "age: 51-65",
+    "other",
   ],
   datasets: [
     {
       label: "Customer number",
-      data: [11, 16, 14, 7, 3],
+      data: [age1, age2, age3, age4, age5, other_age],
       backgroundColor: [
         "rgb(255, 99, 132)",
         "rgb(75, 192, 192)",
         "rgb(255, 205, 86)",
         "rgb(201, 203, 207)",
         "rgb(54, 162, 235)",
+        "rgb(231, 151, 244)",
       ],
     },
   ],

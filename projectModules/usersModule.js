@@ -55,6 +55,7 @@ class User {
   getEmail() { return this.#email; }
   setEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    console.log(email)
     if (!emailRegex.test(email)) throw new Error("Invalid email format.");
     this.#email = email;
   }
@@ -81,8 +82,8 @@ class User {
 
   getGender() { return this.#gender; }
   setGender(gender) {
-    const validGenders = ["male", "female", "other"];
-    if (!validGenders.includes(gender.toLowerCase())) throw new Error('Gender must be "male", "female", or "other".');
+    const validGenders = ["male", "female"];
+    if (!validGenders.includes(gender.toLowerCase())) throw new Error('Gender must be "male", "female".');
     this.#gender = gender.toLowerCase();
   }
 
@@ -212,6 +213,15 @@ export const deleteUser = (id) => {
   return null;
 };
 
+
+export const deleteLastUser = () => {
+  
+    const [removed] = users.splice(users.length-1, 1);
+    saveToLocalStorage();
+    return removed;
+};
+
+
 export const updateUser = function (
   id,
   email,
@@ -243,6 +253,10 @@ export const updateUser = function (
   return null;
 };
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 export const updateUserPassword = function(id, newPassword) {
   const user = users.find((u) => u.getId() === id);
   if (user) {
@@ -264,3 +278,5 @@ const loadFromLocalStorage = () => {
     users = JSON.parse(storedUsers).map((u) => User.fromJSON(u));
   }
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -8,44 +8,63 @@
     <link rel="stylesheet" href="../../../assets/libs/css/bootstrap.min.css">
     <link rel="stylesheet" href="./checkOut.css">
 </head>
-<body>
+<body class="background-main">
     <div class="container">
-        <h1 class="text-center m-5">Check Out Process</h1>
+        <h1 class="text-center m-5 main-color position-relative  cursor-pointer">Check Out Process</h1>
         <div class="row">
-            <div class="col-md-6">
-               <h3>Total Price : <span  class="totalCartPrice"></span> </h3>
-               <h5 class="mb-3">Products You select:</h5>
-               <div class="row viewProduct" >
-                
-               </div>
-               
-            </div>
-           <div class="col-md-6">
-            <h4 class="mb-5">Please Enter Shipping Address:</h4>
+          <div class="col-md-6">
+            <h4 class="mb-5 main-color">pilling Details:</h4>
             <form id="checkoutForm" novalidate>
                 <div class="form-floating mb-3">
-                    <input type="text" id="city" class="form-control" placeholder="Tanta" required />
-                    <label for="city">City</label>
+                    <input type="text" id="name" class="form-control" placeholder="Rehab" required />
+                    <label for="name">Name</label>
+                  <p class="errorMsg text-danger"></p>
+                </div>
+              
+            
+                <div class="form-floating mb-3">
+                    <input type="text" id="streetAddress" class="form-control" placeholder=" Elnahas St." required />
+                    <label for="streetAddress">Street Address:</label>
+                  <p class="errorMsg text-danger"></p>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" id="apartment" class="form-control" placeholder=" 3" required />
+                    <label for="apartment">Apartement , Floor:</label>
                   <p class="errorMsg text-danger"></p>
                 </div>
             
                 <div class="form-floating mb-3">
-                    <input type="text" id="address" class="form-control" placeholder="Tanta Elnahas St." required />
-                    <label for="address">Address:</label>
-                  <p class="errorMsg text-danger"></p>
-                </div>
-            
+                  <input type="text" id="city" class="form-control" placeholder="Tanta" required />
+                  <label for="city">City</label>
+                <p class="errorMsg text-danger"></p>
+              </div>
+              
                 <div class="form-floating mb-3">
                     <input type="text" id="phone" class="form-control" placeholder="01553314737" required />
                     <label for="phone">Phone:</label>
                   <p class="errorMsg text-danger"></p>
                 </div>
             
-                <button type="submit" class="btn btn-success finish">Buy Now</button>
+                <button type="submit" class="btn btn-main mt-3 fs-4 px-4 " onclick="addressValidation()">Buy Now</button>
               </form>
+
+            
            </div>
+            <div class="col-md-5 offset-md-1">
+              
+               <div class="row viewProduct" >
+                
+               </div>
+               <h3 class="pt-3 main-color">Total  <span  class="totalCartPrice ms-auto"></span> </h3>
+               
+            </div>
+          
         </div>
-      </div>
+    </div>
+    
+
+
+
       
 
    <script src="./checkOut.js"></script>
