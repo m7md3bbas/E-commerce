@@ -1,7 +1,7 @@
 const $ = selector => document.querySelector(selector);
-
 const defaultImage = "https://placehold.co/600x400?text=No+Image";
 
+// وظائف إدارة التخزين
 function loadProducts() {
     const products = localStorage.getItem("products");
     try {
@@ -15,10 +15,12 @@ function saveProducts(products) {
     localStorage.setItem("products", JSON.stringify(products));
 }
 
+// وظائف عرض المنتجات
 function updateProductCards() {
     const productList = document.getElementById("product-list");
-    productList.innerHTML = "";
+    if (!productList) return;
 
+    productList.innerHTML = "";
     const products = loadProducts();
 
     products.forEach((product, index) => {
@@ -50,26 +52,73 @@ function updateProductCards() {
     });
 }
 
+function updateProductsTable() {
+    const tbody = document.getElementById('productsTableBody');
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+    const products = loadProducts();
+
+    products.forEach(product => {
+        const mainImage = product.images?.[0] || defaultImage;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${product.id}</td>
+            <td><img src="${mainImage}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover;"></td>
+            <td>${product.name?.en || product.name || 'No Name'}</td>
+            <td>${product.category || 'Uncategorized'}</td>
+            <td>${product.price?.toFixed(2) || '0.00'} EGP</td>
+            <td>${product.quantity || '0'}</td>
+            <td>${product.rateAvg || '0'}</td>
+            <td>
+                <button class="btn btn-sm btn-primary edit-product" data-id="${product.id}">Edit</button>
+                <button class="btn btn-sm btn-danger delete-product" data-id="${product.id}">Delete</button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    document.querySelectorAll('.edit-product').forEach(btn => {
+        btn.addEventListener('click', () => showEditModal(btn.dataset.id));
+    });
+
+    document.querySelectorAll('.delete-product').forEach(btn => {
+        btn.addEventListener('click', () => deleteProduct(btn.dataset.id));
+    });
+}
+
+// وظائف التنقل بين الصفحات
 function showPage(page) {
     document.querySelectorAll('.page-content').forEach(content => {
         content.classList.remove('active');
     });
 
-    document.getElementById(page).classList.add('active');
-
     document.querySelectorAll('.sidebar a').forEach(anchor => {
         anchor.classList.remove('active');
     });
 
-    document.getElementById(page + 'Link').classList.add('active');
+    const pageElement = document.getElementById(page);
+    const pageLink = document.getElementById(page + 'Link');
+
+    if (pageElement) pageElement.classList.add('active');
+    if (pageLink) pageLink.classList.add('active');
+
+    if (page === 'manageProducts') {
+        updateProductsTable();
+        setupManageProductsPage();
+    } else if (page === 'home') {
+        updateProductCards();
+    }
 }
 
+// وظائف إدارة المنتجات
 function addProduct() {
-    const nameAr = $("#productName").value.trim();
-    const nameEn = $("#productNameEn").value.trim();
-    const price = parseFloat($("#productPrice").value);
-    const quantity = parseInt($("#productQuantity").value);
-    const image = $("#productImage").value.trim() || defaultImage;
+    const nameAr = $("#productName")?.value.trim();
+    const nameEn = $("#productNameEn")?.value.trim();
+    const price = parseFloat($("#productPrice")?.value);
+    const quantity = parseInt($("#productQuantity")?.value);
+    const image = $("#productImage")?.value.trim() || defaultImage;
 
     if (!nameAr || !nameEn || isNaN(price) || price <= 0 || isNaN(quantity) || quantity <= 0) {
         showNotification("Please fill out all fields correctly.", "error");
@@ -96,16 +145,211 @@ function addProduct() {
     products.push(newProduct);
     saveProducts(products);
     updateProductCards();
-    $("#addProductForm").reset();
-
+    $("#addProductForm")?.reset();
     showNotification("Product added successfully!", "success");
 }
 
+function showEditModal(productId) {
+    const products = loadProducts();
+    const product = products.find(p => p.id == productId);
+    if (!product) return;
+
+    const modalBody = document.getElementById('editProductForm');
+    if (!modalBody) return;
+
+    modalBody.innerHTML = `
+        <div class="mb-3">
+            <label for="editProductName" class="form-label">Product Name (English)</label>
+            <input type="text" class="form-control" id="editProductName" value="${product.name?.en || product.name || ''}">
+        </div>
+        <div class="mb-3">
+            <label for="editProductNameAr" class="form-label">Product Name (Arabic)</label>
+            <input type="text" class="form-control" id="editProductNameAr" value="${product.name?.ar || ''}">
+        </div>
+        <div class="mb-3">
+            <label for="editProductPrice" class="form-label">Price</label>
+            <input type="number" step="0.01" class="form-control" id="editProductPrice" value="${product.price || ''}">
+        </div>
+        <div class="mb-3">
+            <label for="editProductQuantity" class="form-label">Quantity</label>
+            <input type="number" class="form-control" id="editProductQuantity" value="${product.quantity || ''}">
+        </div>
+        <div class="mb-3">
+            <label for="editProductCategory" class="form-label">Category</label>
+            <select class="form-select" id="editProductCategory">
+                <option value="uncategorized" ${product.category === 'uncategorized' ? 'selected' : ''}>Uncategorized</option>
+                <option value="clothing" ${product.category === 'clothing' ? 'selected' : ''}>Clothing</option>
+                <option value="electronics" ${product.category === 'electronics' ? 'selected' : ''}>Electronics</option>
+                <option value="accessories" ${product.category === 'accessories' ? 'selected' : ''}>Accessories</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="editProductDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="editProductDescription">${product.description || ''}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="editProductImages" class="form-label">Images (comma separated URLs)</label>
+            <input type="text" class="form-control" id="editProductImages" value="${product.images?.join(', ') || ''}">
+        </div>
+    `;
+
+    const saveBtn = document.getElementById('saveProductChanges');
+    if (saveBtn) saveBtn.dataset.id = productId;
+
+    new bootstrap.Modal(document.getElementById('editProductModal')).show();
+}
+
+function saveEditedProduct() {
+    const saveBtn = document.getElementById('saveProductChanges');
+    if (!saveBtn) return;
+
+    const productId = saveBtn.dataset.id;
+    const products = loadProducts();
+    const productIndex = products.findIndex(p => p.id == productId);
+    if (productIndex === -1) return;
+
+    const nameEn = document.getElementById('editProductName')?.value.trim();
+    const nameAr = document.getElementById('editProductNameAr')?.value.trim();
+    const price = parseFloat(document.getElementById('editProductPrice')?.value);
+    const quantity = parseInt(document.getElementById('editProductQuantity')?.value);
+    const category = document.getElementById('editProductCategory')?.value;
+    const description = document.getElementById('editProductDescription')?.value.trim();
+    const images = document.getElementById('editProductImages')?.value
+        .split(',')
+        .map(url => url.trim())
+        .filter(url => url);
+
+    if (!nameEn || isNaN(price) || isNaN(quantity)) {
+        showNotification('Please fill required fields correctly', 'error');
+        return;
+    }
+
+    products[productIndex] = {
+        ...products[productIndex],
+        name: { en: nameEn, ar: nameAr },
+        price,
+        quantity,
+        category,
+        description,
+        images: images?.length ? images : [defaultImage]
+    };
+
+    saveProducts(products);
+    updateProductsTable();
+    updateProductCards();
+    bootstrap.Modal.getInstance(document.getElementById('editProductModal')).hide();
+    showNotification('Product updated successfully!', 'success');
+}
+
+function deleteProduct(productId) {
+    if (!confirm('Are you sure you want to delete this product?')) return;
+
+    const products = loadProducts();
+    const updatedProducts = products.filter(p => p.id != productId);
+    saveProducts(updatedProducts);
+    updateProductsTable();
+    updateProductCards();
+    showNotification('Product deleted successfully!', 'success');
+}
+
+// وظائف الفلترة والبحث
+function filterAndSortProducts() {
+    const searchTerm = document.getElementById('productSearch')?.value.toLowerCase() || '';
+    const categoryFilter = document.getElementById('categoryFilter')?.value || '';
+    const sortOption = document.getElementById('sortProducts')?.value || 'name-asc';
+
+    let products = loadProducts();
+
+    // التصفية حسب البحث
+    if (searchTerm) {
+        products = products.filter(p =>
+        (p.name?.en?.toLowerCase().includes(searchTerm) ||
+            (p.name?.ar?.toLowerCase().includes(searchTerm)) ||
+            (typeof p.name === 'string' && p.name.toLowerCase().includes(searchTerm))
+        )
+        );
+    }
+
+    // التصفية حسب الفئة
+    if (categoryFilter) {
+        products = products.filter(p => p.category === categoryFilter);
+    }
+
+    // الترتيب
+    switch (sortOption) {
+        case 'name-asc':
+            products.sort((a, b) => {
+                const nameA = a.name?.en || a.name || '';
+                const nameB = b.name?.en || b.name || '';
+                return nameA.localeCompare(nameB);
+            });
+            break;
+        case 'name-desc':
+            products.sort((a, b) => {
+                const nameA = a.name?.en || a.name || '';
+                const nameB = b.name?.en || b.name || '';
+                return nameB.localeCompare(nameA);
+            });
+            break;
+        case 'price-asc':
+            products.sort((a, b) => (a.price || 0) - (b.price || 0));
+            break;
+        case 'price-desc':
+            products.sort((a, b) => (b.price || 0) - (a.price || 0));
+            break;
+    }
+
+    // عرض النتائج المصفاة
+    const tbody = document.getElementById('productsTableBody');
+    if (!tbody) return;
+
+    tbody.innerHTML = products.length === 0
+        ? '<tr><td colspan="8" class="text-center">No products found</td></tr>'
+        : products.map(product => {
+            const mainImage = product.images?.[0] || defaultImage;
+            return `
+                <tr>
+                    <td>${product.id}</td>
+                    <td><img src="${mainImage}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                    <td>${product.name?.en || product.name || 'No Name'}</td>
+                    <td>${product.category || 'Uncategorized'}</td>
+                    <td>${product.price?.toFixed(2) || '0.00'} EGP</td>
+                    <td>${product.quantity || '0'}</td>
+                    <td>${product.rateAvg || '0'}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary edit-product" data-id="${product.id}">Edit</button>
+                        <button class="btn btn-sm btn-danger delete-product" data-id="${product.id}">Delete</button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+
+    // إعادة ربط معالجات الأحداث
+    document.querySelectorAll('.edit-product').forEach(btn => {
+        btn.addEventListener('click', () => showEditModal(btn.dataset.id));
+    });
+    document.querySelectorAll('.delete-product').forEach(btn => {
+        btn.addEventListener('click', () => deleteProduct(btn.dataset.id));
+    });
+}
+
+function resetFilters() {
+    const productSearch = document.getElementById('productSearch');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const sortProducts = document.getElementById('sortProducts');
+
+    if (productSearch) productSearch.value = '';
+    if (categoryFilter) categoryFilter.value = '';
+    if (sortProducts) sortProducts.value = 'name-asc';
+
+    updateProductsTable();
+}
+
+// وظائف مساعدة
 function showNotification(message, type) {
     const notification = document.createElement("div");
     notification.className = `notification ${type}`;
     notification.innerText = message;
-
     document.body.appendChild(notification);
 
     setTimeout(() => {
@@ -115,10 +359,13 @@ function showNotification(message, type) {
 
 function showProductModal(product) {
     const productImages = product.images || [defaultImage];
+    const modalProductName = document.getElementById("modalProductName");
+    const modalProductPrice = document.getElementById("modalProductPrice");
+    const modalProductQuantity = document.getElementById("modalProductQuantity");
 
-    document.getElementById("modalProductName").textContent = product.name || 'No Name';
-    document.getElementById("modalProductPrice").textContent = (product.price?.toFixed(2) || '0.00') + " EGP";
-    document.getElementById("modalProductQuantity").textContent = product.quantity || '0';
+    if (modalProductName) modalProductName.textContent = product.name || 'No Name';
+    if (modalProductPrice) modalProductPrice.textContent = (product.price?.toFixed(2) || '0.00') + " EGP";
+    if (modalProductQuantity) modalProductQuantity.textContent = product.quantity || '0';
 
     mapImagesToCarousel(productImages);
     new bootstrap.Modal(document.getElementById("productModal")).show();
@@ -126,6 +373,7 @@ function showProductModal(product) {
 
 function mapImagesToCarousel(images = [defaultImage]) {
     const myCarousel = document.getElementById("mycarousel");
+    if (!myCarousel) return;
 
     let carouselInner = myCarousel.querySelector(".carousel-inner");
     if (!carouselInner) {
@@ -154,7 +402,6 @@ function mapImagesToCarousel(images = [defaultImage]) {
         imgElement.src = img || defaultImage;
         imgElement.alt = "Product Image";
         imgElement.className = "d-block w-100 carousel-image";
-
         item.appendChild(imgElement);
         carouselInner.appendChild(item);
 
@@ -167,18 +414,20 @@ function mapImagesToCarousel(images = [defaultImage]) {
         carouselIndicators.appendChild(indicator);
     });
 
-    const carousel = new bootstrap.Carousel(myCarousel);
+    new bootstrap.Carousel(myCarousel);
 }
 
 function searchProducts() {
     const searchInput = document.getElementById("searchInput");
+    if (!searchInput) return;
+
     const searchValue = searchInput.value.toLowerCase();
     const products = document.querySelectorAll(".product-card");
-
     let found = false;
+
     products.forEach(product => {
-        const productName = product.querySelector("h5").textContent.toLowerCase();
-        if (productName.includes(searchValue)) {
+        const productName = product.querySelector("h5")?.textContent.toLowerCase();
+        if (productName?.includes(searchValue)) {
             product.style.display = "block";
             found = true;
         } else {
@@ -191,6 +440,22 @@ function searchProducts() {
     }
 }
 
+// تهيئة صفحة إدارة المنتجات
+function setupManageProductsPage() {
+    const productSearch = document.getElementById('productSearch');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const sortProducts = document.getElementById('sortProducts');
+    const resetFilters = document.getElementById('resetFilters');
+    const saveProductChanges = document.getElementById('saveProductChanges');
+
+    if (productSearch) productSearch.addEventListener('input', filterAndSortProducts);
+    if (categoryFilter) categoryFilter.addEventListener('change', filterAndSortProducts);
+    if (sortProducts) sortProducts.addEventListener('change', filterAndSortProducts);
+    if (resetFilters) resetFilters.addEventListener('click', resetFilters);
+    if (saveProductChanges) saveProductChanges.addEventListener('click', saveEditedProduct);
+}
+
+// تهيئة الصفحة عند التحميل
 document.addEventListener("DOMContentLoaded", () => {
     if (!localStorage.getItem("products")) {
         saveProducts([
@@ -242,5 +507,17 @@ document.addEventListener("DOMContentLoaded", () => {
         ]);
     }
 
-    updateProductCards();
+    // تحديد الصفحة الحالية من الـ hash في URL
+    const currentPage = window.location.hash.substring(1) || 'home';
+    showPage(currentPage);
+
+    // إضافة معالجات الأحداث للروابط الجانبية
+    document.querySelectorAll('.sidebar a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const page = this.id.replace('Link', '');
+            window.location.hash = page;
+            showPage(page);
+        });
+    });
 });
