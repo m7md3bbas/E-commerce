@@ -1,3 +1,37 @@
+window.addEventListener('load',function(){
+
+
+  const allImgs=document.images
+  const imgSrcArray = Array.from(allImgs).map(img => img.src);
+
+  localStorage.setItem('productImgs', JSON.stringify(imgSrcArray));
+
+const cards = document.querySelectorAll('.card');
+
+const cardsData = Array.from(cards).map(card => {
+  return {
+    img: card.querySelector('img')?.src || '',
+    unitPrice: card.querySelector('.price')?.textContent.trim() || '',
+    
+  };
+});
+
+localStorage.setItem('cardDetails', JSON.stringify(cardsData));
+console.log(cardsData);
+
+let cartItems = JSON.parse(localStorage.getItem('cart')) || []; 
+console.log(cartItems);
+
+let container = document.querySelector('.addProduct');
+
+cartItems.forEach(itemHTML => {
+  container.innerHTML += itemHTML;
+});
+
+
+
+});
+
 function updateCartTotal() {
     const allTotalSpans = document.querySelectorAll('.total-price');
     let total = 0;
@@ -9,6 +43,8 @@ function updateCartTotal() {
     if (cartTotal) {
       cartTotal.textContent = total;
     }
+    localStorage.setItem('totalCartPrice',JSON.stringify( total))
+
   }
   
   function initProduct(product) {
@@ -24,6 +60,7 @@ function updateCartTotal() {
     function updateTotal() {
       quantityBtn.textContent = quantity;
       totalPriceSpan.textContent = `${unitPrice * quantity} EGP`;
+      localStorage.setItem('totalCartPrice',JSON.stringify( totalPriceSpan.textContent))
       updateCartTotal();
     }
   
@@ -65,3 +102,10 @@ function updateCartTotal() {
   
   updateCartTotal();
   
+
+  document.querySelector('.checkOut').addEventListener('click',function(){
+    window.location.href='../CheckOut/checkOut.html'
+    console.log('hiii');
+    
+  })
+

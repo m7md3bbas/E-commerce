@@ -8,12 +8,10 @@ body {
 :root {
   --main-font: "Dancing Script", cursive;
   --secondary-font: "Cormorant Garamond", serif;
-  --main-color:rgb(12, 190, 131);
 }
 h1 {
   color: var(--main-color);
    position: relative;
-  font-family: var(--main-font);
   transition: width 2s ;
 }
 h1::after{
@@ -26,6 +24,7 @@ h1::after{
     height: 3px;
     background-color:var(--main-color);
     cursor: pointer;
+    transition: width 1s ;
 }
 h1:hover::after{
    width: 10%;
@@ -33,7 +32,6 @@ h1:hover::after{
 h2 {
   font-family: var(--secondary-font);
 
-  color: rgb(20, 164, 116);
 }
 
 .cursor-pointer{
@@ -42,4 +40,41 @@ h2 {
  
 .close-btn:hover{
     color:rgb(203, 12, 12);
+}
+.card{
+  transition: all 0.5s;
+  box-shadow: 10px 10px 10px #eacfa4;
+}
+.card:hover{
+  transform: scale(1.02);
+}
+
+:root{
+  --main-color:#be985a;
+}
+.form-control:focus{
+  border-color: rgb(85, 208, 232) !important;
+  box-shadow: 0 0 0 0.25rem rgb(138, 160, 223) !important;
+}
+
+.main-color{
+  color: var(--main-color);
+}
+.bg-main{
+  background-color: var(--main-color);
+}
+.btn-main{
+  border:2px solid var(--main-color);
+  color:var(--main-color);
+}  
+.btn-main:hover{
+  background-color: var(--main-color);
+  color:#fff;
+} 
+
+@media screen and (max-width:768px){
+  .foot{
+    flex-direction: column;
+
+  }
 }
