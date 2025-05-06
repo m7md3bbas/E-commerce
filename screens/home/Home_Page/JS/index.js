@@ -1,6 +1,7 @@
 import {
-  getProducts,
-} from "./../../../../projectModules/productModule"; 
+  getProducts
+} from "./../../../projectModules/productModule.js"; 
+
 $(document).ready(function () {
   $("#owl-demo").owlCarousel({
     autoPlay: 500,
