@@ -233,7 +233,11 @@ export const pushProduct = function (
   }
 };
 
-export const getProducts = () => products;
+export async function getProducts() {
+  await initDB();
+  await loadProductsFromDB();
+  return products;
+}
 
 export const getProductById = (id) =>
   products.find((p) => p.getId() === id) || null;
