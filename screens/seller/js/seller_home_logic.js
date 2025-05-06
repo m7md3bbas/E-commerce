@@ -29,7 +29,7 @@ function updateProductCards() {
         const mainImage = productImages[0] || defaultImage;
 
         const productCard = document.createElement("div");
-        productCard.className = "product-card position-relative border rounded p-3 m-2 shadow-sm";
+        productCard.className = "product-card position-relative border rounded p-3 m-2 shadow-sm ";
 
         productCard.innerHTML = `
             <img class="product-image" src="${mainImage}" alt="${product.productName || 'Product Image'}">
@@ -37,7 +37,7 @@ function updateProductCards() {
                 <h5 class="mt-2">${product.productName || 'No Name'}</h5>
                 <p>Price: ${product.price?.toFixed(2) || '0.00'} EGP</p>
                 <p>Quantity: ${product.stock || '0'}</p>
-                <button class="btn btn-sm btn-outline-primary view-details" data-index="${index}">
+                <button class=" view-details" data-index="${index}">
                     View Details
                 </button>
             </div>

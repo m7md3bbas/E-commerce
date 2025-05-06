@@ -87,7 +87,7 @@ button {
     background-color: #be985a;
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 5px 25px;
     transition: background-color .5s;
     color: white;
 }
@@ -151,6 +151,7 @@ button:hover, .card:hover button {
 
 .catalog img, .ralatedProduct img {
     height: 300px !important;
+    object-fit: contain;
 
 }
 

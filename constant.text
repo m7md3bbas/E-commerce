@@ -1,7 +1,10 @@
 border-raduis = 20px
 
 color: #be985a;
-
+ scale: 1.05;
+ padding:10px 25px;--->button(home)        ----------> padding:5px 25px -->button(seller)
+ border-radius:3px -->button
+ font-size:
 :root{
     --main-color:#be985a;
     --main-background:#f4f1ec;

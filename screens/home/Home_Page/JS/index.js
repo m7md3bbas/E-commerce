@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
               ${product.getRating() % 1 ? "☆" : ""}
             </span>
           </div>
-          <p class="h5">${product.getProductName()}</p>
+          <p class="h5" style="max-width:1000px">${product.getProductName()}</p>
           <span>${product.getPrice()}$</span>
         </div>
         <button class="addToCart" data-id="${product.getId()}">Add To Cart</button>
