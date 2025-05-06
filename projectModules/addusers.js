@@ -1,10 +1,7 @@
 import { pushUser, getUsers } from "./usersModule.js";
 
 (function () {
-  if (
-    getUsers().length < 10 &&
-    getUsers()[0].getEmail() != "admin123@gmail.com"
-  ) {
+  if (getUsers().length < 10) {
     addDefultUsers();
     console.log("saved...........");
   } else {
