@@ -399,3 +399,7 @@ export const loadProductsFromDB = function () {
     request.onerror = (event) => rejectAdd(event.target.error);
   });
 };
+
+
+
+/**************************************** */
