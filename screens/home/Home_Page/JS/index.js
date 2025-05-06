@@ -1,3 +1,8 @@
+import {
+  initDB,
+  loadProductsFromDB,
+  getProducts
+} from "../../../../projectModules/productsModule"; 
 
 $(document).ready(function () {
   $("#owl-demo").owlCarousel({

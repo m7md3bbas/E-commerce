@@ -1,13 +1,10 @@
 import {
   pushProduct,
   getProducts,
-  initDB,
-  saveProductsToDB,
-  loadProductsFromDB,
+  loadProductsFromStorage,
 } from "./productsModule.js";
 
-let i = 0;
-let arr_api = [
+const API_ENDPOINTS = [
   [
     "https://dummyjson.com/products/category/tops",
     "Diaa Taha",
@@ -69,87 +66,126 @@ let arr_api = [
     "user49@gmail.com",
   ],
 ];
-const fetchAndPushMensShirts = async function (item) {
+
+// Helper function to safely parse product data from API
+const parseApiProduct = (apiProduct, sellerName, sellerEmail) => {
+  return {
+    id: apiProduct.id?.toString() || Math.random().toString(36).substring(2, 9),
+    title: apiProduct.title || "Untitled Product",
+    description: apiProduct.description || "No description available",
+    price: typeof apiProduct.price === "number" ? apiProduct.price : 0,
+    category: apiProduct.category || "uncategorized",
+    stock: apiProduct.stock ?? apiProduct.quantity ?? 0,
+    rating:
+      typeof apiProduct.rating === "number"
+        ? Math.min(Math.max(apiProduct.rating, 0), 5)
+        : 0,
+    thumbnail: apiProduct.thumbnail || "",
+    images: Array.isArray(apiProduct.images) ? apiProduct.images : [],
+    sellerName,
+    sellerEmail,
+    tags: Array.isArray(apiProduct.tags) ? apiProduct.tags : [],
+  };
+};
+
+const fetchAndPushProducts = async (endpoint, sellerName, sellerEmail) => {
   try {
-    const response = await fetch(item[0]);
+    const response = await fetch(endpoint);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
     const data = await response.json();
-    const shirts = data.products;
+    if (!Array.isArray(data.products)) {
+      throw new Error("Invalid API response format - products array missing");
+    }
 
-    shirts.forEach((shirt) => {
-      pushProduct(
-        shirt.id.toString(),
-        shirt.title,
-        shirt.description,
-        shirt.price,
-        shirt.category,
-        shirt.stock,
-        shirt.rating,
-        [],
-        item[1],
-        item[2],
-        new Date().toISOString(),
-        shirt.tags || [],
-        [shirt.thumbnail, ...shirt.images]
-      );
-    });
+    let successCount = 0;
+    const errors = [];
 
-    return { success: true, count: shirts.length };
+    for (const apiProduct of data.products) {
+      try {
+        const parsedProduct = parseApiProduct(
+          apiProduct,
+          sellerName,
+          sellerEmail
+        );
+
+        pushProduct(
+          parsedProduct.id,
+          parsedProduct.title,
+          parsedProduct.description,
+          parsedProduct.price,
+          parsedProduct.category,
+          parsedProduct.stock,
+          parsedProduct.rating,
+          [], // reviews
+          parsedProduct.sellerName,
+          parsedProduct.sellerEmail,
+          new Date().toISOString(),
+          parsedProduct.tags,
+          parsedProduct.thumbnail
+            ? [parsedProduct.thumbnail, ...parsedProduct.images]
+            : ["default-image.jpg"]
+        );
+
+        successCount++;
+      } catch (error) {
+        errors.push({
+          productId: apiProduct.id,
+          error: error.message,
+        });
+        console.error(`Failed to add product ${apiProduct.id}:`, error);
+      }
+    }
+
+    return {
+      success: true,
+      count: successCount,
+      errors,
+      endpoint,
+    };
   } catch (error) {
-    console.error("Error fetching shirts:", error);
-    return { success: false, error: error.message };
+    console.error("Fetch error for endpoint", endpoint, ":", error);
+    return {
+      success: false,
+      error: error.message,
+      endpoint,
+    };
   }
 };
 
 const main = async () => {
   try {
-    await initDB();
-    await loadProductsFromDB();
+    loadProductsFromStorage();
+    const existingProducts = getProducts();
 
-    if (getProducts().length < 10) {
-      for (const item of arr_api) {
-        await fetchAndPushMensShirts(item);
+    if (existingProducts.length < 10) {
+      const results = [];
+
+      for (const [endpoint, sellerName, sellerEmail] of API_ENDPOINTS) {
+        const result = await fetchAndPushProducts(
+          endpoint,
+          sellerName,
+          sellerEmail
+        );
+        results.push(result);
+        console.log(`Processed ${endpoint}:`, result);
       }
-      await saveProductsToDB();
+
+      console.log("Final results:", results);
+      const totalAdded = results.reduce((sum, r) => sum + (r.count || 0), 0);
+      console.log(`Total products added: ${totalAdded}`);
+    } else {
+      console.log(
+        "Already have sufficient products in storage:",
+        existingProducts.length
+      );
     }
 
-    console.log("Done loading and saving products");
-    await console.log(getProducts());
-    // await go();
-    // await ddd();
-  } catch (err) {
-    console.error("Initialization error:", err);
+    console.log("Current products:", getProducts());
+  } catch (error) {
+    console.error("Fatal error in main:", error);
   }
 };
 
+// Start the process
 main();
-
-// function ddd() {
-//   let pro = getProducts();
-//   pro.forEach(function (item) {
-//     console.log(item.getCategory());
-//   });
-// }
-
-// async function go() {
-//   pushProduct(
-//     123,
-//     "product1",
-//     "how are you",
-//     150,
-//     "category",
-//     85,
-//     4.4,
-//     [],
-//     "mohammad ramadan",
-//     "moldb0907@gmail.com",
-//     "2025-05-01",
-//     [],
-//     []
-//   );
-
-//   await console.log(getProducts());
-
-//   await console.log("pushed");
-// }
