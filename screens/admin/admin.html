@@ -18,40 +18,41 @@
 
 
     <style>
+
+        :root{
+        --main-color:#be985a;
+        }
+        /* .form-control:focus{
+        border-color: rgb(85, 208, 232) !important;
+        box-shadow: 0 0 0 0.25rem rgb(138, 160, 223) !important;
+        } */
         #sidebarMenu {
             height: 100vh;
-            background-color: rgb(183, 245, 228);
+            background-color:#343a40;
             position: relative;
             z-index: 1
         }
-
-
-        /* header {
-            background-color: rgb(160, 237, 216);
-            position: fixed;
-        }
-
-        #header {
-            height: 8vh;
-        } */
 
         .nav-item {
             margin: 6px;
         }
 
         .nav-link:hover {
-            background-color: rgb(129, 129, 189);
-            /* border: 1px solid blue; */
+            background-color:var(--main-color);
             border-radius: 5px;
             transform: scale(1.1);
             transition: 0.2s;
-            color: white;
+            color: white ;
         }
 
         .nav-link.active {
-            color: #fff;
-            background-color: rgb(129, 129, 189);
+            color: #fff ;
+            background-color: var(--main-color);
             border-radius: 5px;
+        }
+
+        .nav-link{
+            color: var(--main-color);
         }
 
         #contain {
@@ -82,21 +83,8 @@
             }
         }
 
-        /* @media (max-width: 767.98px) {
-            .sidebar {
-                top: 5rem;
-            }
-        } */
     </style>
     <script>
-
-        // $(function () {
-        //     $('.nav-item:gt(1)').click(function (e) {
-        //         // $('.nav-item:first')
-        //         e.target.classList.add('active');
-        //     })
-        // })
-
 
 
     </script>
@@ -106,39 +94,9 @@
 <body>
 
 
-    <!-- This is the header for admin page----------------------------------------------------------------------------------- -->
-
-    <!-- <header id="header" class="navbar navbar-expand-md  flex-md-nowrap p-2 shadow ">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fw-bold" href="#">Admin Page</a>
-        <button id="Tbtn" class="navbar-toggler position-absolute  d-md-none collapsed" type="button"
-            data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <input id="search" class="form-control w-100" type="text" placeholder="Search" aria-label="Search">
-
-        <div class="navbar-nav">
-            <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href="#"><i class="fas fa-bell me-1"></i>
-                    <span
-                        class="position-absolute top-25 start-75 translate-middle badge rounded-pill bg-danger">3</span></a>
-
-            </div>
-        </div>
-        <div class="navbar-nav">
-            <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href="#"><i class="fas fa-sign-out-alt me-1"></i> Sign out</a>
-            </div>
-        </div>
-    </header> -->
-
-    <!-- This is the End of header----------------------------------------------------------------------------------- -->
-
-    <!-- Start for sidebar menu----------------------------------------------------------------------------------- -->
-
     <div id="contain" class="row">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-            <p class="h2 p-3 text-primary fw-bolder">Admin Page</p>
+            <p class="h2 p-3 fw-bolder" style="color: var(--main-color);">Admin Page</p>
             <div class="sidebar-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -177,18 +135,6 @@
                     <span>Store Management</span>
                 </h6>
                 <ul class="nav flex-column mb-2">
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="categories">
-                            <i class="fas fa-tags"></i>
-                            Categories
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="discounts">
-                            <i class="fas fa-percent"></i>
-                            Discounts
-                        </a>
-                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-section="settings">
                             <i class="fas fa-cog"></i>
@@ -205,10 +151,10 @@
             </div>
         </nav>
 
-        <div class="col-md-9 col-lg-10 p-3 m-0">
+        <div class="col-md-9 col-lg-10 p-0 m-0">
 
             <iframe id="dashboard" class="collapse w-100 show p-0 m-0" src="dashboard/dashboard.html"
-                height="99%"></iframe>
+                height="100%"></iframe>
             <iframe id="orders" class="collapse w-100 p-0 m-0" src="orders/orders.html" height="99%"></iframe>
             <iframe id="products" class="collapse w-100 p-0 m-0" src="products/product.html" height="99%"></iframe>
             <iframe id="customers" class="collapse w-100 p-0 m-0" src="users/customer.html" height="99%"></iframe>
@@ -218,12 +164,7 @@
         </div>
 
     </div>
-    <!-- end for sidebar menu----------------------------------------------------------------------------------- -->
-
-
-
-
-
+    
 
 
 </body>
