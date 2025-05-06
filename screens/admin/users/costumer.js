@@ -32,23 +32,36 @@ let arr_seller = [
 arr.forEach((item, index) => {
   if (item.getType() === "user") {
     $("#cards-container").append(`
-        <div class="col-6 col-xl-4 d-flex justify-content-center itemCard">
-            <div class="card  mt-3" style="width: 100%;">
-                <img src="../../../assets/imgs/admin/img/default.png" class="card-img-top" alt="Customer">
-                <div class="card-body">
-                    <h5 class="card-title">${item.getName()}</h5>
-                    <br>
-                    <p class="card-text"><i
-                            class="fa-solid fa-envelope me-3"></i>${item.getEmail()}</p>
-                    <p class="card-text"><i class="fa-solid fa-phone  me-3"></i>${item.getPhone()}</p>
-                    <p class="card-text"><i
-                            class="fa-solid fa-location-dot  me-3"></i>${item.getAddress()}</p>
-                </div>
-                <div class="card-body d-flex flex-row justify-content-evenly">
-                    <button data-id=${item.getId()} class="btn btn-danger col-11 remove-btn">remove</button>
-                </div>
-            </div>
-        </div>
+        <div class="col-12 col-sm-6 col-xl-3 d-flex justify-content-center itemCard">
+  <div class="card shadow mt-4" style="width: 100%; border-radius: 1rem; overflow: hidden;">
+    
+    <!-- Image Section -->
+    <img src="../../../assets/imgs/admin/img/default.png" class="card-img-top" alt="Customer" style="height: 200px; object-fit: cover;">
+
+    <!-- Info Section -->
+    <div class="card-body">
+      <h5 class="card-title fw-bold mb-3">${item.getName()}</h5>
+      <p class="card-text mb-2">
+        <i class="fa-solid fa-envelope me-2 text-primary"></i>${item.getEmail()}
+      </p>
+      <p class="card-text mb-2">
+        <i class="fa-solid fa-phone me-2 text-success"></i>${item.getPhone()}
+      </p>
+      <p class="card-text mb-3">
+        <i class="fa-solid fa-location-dot me-2 text-danger"></i>${item.getAddress()}
+      </p>
+    </div>
+
+    <!-- Action Button Section -->
+    <div class="card-footer bg-white border-top-0 d-flex justify-content-center pb-3">
+      <button data-id="${item.getId()}" class="btn btn-outline-danger w-75 remove-btn">
+        <i class="fa-solid fa-trash me-2"></i>Remove
+      </button>
+    </div>
+    
+  </div>
+</div>
+
         `);
     // console.log(index);
   }
@@ -57,23 +70,35 @@ arr.forEach((item, index) => {
 arr.forEach((item, index) => {
   if (item.getType() === "seller" && index > 0) {
     $("#cards-container-seller").append(`
-        <div class="col-6 col-xl-4 d-flex justify-content-center itemCard">
-            <div class="card  mt-3" style="width: 100%;">
-                <img src="../../../assets/imgs/admin/img/default.png" class="card-img-top" alt="Customer">
-                <div class="card-body">
-                    <h5 class="card-title">${item.getName()}</h5>
-                    <br>
-                    <p class="card-text"><i
-                            class="fa-solid fa-envelope me-3"></i>${item.getEmail()}</p>
-                    <p class="card-text"><i class="fa-solid fa-phone  me-3"></i>${item.getPhone()}</p>
-                    <p class="card-text"><i
-                            class="fa-solid fa-location-dot  me-3"></i>${item.getAddress()}</p>
-                </div>
-                <div class="card-body d-flex flex-row justify-content-evenly">
-                    <button data-id=${item.getId()} class="btn btn-danger col-11 remove-btn">remove</button>
-                </div>
-            </div>
-        </div>
+       <div class="col-12 col-sm-6 col-xl-3 d-flex justify-content-center itemCard">
+  <div class="card shadow mt-4" style="width: 100%; border-radius: 1rem; overflow: hidden;">
+    
+    <!-- Image Section -->
+    <img src="../../../assets/imgs/admin/img/default.png" class="card-img-top" alt="Customer" style="height: 200px; object-fit: cover;">
+
+    <!-- Info Section -->
+    <div class="card-body">
+      <h5 class="card-title fw-bold mb-3">${item.getName()}</h5>
+      <p class="card-text mb-2">
+        <i class="fa-solid fa-envelope me-2 text-primary"></i>${item.getEmail()}
+      </p>
+      <p class="card-text mb-2">
+        <i class="fa-solid fa-phone me-2 text-success"></i>${item.getPhone()}
+      </p>
+      <p class="card-text mb-3">
+        <i class="fa-solid fa-location-dot me-2 text-danger"></i>${item.getAddress()}
+      </p>
+    </div>
+
+    <!-- Action Button Section -->
+    <div class="card-footer bg-white border-top-0 d-flex justify-content-center pb-3">
+      <button data-id="${item.getId()}" class="btn btn-outline-danger w-75 remove-btn">
+        <i class="fa-solid fa-trash me-2"></i>Remove
+      </button>
+    </div>
+    
+  </div>
+</div>
         `);
     console.log(index);
   }
