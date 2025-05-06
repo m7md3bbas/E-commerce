@@ -18,7 +18,7 @@ $(".cartHome").click(function () {
   window.location.href = '../Cart/cart.html'
 });
 
-function showToast(message, type = "success", duration = 3000) {
+function showToast(message, type = "success", duration = 1000) {
   const toast = document.createElement('div');
   toast.className = `alert alert-${type} toast-message shadow`;
   toast.textContent = message;
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     productCard.classList.add("col-xl-3", "col-lg-4", "col-sm-6", "col-6");
 
     productCard.innerHTML = `
-      <div class="card">
+      <div class="card cursor-pointer">
         <img src="${product.getImages()[0]}" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
         <div class="links">
           <ul>
