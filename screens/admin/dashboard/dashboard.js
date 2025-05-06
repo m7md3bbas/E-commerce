@@ -4,7 +4,7 @@ import {
   getProductById,
   getProductsBySellerName,
   getProductsBySellerEmail,
-} from "../../../projectModules/productsModule.js";
+} from "../../../projectModules/productModule.js";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 let products = getProducts();
