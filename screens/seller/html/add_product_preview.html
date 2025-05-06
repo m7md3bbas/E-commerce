@@ -248,19 +248,19 @@
 
                 const product = {
                     id: products.length + 1,
-                    name,
+                    productName: name,
                     category,
                     description,
                     price,
-                    quantity,
+                    stock: quantity,
                     images: allImages,
                     createdAt: new Date().toISOString()
                 };
+                // Push product to local storage in the first index of the array
 
-                products.push(product);
+                products.unshift(product);
                 localStorage.setItem("products", JSON.stringify(products));
 
-                console.log("✅ Product saved:", product);
                 showNotification("Product saved successfully.", "success");
 
                 document.getElementById("addProductForm").reset();

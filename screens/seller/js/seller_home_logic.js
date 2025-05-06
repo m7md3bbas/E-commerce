@@ -4,6 +4,7 @@ const defaultImage = "https://placehold.co/600x400?text=No+Image";
 // وظائف إدارة التخزين
 function loadProducts() {
     const products = localStorage.getItem("products");
+
     try {
         return products ? JSON.parse(products) : [];
     } catch (e) {
@@ -31,11 +32,11 @@ function updateProductCards() {
         productCard.className = "product-card position-relative border rounded p-3 m-2 shadow-sm";
 
         productCard.innerHTML = `
-            <img class="product-image" src="${mainImage}" alt="${product.name || 'Product Image'}">
+            <img class="product-image" src="${mainImage}" alt="${product.productName || 'Product Image'}">
             <div>
-                <h5 class="mt-2">${product.name || 'No Name'}</h5>
+                <h5 class="mt-2">${product.productName || 'No Name'}</h5>
                 <p>Price: ${product.price?.toFixed(2) || '0.00'} EGP</p>
-                <p>Quantity: ${product.quantity || '0'}</p>
+                <p>Quantity: ${product.stock || '0'}</p>
                 <button class="btn btn-sm btn-outline-primary view-details" data-index="${index}">
                     View Details
                 </button>
@@ -65,12 +66,12 @@ function updateProductsTable() {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${product.id}</td>
-            <td><img src="${mainImage}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover;"></td>
-            <td>${product.name?.en || product.name || 'No Name'}</td>
+            <td><img src="${mainImage}" alt="${product.productName}" style="width: 50px; height: 50px; object-fit: cover;"></td>
+            <td>${product.productName || 'No Name'}</td>
             <td>${product.category || 'Uncategorized'}</td>
             <td>${product.price?.toFixed(2) || '0.00'} EGP</td>
-            <td>${product.quantity || '0'}</td>
-            <td>${product.rateAvg || '0'}</td>
+            <td>${product.stock || '0'}</td>
+            <td>${product.rating || '0'}</td>
             <td>
                 <button class="btn btn-sm btn-primary edit-product" data-id="${product.id}">Edit</button>
                 <button class="btn btn-sm btn-danger delete-product" data-id="${product.id}">Delete</button>
@@ -123,7 +124,7 @@ function showEditModal(productId) {
     modalBody.innerHTML = `
         <div class="mb-3">
             <label for="editProductName" class="form-label">Product Name </label>
-            <input type="text" class="form-control" id="editProductName" value="${product.name || ''}">
+            <input type="text" class="form-control" id="editProductName" value="${product.productName || ''}">
         </div>
         <div class="mb-3">
             <label for="editProductPrice" class="form-label">Price</label>
@@ -131,7 +132,7 @@ function showEditModal(productId) {
         </div>
         <div class="mb-3">
             <label for="editProductQuantity" class="form-label">Quantity</label>
-            <input type="number" class="form-control" id="editProductQuantity" value="${product.quantity || ''}">
+            <input type="number" class="form-control" id="editProductQuantity" value="${product.stock || ''}">
         </div>
         <div class="mb-3">
             <label for="editProductCategory" class="form-label">Category</label>
@@ -192,12 +193,13 @@ function saveEditedProduct() {
 
     products[productIndex] = {
         ...products[productIndex],
-        name: name,
+        productName: name,
         price,
-        quantity,
+        stock: quantity,
         category,
         description,
-        images: images?.length ? images : [defaultImage]
+        images,
+
     };
 
     saveProducts(products);
@@ -285,12 +287,12 @@ function filterAndSortProducts() {
             return `
                 <tr>
                     <td>${product.id}</td>
-                    <td><img src="${mainImage}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                    <td>${product.name?.en || product.name || 'No Name'}</td>
+                    <td><img src="${mainImage}" alt="${product.productName}" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                    <td>${product.productName?.en || product.productName || 'No Name'}</td>
                     <td>${product.category || 'Uncategorized'}</td>
                     <td>${product.price?.toFixed(2) || '0.00'} EGP</td>
-                    <td>${product.quantity || '0'}</td>
-                    <td>${product.rateAvg || '0'}</td>
+                    <td>${product.stock || '0'}</td>
+                    <td>${product.rating || '0'}</td>
                     <td>
                         <button class="btn btn-sm btn-primary edit-product" data-id="${product.id}">Edit</button>
                         <button class="btn btn-sm btn-danger delete-product" data-id="${product.id}">Delete</button>
@@ -341,9 +343,9 @@ function showProductModal(product) {
     const modalProductCategory = document.getElementById("modalProductCategory");
 
 
-    if (modalProductName) modalProductName.textContent = product.name || 'No Name';
+    if (modalProductName) modalProductName.textContent = product.productName || 'No Name';
     if (modalProductPrice) modalProductPrice.textContent = (product.price?.toFixed(2) || '0.00') + " EGP";
-    if (modalProductQuantity) modalProductQuantity.textContent = product.quantity || '0';
+    if (modalProductQuantity) modalProductQuantity.textContent = product.stock || '0';
     if (modalProductDescription) modalProductDescription.textContent = product.description || 'No Description';
     if (modalProductCategory) modalProductCategory.textContent = product.category || 'Uncategorized';
     mapImagesToCarousel(productImages);
