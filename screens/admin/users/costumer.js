@@ -50,7 +50,7 @@ arr.forEach((item, index) => {
             </div>
         </div>
         `);
-    console.log(index);
+    // console.log(index);
   }
 });
 

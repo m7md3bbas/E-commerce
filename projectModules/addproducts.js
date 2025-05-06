@@ -107,6 +107,7 @@ const main = async () => {
     await initDB();
     await loadProductsFromDB();
 
+
     if (getProducts().length < 10) {
       for (const item of arr_api) {
         await fetchAndPushMensShirts(item);

@@ -177,8 +177,33 @@ class Product {
 
 // --- Product Management ---
 let products = [];
+let db;
 
-export const pushProduct = function (
+export const initDB = function () {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+    request.onupgradeneeded = (event) => {
+      db = event.target.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
+        store.createIndex("seller", "seller", { unique: false });
+        store.createIndex("sellerEmail", "sellerEmail", { unique: false });
+      }
+    };
+
+    request.onsuccess = (event) => {
+      db = event.target.result;
+      resolve(db);
+    };
+
+    request.onerror = (event) => {
+      reject("Error opening database");
+    };
+  });
+};
+
+export const pushProduct = async function (
   id,
   productName,
   description,
@@ -211,7 +236,8 @@ export const pushProduct = function (
 
   products.push(product);
 
-  // Save to IndexedDB
+  await initDB();
+
   if (db) {
     const transaction = db.transaction(STORE_NAME, "readwrite");
     const store = transaction.objectStore(STORE_NAME);
@@ -239,13 +265,19 @@ export async function getProducts() {
   return products;
 }
 
-export const getProductById = (id) =>
-  products.find((p) => p.getId() === id) || null;
+export async function getProductById(id) {
+  
+  
+return products.find((p) => p.getId() === id) || null;
 
-export const deleteProduct = (id) => {
+}
+
+export const deleteProduct = async (id) => {
   const index = products.findIndex((p) => p.getId() === id);
   if (index !== -1) {
-    return products.splice(index, 1)[0];
+    const deleted = products.splice(index, 1)[0];
+    await saveProductsToDB(); 
+    return deleted;
   }
   return null;
 };
@@ -256,7 +288,7 @@ export const getProductsBySellerName = (name) =>
 export const getProductsBySellerEmail = (email) =>
   products.filter((p) => p.getSellerEmail() === email);
 
-export const updateProduct = function (
+export const updateProduct = async function (
   id,
   productName,
   description,
@@ -272,6 +304,7 @@ export const updateProduct = function (
   images
 ) {
   const product = products.find((p) => p.getId() === id);
+
   if (product) {
     product.setProductName(productName);
     product.setDescription(description);
@@ -285,41 +318,13 @@ export const updateProduct = function (
     product.setCreatedTime(createdTime);
     product.setTags(tags);
     product.setImages(images);
+
+    await saveProductsToDB();
     return product;
   }
   return null;
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-let db;
-
-export const initDB = function () {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-    request.onupgradeneeded = (event) => {
-      db = event.target.result;
-      console.log("Running onupgradeneeded");
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
-        store.createIndex("seller", "seller", { unique: false });
-        store.createIndex("sellerEmail", "sellerEmail", { unique: false });
-      }
-    };
-
-    request.onsuccess = (event) => {
-      db = event.target.result;
-      console.log("Database opened successfully");
-      resolve(db);
-    };
-
-    request.onerror = (event) => {
-      console.error("Error opening database", event);
-      reject("Error opening database");
-    };
-  });
-};
 export const saveProductsToDB = function () {
   return new Promise((resolve, reject) => {
     if (!db) {
@@ -400,6 +405,13 @@ export const loadProductsFromDB = function () {
       resolve("Products loaded from IndexedDB");
     };
 
-    request.onerror = (event) => rejectAdd(event.target.error);
+    request.onerror = (event) => reject(event.target.error);
   });
 };
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
