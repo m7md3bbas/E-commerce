@@ -1,6 +1,17 @@
 import { pushUser, getUsers } from "../../../projectModules/usersModule.js";
+import {
+  getProducts,
+  getProductById,
+  getProductsBySellerName,
+  getProductsBySellerEmail,
+} from "../../../projectModules/productModule.js";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+let products = getProducts();
+console.log(getProductById("190"));
+
+
+
 let users = getUsers();
 let customers = 0;
 let male = 0;
@@ -53,6 +64,7 @@ users.forEach(function (item) {
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// console.log(await getProducts());
 
 let arr = [
   {
@@ -75,11 +87,12 @@ let arr = [
   },
   {
     cardName: "Total Products",
-    cardValue: "0.000",
+    cardValue: `${products.length}`,
     cardIcon: "fa-solid fa-box",
     color: "bg-info",
   },
 ];
+
 
 arr.forEach((item) => {
   console.log(item.cardName);

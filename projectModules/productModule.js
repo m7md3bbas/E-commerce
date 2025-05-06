@@ -1,8 +1,4 @@
-const DB_NAME = "ProductDatabase";
-const DB_VERSION = 1;
-const STORE_NAME = "products";
-
-// --- Product Class ---
+const STORAGE_KEY = "products";
 class Product {
   #id;
   #productName;
@@ -56,6 +52,7 @@ class Product {
     return this.#productName;
   }
   setProductName(name) {
+    console.log("name");
     if (typeof name !== "string" || name.trim() === "") {
       throw new Error("Product name must be a non-empty string.");
     }
@@ -178,7 +175,51 @@ class Product {
 // --- Product Management ---
 let products = [];
 
-export const pushProduct = function (
+export const loadProductsFromStorage = () => {
+  const data = localStorage.getItem(STORAGE_KEY);
+  if (data) {
+    const parsed = JSON.parse(data);
+    products = parsed.map(
+      (data) =>
+        new Product(
+          data.id,
+          data.productName,
+          data.description,
+          data.price,
+          data.category,
+          data.stock,
+          data.rating,
+          data.reviews,
+          data.seller,
+          data.sellerEmail,
+          data.createdTime,
+          data.tags,
+          data.images
+        )
+    );
+  }
+};
+
+const saveProductsToStorage = () => {
+  const rawProducts = products.map((product) => ({
+    id: product.getId(),
+    productName: product.getProductName(),
+    description: product.getDescription(),
+    price: product.getPrice(),
+    category: product.getCategory(),
+    stock: product.getStock(),
+    rating: product.getRating(),
+    reviews: product.getReviews(),
+    seller: product.getSeller(),
+    sellerEmail: product.getSellerEmail(),
+    createdTime: product.getCreatedTime(),
+    tags: product.getTags(),
+    images: product.getImages(),
+  }));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(rawProducts));
+};
+
+export const pushProduct = (
   id,
   productName,
   description,
@@ -192,7 +233,7 @@ export const pushProduct = function (
   createdTime,
   tags,
   images
-) {
+) => {
   const product = new Product(
     id,
     productName,
@@ -208,32 +249,14 @@ export const pushProduct = function (
     tags,
     images
   );
-
   products.push(product);
-
-  // Save to IndexedDB
-  if (db) {
-    const transaction = db.transaction(STORE_NAME, "readwrite");
-    const store = transaction.objectStore(STORE_NAME);
-    store.add({
-      id: product.getId(),
-      productName: product.getProductName(),
-      description: product.getDescription(),
-      price: product.getPrice(),
-      category: product.getCategory(),
-      stock: product.getStock(),
-      rating: product.getRating(),
-      reviews: product.getReviews(),
-      seller: product.getSeller(),
-      sellerEmail: product.getSellerEmail(),
-      createdTime: product.getCreatedTime(),
-      tags: product.getTags(),
-      images: product.getImages(),
-    });
-  }
+  saveProductsToStorage();
 };
 
-export const getProducts = () => products;
+export const getProducts = () => {
+  loadProductsFromStorage();
+  return products;
+};
 
 export const getProductById = (id) =>
   products.find((p) => p.getId() === id) || null;
@@ -241,7 +264,9 @@ export const getProductById = (id) =>
 export const deleteProduct = (id) => {
   const index = products.findIndex((p) => p.getId() === id);
   if (index !== -1) {
-    return products.splice(index, 1)[0];
+    const deleted = products.splice(index, 1)[0];
+    saveProductsToStorage();
+    return deleted;
   }
   return null;
 };
@@ -252,7 +277,7 @@ export const getProductsBySellerName = (name) =>
 export const getProductsBySellerEmail = (email) =>
   products.filter((p) => p.getSellerEmail() === email);
 
-export const updateProduct = function (
+export const updateProduct = (
   id,
   productName,
   description,
@@ -266,7 +291,7 @@ export const updateProduct = function (
   createdTime,
   tags,
   images
-) {
+) => {
   const product = products.find((p) => p.getId() === id);
   if (product) {
     product.setProductName(productName);
@@ -281,121 +306,8 @@ export const updateProduct = function (
     product.setCreatedTime(createdTime);
     product.setTags(tags);
     product.setImages(images);
+    saveProductsToStorage();
     return product;
   }
   return null;
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-let db;
-
-export const initDB = function () {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-    request.onupgradeneeded = (event) => {
-      db = event.target.result;
-      console.log("Running onupgradeneeded");
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
-        store.createIndex("seller", "seller", { unique: false });
-        store.createIndex("sellerEmail", "sellerEmail", { unique: false });
-      }
-    };
-
-    request.onsuccess = (event) => {
-      db = event.target.result;
-      console.log("Database opened successfully");
-      resolve(db);
-    };
-
-    request.onerror = (event) => {
-      console.error("Error opening database", event);
-      reject("Error opening database");
-    };
-  });
-};
-export const saveProductsToDB = function () {
-  return new Promise((resolve, reject) => {
-    if (!db) {
-      reject("Database not initialized");
-      return;
-    }
-
-    const transaction = db.transaction(STORE_NAME, "readwrite");
-    const store = transaction.objectStore(STORE_NAME);
-
-    const clearRequest = store.clear();
-
-    clearRequest.onsuccess = () => {
-      const addRequests = products.map((product) => {
-        return new Promise((resolveAdd, rejectAdd) => {
-          const request = store.add({
-            id: product.getId(),
-            productName: product.getProductName(),
-            description: product.getDescription(),
-            price: product.getPrice(),
-            category: product.getCategory(),
-            stock: product.getStock(),
-            rating: product.getRating(),
-            reviews: product.getReviews(),
-            seller: product.getSeller(),
-            sellerEmail: product.getSellerEmail(),
-            createdTime: product.getCreatedTime(),
-            tags: product.getTags(),
-            images: product.getImages(),
-          });
-          request.onsuccess = () => resolveAdd();
-          request.onerror = () => rejectAdd();
-        });
-      });
-
-      Promise.all(addRequests)
-        .then(() => resolve("All products saved to IndexedDB"))
-        .catch((error) => reject(`Error saving products: ${error}`));
-    };
-
-    clearRequest.onerror = () => {
-      reject("Error clearing existing data");
-    };
-  });
-};
-
-export const loadProductsFromDB = function () {
-  return new Promise((resolve, reject) => {
-    if (!db) {
-      reject("Database not initialized");
-      return;
-    }
-
-    const transaction = db.transaction(STORE_NAME, "readonly");
-    const store = transaction.objectStore(STORE_NAME);
-    const request = store.getAll();
-
-    request.onsuccess = (event) => {
-      const productData = event.target.result;
-      products = productData.map(
-        (data) =>
-          new Product(
-            data.id,
-            data.productName,
-            data.description,
-            data.price,
-            data.category,
-            data.stock,
-            data.rating,
-            data.reviews,
-            data.seller,
-            data.sellerEmail,
-            data.createdTime,
-            data.tags,
-            data.images
-          )
-      );
-      resolve("Products loaded from IndexedDB");
-    };
-
-    request.onerror = (event) => rejectAdd(event.target.error);
-  });
 };

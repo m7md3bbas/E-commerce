@@ -1,16 +1,17 @@
 
 $(document).ready(function () {
   $("#owl-demo").owlCarousel({
-    autoPlay: 500, 
-
+    autoPlay: 500,
     items: 4,
     itemsDesktop: [1199, 3],
     itemsDesktopSmall: [979, 3],
   });
 });
 
+
+
 $(".cartHome").click(function () {
-  window.location.href='../Cart/cart.html'
+  window.location.href = '../Cart/cart.html'
 });
 
 
@@ -18,8 +19,8 @@ $(".cartHome").click(function () {
 
 document.querySelectorAll('.addToCart').forEach(button => {
   button.addEventListener('click', function () {
-    const card = this.closest('.card'); 
-    const img = card.querySelector('img'); 
+    const card = this.closest('.card');
+    const img = card.querySelector('img');
     const category = card.querySelector('#productCategory').textContent;
     const productItem = card.querySelector('#productItem').textContent;
     const price = card.querySelector('#price').textContent;
@@ -48,7 +49,7 @@ document.querySelectorAll('.addToCart').forEach(button => {
     //     </div>
     //   </div>
     // `;
-    const item =`
+    const item = `
     <div class="col-md-4 col-lg-3 mb-4">
   <div class="card h-100 product" style="display: flex; flex-direction: column;">
     <div style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
@@ -80,7 +81,7 @@ document.querySelectorAll('.addToCart').forEach(button => {
 
     localStorage.setItem('cart', JSON.stringify(cart));
 
-    
+
 
 
     alert('Product added successfully to cart');
@@ -89,21 +90,30 @@ document.querySelectorAll('.addToCart').forEach(button => {
 
 
 
-const sections = document.querySelectorAll("section");
-const navLinks = document.querySelectorAll(".nav-link");
+document.addEventListener("DOMContentLoaded", function () {
+  const sections = document.querySelectorAll("section");
+  const navLinks = document.querySelectorAll(".nav-link");
 
-const observerOptions = {
-    root: null, 
-    threshold: 0.5 
-};
+  const observerOptions = {
+    root: null, // يراقب ضمن نافذة العرض
+    threshold: 0.5 // يظهر عندما يكون 50% من العنصر مرئيًا
+  };
 
-const observer = new IntersectionObserver((entries) => {
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            navLinks.forEach(link => link.classList.remove("active"));
-            document.querySelector(`.nav-link[href="#${entry.target.id}"]`).classList.add("active");
-        }
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove("active"));
+        document.querySelector(`.nav-link[href="#${entry.target.id}"]`).classList.add("active");
+      }
     });
-}, observerOptions);
+  }, observerOptions);
 
-sections.forEach(section => observer.observe(section));
+  sections.forEach(section => observer.observe(section));
+});
+
+
+
+/***************************************************************** */
+
+
+

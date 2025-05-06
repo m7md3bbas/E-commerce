@@ -26,13 +26,19 @@
                 <div class="mb-3">
                     <label for="productCategory" class="form-label">Category</label>
                     <select class="form-select" id="productCategory">
-                        <option value="Electronics">Electronics</option>
-                        <option value="Clothing">Clothing</option>
-                        <option value="Furniture">Furniture</option>
+                        <option value="" disabled selected>Select Category...</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="books">Books</option>
+                        <option value="toys">Toys</option>
+                        <option value="sports">Sports</option>
+                        <option value="automotive">Automotive</option>
+                        <option value="household">Household</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="other">Other</option>
                     </select>
                 </div>
-
-
                 <!-- Description -->
                 <div class="mb-3">
                     <label for="productDescription" class="form-label">Product Description</label>
@@ -67,7 +73,7 @@
                     <label for="productImages" class="form-label">Upload Product Images</label>
                     <input type="file" class="form-control" id="productImages" multiple accept="image/*" />
                 </div>
-                <button type="button" class="btn btn-primary" onclick="addProduct()">Add</button>
+                <button type="button" class="btn btn-primary" onclick="addProduct()" id="addProductBtn">Add</button>
             </form>
         </div>
 
@@ -87,8 +93,10 @@
             </div>
         </div>
     </div>
+    <script src="../js/seller_home_logic.js"></script>
 
     <script>
+
         // Show uploaded images
         document.getElementById("productImages").addEventListener("change", function () {
             updatePreview();
@@ -195,6 +203,7 @@
 
 
         function addProduct() {
+
             const name = document.getElementById("productName").value.trim();
             const category = document.getElementById("productCategory").value;
             const description = document.getElementById("productDescription").value.trim();
@@ -202,15 +211,14 @@
             const quantity = parseInt(document.getElementById("productQuantity").value);
             const imageUrls = getImageUrls();
             const imageFiles = document.getElementById("productImages").files;
-
             // === Validation ===
-            if (!name) return alert("❌ Please enter the product name (Arabic).");
-            if (!category) return alert("❌ Please select a category.");
-            if (!description) return alert("❌ Please enter a product description.");
-            if (isNaN(price) || price <= 0) return alert("❌ Please enter a valid price greater than 0.");
-            if (isNaN(quantity) || quantity < 0) return alert("❌ Please enter a valid quantity (0 or more).");
+            if (!name) return showNotification('Please enter a product name.', "error");
+            if (!category) return showNotification('Please enter a product category.', "error");
+            if (!description) return showNotification('Please enter a product description.', "error");
+            if (isNaN(price) || price <= 0) return showNotification('Please enter a valid price (0 or more).', "error");
+            if (isNaN(quantity) || quantity < 0) return showNotification('Please enter a valid quantity (0 or more).', "error");
             if (imageUrls.length === 0 && imageFiles.length === 0) {
-                return alert("❌ Please upload at least one product image or provide image URLs.");
+                return showNotification('Please add at least one image.', "error");
             }
 
             const uploadedImages = [];
@@ -236,7 +244,10 @@
 
             function saveProduct() {
                 const allImages = [...imageUrls, ...uploadedImages];
+                let products = JSON.parse(localStorage.getItem("products")) || [];
+
                 const product = {
+                    id: products.length + 1,
                     name,
                     category,
                     description,
@@ -246,17 +257,17 @@
                     createdAt: new Date().toISOString()
                 };
 
-                let products = JSON.parse(localStorage.getItem("products")) || [];
                 products.push(product);
                 localStorage.setItem("products", JSON.stringify(products));
 
                 console.log("✅ Product saved:", product);
-                alert("✅ Product added successfully!");
+                showNotification("Product saved successfully.", "success");
 
                 document.getElementById("addProductForm").reset();
                 document.getElementById("previewImages").innerHTML = "";
                 document.getElementById("previewImage").src = "";
                 updatePreview();
+
             }
         }
 

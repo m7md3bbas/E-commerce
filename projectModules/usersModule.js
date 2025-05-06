@@ -55,7 +55,7 @@ class User {
   getEmail() { return this.#email; }
   setEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    console.log(email)
+    // console.log(email)
     if (!emailRegex.test(email)) throw new Error("Invalid email format.");
     this.#email = email;
   }
