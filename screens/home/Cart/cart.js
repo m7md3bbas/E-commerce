@@ -1,117 +1,136 @@
+
 window.addEventListener('load', function () {
-
-    // Retrieve and render cart items from localStorage
-    let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-    console.log(cartItems);
-    
-    let container = document.querySelector('.addProduct');
-  
-    cartItems.forEach(itemHTML => {
-      const temp = document.createElement('div');
-      temp.innerHTML = itemHTML.trim();
-      const productEl = temp.firstElementChild;
-      container.appendChild(productEl);
-      initProduct(productEl); 
-    });
-  
+  const container = document.querySelector('.addProduct');
+  let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+  console.log(cartItems);
   
 
-  // Retrieve and render product images and details
-  const allImgs = document.images;
-  const imgSrcArray = Array.from(allImgs).map(img => img.src);
-  localStorage.setItem('productImgs', JSON.stringify(imgSrcArray));
+  if (cartItems.length === 0) {
+    container.innerHTML = `<p class="alert alert-warning text-center">No Products in Your Cart</p>`;
+    return;
+  }
 
-  const cards = document.querySelectorAll('.card');
-  const cardsData = Array.from(cards).map(card => {
-    return {
-      img: card.querySelector('img')?.src || '',
-      unitPrice: card.querySelector('.price')?.textContent.trim() || '',
-    };
+  cartItems.forEach(item => {
+    const card = document.createElement('div');
+    card.classList.add('col-md-4', 'col-lg-3');
+    card.innerHTML = `
+      <div class="card m-2 product" data-id="${item.id}">
+        <img src="${item.img}" class="card-img-top" alt="${item.name}">
+        <div class="card-body">
+          <h5 class="main-color">${item.category}</h5>
+          <p>${item.name}</p>
+          <h6>Price: <span class="text-secondary price">${item.price} EGP</span></h6>
+          <h6>Total Price: <span class="text-secondary total-price">${item.price * item.quantity} EGP</span></h6>
+          <hr>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <button class="btn btn-outline-secondary decrease">-</button>
+              <span class="mx-3 mt-2 quantity">${item.quantity}</span>
+              <button class="btn btn-outline-secondary increase">+</button>
+            </div>
+            <i class="fa-solid fa-trash close-btn cursor-pointer text-danger"></i>
+          </div>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+    initProduct(card, item);
   });
 
-  localStorage.setItem('cardDetails', JSON.stringify(cardsData));
-  
-  updateCartTotal(); 
-
+  updateCartTotal();
 });
 
-function updateCartTotal() {
-  const allTotalSpans = document.querySelectorAll('.total-price');
-  let total = 0;
-  allTotalSpans.forEach(span => {
-    const price = parseInt(span.textContent.replace(/\D/g, ''));
-    total += price;
-  });
-  const cartTotal = document.querySelector('#cartTotal');
-  if (cartTotal) {
-    cartTotal.textContent = total;
-  }
-  localStorage.setItem('totalCartPrice', JSON.stringify(total));
-}
+function initProduct(productElement, itemData) {
+  const minusBtn = productElement.querySelector('.decrease');
+  const plusBtn = productElement.querySelector('.increase');
+  const quantitySpan = productElement.querySelector('.quantity');
+  const priceSpan = productElement.querySelector('.price');
+  const totalPriceSpan = productElement.querySelector('.total-price');
+  const closeBtn = productElement.querySelector('.close-btn');
 
-function initProduct(product) {
-  const minusBtn = product.querySelector('.btn-group button:first-child');
-  const plusBtn = product.querySelector('.btn-group button:last-child');
-  const quantityBtn = product.querySelector('.btn-group button:nth-child(2)');
-  const priceSpan = product.querySelector('.price');
-  const totalPriceSpan = product.querySelector('.total-price');
-  const closeBtn = product.querySelector('.close-btn');
-  const unitPrice = parseInt(priceSpan.textContent.replace(/\D/g, ''));
-  let quantity = parseInt(quantityBtn.textContent);
+  let quantity = itemData.quantity;
+  const unitPrice = itemData.price;
 
   function updateTotal() {
-    quantityBtn.textContent = quantity;
+    if (quantity < 1) quantity = 1;
+    quantitySpan.textContent = quantity;
     totalPriceSpan.textContent = `${unitPrice * quantity} EGP`;
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const index = cart.findIndex(p => p.id === itemData.id);
+    if (index !== -1) {
+      cart[index].quantity = quantity;
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
     updateCartTotal();
   }
 
-  minusBtn.addEventListener('click', function () {
+  minusBtn.addEventListener('click', () => {
     if (quantity > 1) {
       quantity--;
       updateTotal();
     }
   });
 
-  plusBtn.addEventListener('click', function () {
+  plusBtn.addEventListener('click', () => {
     quantity++;
     updateTotal();
   });
 
-  closeBtn.addEventListener('click', function (e) {
-    const wrapper = product.closest('.col-md-4, .col-lg-3');
-    if (wrapper) {
-      wrapper.remove();
+  closeBtn.addEventListener('click', () => {
+    const id = itemData.id;
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart = cart.filter(item => item.id !== id);
+    localStorage.setItem('cart', JSON.stringify(cart));
 
-      let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-      const productHTML = product.outerHTML;
-      cartItems = cartItems.filter(item => item !== productHTML);
+    productElement.remove();
+    updateCartTotal();
 
-      localStorage.setItem('cart', JSON.stringify(cartItems));
-     let updated=JSON.parse(localStorage.getItem('cart'))
-     console.log(updated);
-     
-
-      updateCartTotal(); 
-
-      const remainingProducts = document.querySelectorAll('.product');
-      if (remainingProducts.length === 0) {
-        document.getElementById('cart').innerHTML = `<h2 class="alert alert-warning text-center ">No Product in Your Cart</h2>`;
-      }
+    const remaining = document.querySelectorAll('.product');
+    if (remaining.length === 0) {
+      document.querySelector('.addProduct').innerHTML = `<p class="alert alert-warning text-center">No Products in Your Cart</p>`;
     }
   });
 
-  updateTotal(); 
+  updateTotal();
 }
 
-document.querySelectorAll('.product').forEach(initProduct);
+function updateCartTotal() {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const cartTotal = document.getElementById('cartTotal');
+  if (cartTotal) {
+    cartTotal.textContent = total + ' EGP';
+  }
+  localStorage.setItem('totalCartPrice', JSON.stringify(total));
+}
+window.addEventListener('load', updateCartTotal);
 
-document.getElementById('clearCart').addEventListener('click', function () {
-  const cart = document.getElementById('cart');
-  cart.innerHTML = `<p class="alert alert-warning text-center">No Product in Your Cart</p>`;
-  localStorage.removeItem('cart'); 
-  updateCartTotal(); 
+
+
+const clearCartBtn = document.getElementById('clearCart');
+if (clearCartBtn) {
+  clearCartBtn.addEventListener('click', () => {
+    localStorage.removeItem('cart');
+    document.querySelector('.addProduct').innerHTML = `<p class="alert alert-warning text-center">No Products in Your Cart</p>`;
+    updateCartTotal();
+  });
+}
+
+document.querySelector('.checkOut').addEventListener('click', function() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  if (cart.length > 0) {
+    window.location.href = './../CheckOut/checkOut.html'; 
+  } else {
+    alert('Your cart is empty!');
+  }
 });
 
-document.querySelector('.checkOut').addEventListener('click', function () {
-  window.location.href = '../CheckOut/checkOut.html';
+
+document.addEventListener('click', function (e) {
+  if (e.target.classList.contains('addToCart') || e.target.classList.contains('decrease') || e.target.classList.contains('increase') || e.target.classList.contains('close-btn')) {
+    updateCartTotal();  
+  }
 });
+

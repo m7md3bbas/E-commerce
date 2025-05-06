@@ -2,7 +2,9 @@
     scroll-behavior: smooth;
     scroll-padding-top: 5.3868rem;
 }
-
+.cursor-pointer{
+    cursor: pointer;
+}
 img {
     display: block;
 }
