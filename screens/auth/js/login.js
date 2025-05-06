@@ -20,7 +20,7 @@ addEventListener("load", function () {
         });
     });
 
-  
+
     loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
@@ -33,21 +33,43 @@ addEventListener("load", function () {
         loginBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Logging in...`;
 
         setTimeout(() => {
-            const users = getUsers();
-            const user = users.find(
-                (u) =>
-                    u.getEmail() === emailInput.value &&
-                    u.getPassword() === passwordInput.value
-            );
 
-            loginBtn.disabled = false;
-            loginBtn.innerHTML = "Login";
+            if (emailInput.value == "admin@gmail.com" && passwordInput.value == "admin123") {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = "Login";
+                window.location.href = "./../admin/admin.html";
+            } else {
 
-            if (!user) {
-                alert("Invalid email or password.");
-                return;
+
+                const users = getUsers();
+                const user = users.find(
+                    (u) =>
+                        u.getEmail() === emailInput.value &&
+                        u.getPassword() === passwordInput.value
+                );
+                console.log(user);
+
+
+
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = "Login";
+
+                if (!user) {
+                    alert("Invalid email or password.");
+                    return;
+                }
+
+                if (user.getType() === "seller") {
+                    window.location.href = "./../seller/html/seller-dashboard.html";
+                    return;
+                }
+
+
+
+                window.location.href = "./../home/Home_Page/index.html";
+
+                console.log(user);
             }
-            window.location.replace("./../home/Home_Page/index.html");
-        }, 1500); 
+        }, 1500);
     });
 });
