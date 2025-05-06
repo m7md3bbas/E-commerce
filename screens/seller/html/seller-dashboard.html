@@ -7,7 +7,7 @@
     <title>Seller Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/seller_home_styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
 
 </head>
 
@@ -29,10 +29,10 @@
             <h2 id="yourProducts">Your Products</h2>
             <div class="row mb-3">
                 <div class="col-12">
-                    <form class="d-flex gap-2 w-100" onsubmit="event.preventDefault(); searchProducts();">
-                        <input class="form-control" type="search" placeholder="Search" aria-label="Search"
+                    <form class="d-flex gap-2 w-100 " onsubmit="event.preventDefault(); searchProducts();">
+                        <input class="form-control " type="search" placeholder="Search" aria-label="Search"
                             id="searchInput" oninput="searchProducts()">
-                        <button class="btn-form" type="submit" id="searchBtn">Search</button>
+                        <button class="btn-form " type="submit" id="searchBtn">Search</button>
                     </form>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-danger" id="resetFilters" onclick="resetFilters()">Reset</button>
+                    <button class="  reset-btn" id="resetFilters" onclick="resetFilters()">Reset</button>
                 </div>
             </div>
 
