@@ -2,12 +2,13 @@
 $(document).ready(function () {
   $("#owl-demo").owlCarousel({
     autoPlay: 500, 
-
     items: 4,
     itemsDesktop: [1199, 3],
     itemsDesktopSmall: [979, 3],
   });
 });
+
+
 
 $(".cartHome").click(function () {
   window.location.href='../Cart/cart.html'
@@ -89,21 +90,30 @@ document.querySelectorAll('.addToCart').forEach(button => {
 
 
 
-const sections = document.querySelectorAll("section");
-const navLinks = document.querySelectorAll(".nav-link");
+document.addEventListener("DOMContentLoaded", function () {
+  const sections = document.querySelectorAll("section");
+  const navLinks = document.querySelectorAll(".nav-link");
 
-const observerOptions = {
-    root: null, 
-    threshold: 0.5 
-};
+  const observerOptions = {
+      root: null, // يراقب ضمن نافذة العرض
+      threshold: 0.5 // يظهر عندما يكون 50% من العنصر مرئيًا
+  };
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            navLinks.forEach(link => link.classList.remove("active"));
-            document.querySelector(`.nav-link[href="#${entry.target.id}"]`).classList.add("active");
-        }
-    });
-}, observerOptions);
+  const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+          if (entry.isIntersecting) {
+              navLinks.forEach(link => link.classList.remove("active"));
+              document.querySelector(`.nav-link[href="#${entry.target.id}"]`).classList.add("active");
+          }
+      });
+  }, observerOptions);
 
-sections.forEach(section => observer.observe(section));
+  sections.forEach(section => observer.observe(section));
+});
+
+
+
+/***************************************************************** */
+
+
+
