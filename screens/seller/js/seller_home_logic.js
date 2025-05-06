@@ -112,43 +112,6 @@ function showPage(page) {
     }
 }
 
-// وظائف إدارة المنتجات
-function addProduct() {
-    const nameAr = $("#productName")?.value.trim();
-    const nameEn = $("#productNameEn")?.value.trim();
-    const price = parseFloat($("#productPrice")?.value);
-    const quantity = parseInt($("#productQuantity")?.value);
-    const image = $("#productImage")?.value.trim() || defaultImage;
-
-    if (!nameAr || !nameEn || isNaN(price) || price <= 0 || isNaN(quantity) || quantity <= 0) {
-        showNotification("Please fill out all fields correctly.", "error");
-        return;
-    }
-
-    const products = loadProducts();
-    const newProduct = {
-        id: products.length + 1,
-        name: { ar: nameAr, en: nameEn },
-        price,
-        quantity,
-        images: [image],
-        sellerId: 1,
-        rateAvg: 0,
-        reviews: [],
-        createdTime: new Date().toISOString(),
-        category: "uncategorized",
-        description: "",
-        seller: "",
-        sellerEmail: ""
-    };
-
-    products.push(newProduct);
-    saveProducts(products);
-    updateProductCards();
-    $("#addProductForm")?.reset();
-    showNotification("Product added successfully!", "success");
-}
-
 function showEditModal(productId) {
     const products = loadProducts();
     const product = products.find(p => p.id == productId);
@@ -159,12 +122,8 @@ function showEditModal(productId) {
 
     modalBody.innerHTML = `
         <div class="mb-3">
-            <label for="editProductName" class="form-label">Product Name (English)</label>
-            <input type="text" class="form-control" id="editProductName" value="${product.name?.en || product.name || ''}">
-        </div>
-        <div class="mb-3">
-            <label for="editProductNameAr" class="form-label">Product Name (Arabic)</label>
-            <input type="text" class="form-control" id="editProductNameAr" value="${product.name?.ar || ''}">
+            <label for="editProductName" class="form-label">Product Name </label>
+            <input type="text" class="form-control" id="editProductName" value="${product.name || ''}">
         </div>
         <div class="mb-3">
             <label for="editProductPrice" class="form-label">Price</label>
@@ -181,6 +140,14 @@ function showEditModal(productId) {
                 <option value="clothing" ${product.category === 'clothing' ? 'selected' : ''}>Clothing</option>
                 <option value="electronics" ${product.category === 'electronics' ? 'selected' : ''}>Electronics</option>
                 <option value="accessories" ${product.category === 'accessories' ? 'selected' : ''}>Accessories</option>
+                <option value="books" ${product.category === 'books' ? 'selected' : ''}>Books</option>
+                <option value="toys" ${product.category === 'toys' ? 'selected' : ''}>Toys</option>
+                <option value="furniture" ${product.category === 'furniture' ? 'selected' : ''}>Furniture</option>
+                <option value="sports" ${product.category === 'sports' ? 'selected' : ''}>Sports</option>
+                <option value="automotive" ${product.category === 'automotive' ? 'selected' : ''}>Automotive</option>
+                <option value="household" ${product.category === 'household' ? 'selected' : ''}>Household</option>
+                <option value="other" ${product.category === 'other' ? 'selected' : ''}>Other</option>
+
             </select>
         </div>
         <div class="mb-3">
@@ -208,8 +175,7 @@ function saveEditedProduct() {
     const productIndex = products.findIndex(p => p.id == productId);
     if (productIndex === -1) return;
 
-    const nameEn = document.getElementById('editProductName')?.value.trim();
-    const nameAr = document.getElementById('editProductNameAr')?.value.trim();
+    const name = document.getElementById('editProductName')?.value.trim();
     const price = parseFloat(document.getElementById('editProductPrice')?.value);
     const quantity = parseInt(document.getElementById('editProductQuantity')?.value);
     const category = document.getElementById('editProductCategory')?.value;
@@ -219,14 +185,14 @@ function saveEditedProduct() {
         .map(url => url.trim())
         .filter(url => url);
 
-    if (!nameEn || isNaN(price) || isNaN(quantity)) {
+    if (!name || isNaN(price) || isNaN(quantity)) {
         showNotification('Please fill required fields correctly', 'error');
         return;
     }
 
     products[productIndex] = {
         ...products[productIndex],
-        name: { en: nameEn, ar: nameAr },
+        name: name,
         price,
         quantity,
         category,
@@ -245,7 +211,15 @@ function deleteProduct(productId) {
     if (!confirm('Are you sure you want to delete this product?')) return;
 
     const products = loadProducts();
-    const updatedProducts = products.filter(p => p.id != productId);
+    // تحويل productId إلى رقم للمقارنة الصحيحة
+    productId = parseInt(productId);
+    const updatedProducts = products.filter(p => parseInt(p.id) !== productId);
+
+    // إعادة تعيين IDs للمنتجات المتبقية
+    updatedProducts.forEach((product, index) => {
+        product.id = index + 1;
+    });
+
     saveProducts(updatedProducts);
     updateProductsTable();
     updateProductCards();
@@ -259,6 +233,7 @@ function filterAndSortProducts() {
     const sortOption = document.getElementById('sortProducts')?.value || 'name-asc';
 
     let products = loadProducts();
+
 
     // التصفية حسب البحث
     if (searchTerm) {
@@ -362,11 +337,15 @@ function showProductModal(product) {
     const modalProductName = document.getElementById("modalProductName");
     const modalProductPrice = document.getElementById("modalProductPrice");
     const modalProductQuantity = document.getElementById("modalProductQuantity");
+    const modalProductDescription = document.getElementById("modalProductDescription");
+    const modalProductCategory = document.getElementById("modalProductCategory");
+
 
     if (modalProductName) modalProductName.textContent = product.name || 'No Name';
     if (modalProductPrice) modalProductPrice.textContent = (product.price?.toFixed(2) || '0.00') + " EGP";
     if (modalProductQuantity) modalProductQuantity.textContent = product.quantity || '0';
-
+    if (modalProductDescription) modalProductDescription.textContent = product.description || 'No Description';
+    if (modalProductCategory) modalProductCategory.textContent = product.category || 'Uncategorized';
     mapImagesToCarousel(productImages);
     new bootstrap.Modal(document.getElementById("productModal")).show();
 }
