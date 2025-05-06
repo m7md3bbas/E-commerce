@@ -2,7 +2,7 @@ import {
   pushProduct,
   getProducts,
   loadProductsFromStorage,
-} from "./productsModule.js";
+} from "./productModule.js";
 
 const API_ENDPOINTS = [
   [
