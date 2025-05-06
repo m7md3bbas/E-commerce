@@ -83,13 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
     productCard.classList.add("col-xl-3", "col-lg-4", "col-sm-6", "col-6");
 
     productCard.innerHTML = `
-<<<<<<< HEAD
-      <div class="card cursor-pointer">
-        <img src="${product.getImages()[0]}" alt="${product.getProductName()}" width="100%" class="details" data-id="${product.getId()}">
-=======
       <div class="card">
         <img src="${product.getImages()[0]}" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
->>>>>>> 3d7584548b4c352d731da00359dc4320a3460648
         <div class="links">
           <ul>
             <li><a><i class="fa-solid fa-cart-shopping addToCart "></i></a></li>
