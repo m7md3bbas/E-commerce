@@ -1,34 +1,80 @@
+// window.addEventListener('load', function () {
+//   const form = document.getElementById('checkoutForm');
+//   const totalCartPrice = document.querySelector('.totalCartPrice');
+  
+//   // Set total price if available in localStorage
+//   if (totalCartPrice) {
+//     totalCartPrice.textContent = JSON.parse(localStorage.getItem('totalCartPrice'));
+//   }
+
+//   const cardDetails = JSON.parse(localStorage.getItem('cardDetails'));
+//   console.log(cardDetails);
+  
+//   const viewProduct = document.querySelector('.viewProduct');
+//   console.log(cardDetails);
+  
+//   // If products exist in the cart, display them
+//   if (viewProduct && cardDetails) {
+//     cardDetails.forEach(item => {
+//       viewProduct.innerHTML += `
+//         <div class="col-4">
+//           <div class='border border-2 main-border text-center mb-3' >
+//             <img src="${item.img}" class='w-100' alt="Product Image">
+//             <h6 class='main-color pt-3'>Price: ${item.unitPrice}</h6>
+//           </div>
+//         </div>
+//       `;
+//     });
+//   }
+// });
+
+
+
+
+
+
+// Address Validation Function
 window.addEventListener('load', function () {
   const form = document.getElementById('checkoutForm');
   const totalCartPrice = document.querySelector('.totalCartPrice');
   
-  // Set total price if available in localStorage
+  // تعيين السعر الإجمالي إذا كان موجودًا في localStorage
   if (totalCartPrice) {
-    totalCartPrice.textContent = JSON.parse(localStorage.getItem('totalCartPrice'));
+    const storedTotalPrice = JSON.parse(localStorage.getItem('totalCartPrice'));
+    if (storedTotalPrice) {
+      totalCartPrice.textContent = `${storedTotalPrice} EGP`;
+    } else {
+      totalCartPrice.textContent = '0 EGP'; // في حال لم يتم العثور على السعر
+    }
   }
 
-  const cardDetails = JSON.parse(localStorage.getItem('cardDetails'));
-  console.log(cardDetails);
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];  // تأكد من استرجاع السلة بشكل صحيح
+  console.log(cart);
   
   const viewProduct = document.querySelector('.viewProduct');
-  console.log(cardDetails);
   
-  // If products exist in the cart, display them
-  if (viewProduct && cardDetails) {
-    cardDetails.forEach(item => {
+  // إذا كانت السلة تحتوي على منتجات، اعرضها
+  if (viewProduct && cart.length > 0) {
+    cart.forEach(item => {
       viewProduct.innerHTML += `
         <div class="col-4">
-          <div class='border border-2 main-border text-center mb-3' >
+          <div class='border border-2 main-border text-center mb-3'>
             <img src="${item.img}" class='w-100' alt="Product Image">
-            <h6 class='main-color pt-3'>Price: ${item.unitPrice}</h6>
+            <h6 class='main-color pt-3'>Price: ${item.price} EGP</h6>
           </div>
         </div>
       `;
     });
+  } else {
+    // إذا لم تكن السلة تحتوي على منتجات، اعرض رسالة
+    if (viewProduct) {
+      viewProduct.innerHTML = '<p>No products in your cart.</p>';
+    }
   }
 });
 
-// Address Validation Function
+
+
 function addressValidation() {
   document.getElementById("checkoutForm").addEventListener("submit", function (e) {
     e.preventDefault();

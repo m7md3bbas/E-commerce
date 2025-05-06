@@ -18,74 +18,33 @@ $(".cartHome").click(function () {
   window.location.href = '../Cart/cart.html'
 });
 
+function showToast(message, type = "success", duration = 3000) {
+  const toast = document.createElement('div');
+  toast.className = `alert alert-${type} toast-message shadow`;
+  toast.textContent = message;
+  toast.style.cssText = `
+    min-width: 200px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  `;
 
-document.querySelectorAll('.addToCart').forEach(button => {
-  button.addEventListener('click', function () {
-    const card = this.closest('.card');
-    const img = card.querySelector('img');
-    const category = card.querySelector('#productCategory').textContent;
-    const productItem = card.querySelector('#productItem').textContent;
-    const price = card.querySelector('#price').textContent;
+  const container = document.getElementById('toastContainer');
+  container.appendChild(toast);
 
-    const item = `
-      <div class="col-md-4 col-lg-3">
-        <div class="card m-2 product">
-          <img src="${img.src}" class="card-img-top " alt="productImg">
-          <div class="card-body">
-            <h2 class="main-color">${category}</h2>
-            <p>${productItem}</p>
-            <h4>Price: <span class="text-secondary price">${price}</span></h4>
-            <h5>Total Price: <span class="text-secondary total-price">2000 EGP</span></h5>
-            <hr>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-light text-black border">-</button>
-                <button type="button" class="btn btn-outline-light text-black border">3</button>
-                <button type="button" class="btn btn-outline-light text-black border">+</button>
-              </div>
-              <div>
-                <i class="close-btn fa-solid fa-trash cursor-pointer fa-lg ms-auto"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
+  // Fade in
+  setTimeout(() => {
+    toast.style.opacity = '1';
+  }, 100);
 
-//     const item = `
-//     <div class="col-md-4 col-lg-3 mb-4">
-//   <div class="card h-100 product" style="display: flex; flex-direction: column;">
-//     <div style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
-//       <img src="${img.src}" class="card-img-top img-fluid" alt="productImg" style="object-fit: contain; max-height: 100%; width: auto;">
-//     </div>
-//     <div class="card-body d-flex flex-column" style="flex-grow: 1;">
-//       <div style="margin-bottom: auto;">
-//         <h5 class="main-color text-truncate">${category}</h5>
-//         <p class="text-truncate">${productItem}</p>
-//         <h6>Price: <span class="text-secondary price">${price}</span></h6>
-//         <h6>Total: <span class="text-secondary total-price">2000 EGP</span></h6>
-//       </div>
-//       <hr class="w-100">
-//       <div class="d-flex justify-content-between align-items-center mt-auto">
-//         <div class="btn-group" role="group">
-//           <button type="button" class="btn btn-outline-secondary">-</button>
-//           <button type="button" class="btn btn-outline-dark disabled">3</button>
-//           <button type="button" class="btn btn-outline-secondary">+</button>
-//         </div>
-//         <i class="close-btn fa-solid fa-trash cursor-pointer text-danger"></i>
-//       </div>
-//     </div>
-//   </div>
-// </div>`
-
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    cart.push(item);
-
-    localStorage.setItem('cart', JSON.stringify(cart));
-    alert('Product added successfully to cart');
-  });
-});
+  // Fade out & remove
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => {
+      toast.remove();
+    }, 100);
+  }, duration);
+}
 
 
 
@@ -117,34 +76,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", () => {
   const catalogContainer = document.querySelector(".cards");
-  const products = getProducts(); // الحصول على المنتجات
+  const products = getProducts(); // الحصول على المنتجات 
 
   products.forEach((product) => {
     const productCard = document.createElement("div");
     productCard.classList.add("col-xl-3", "col-lg-4", "col-sm-6", "col-6");
 
     productCard.innerHTML = `
-      <div class="card">
+      <div class="card cursor-pointer">
         <img src="${product.getImages()[0]}" alt="${product.getProductName()}" width="100%" class="details" data-id="${product.getId()}">
         <div class="links">
           <ul>
-            <li><a><i class="fa-solid fa-cart-shopping"></i></a></li>
-            <li><a><i class="fa-regular fa-heart"></i></a></li>
-            <li><a href="./datails.html?productId=${product.getId()}"><i class="fa-solid fa-circle-info"></i></a></li>
+            <li><a><i class="fa-solid fa-cart-shopping addToCart "></i></a></li>
+            <li><a><i class="fa-regular fa-heart "></i></a></li>
+            <li><a href="./datails.html?productId=${product.getId()}"><i class="fa-solid fa-circle-info "></i></a></li>
           </ul>
         </div>
         <div class="info p-2">
           <div>
-            <span>${product.getCategory()}</span>
+            <span id='productCategory'>${product.getCategory()}</span>
             <span class="star text-warning ms-4">
               ${"★".repeat(Math.floor(product.getRating()))}
               ${product.getRating() % 1 ? "☆" : ""}
             </span>
           </div>
-          <p class="h5">${product.getProductName()}</p>
-          <span>${product.getPrice()}$</span>
+          <p class="h5" id='productItem'>${product.getProductName()}</p>
+          <span id="price">${product.getPrice()}$</span>
         </div>
-        <button class="addToCart" data-id="${product.getId()}">Add To Cart</button>
+        <button class="addToCart"  data-id="${product.getId()}">Add To Cart</button>
       </div>
     `;
 
@@ -160,3 +119,46 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+
+  document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('addToCart')) {
+      const button = e.target;
+      const card = button.closest('.card');
+      const img = card.querySelector('img');
+      const productId = button.dataset.id;
+      const category = card.querySelector('#productCategory').textContent;
+      const productItem = card.querySelector('#productItem').textContent;
+      const price = card.querySelector('#price').textContent;
+  
+      const product = {
+        id: productId,
+        img: img.src,
+        name: productItem,
+        category,
+        price: parseInt(price.replace(/\D/g, '')),
+         quantity: 1
+      };
+  
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  
+      console.log("Before adding:", cart); 
+  
+      const existingProduct = cart.find(item => item.id === productId);
+      if (existingProduct) {
+        existingProduct.quantity += 1; 
+      } else {
+        cart.push(product); 
+      }
+  
+      localStorage.setItem('cart', JSON.stringify(cart));
+  
+      console.log("After adding:", cart); 
+  
+      showToast('Product added successfully to cart');
+    }
+  });
+  
+
+ 
+  
