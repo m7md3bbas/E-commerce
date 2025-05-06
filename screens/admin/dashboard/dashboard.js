@@ -71,34 +71,33 @@ let arr = [
     cardName: "Total Orders",
     cardValue: "0.000",
     cardIcon: "fa-solid fa-shopping-cart",
-    color: "bg-primary",
+    color: "primary",
   },
   {
     cardName: "Total Revenue",
     cardValue: "0.000",
     cardIcon: "fa-solid fa-dollar-sign",
-    color: "bg-success",
+    color: "success",
   },
   {
     cardName: "Total Customers",
     cardValue: `${customers}`,
     cardIcon: "fa-solid fa-users",
-    color: "bg-warning",
+    color: "warning",
   },
   {
     cardName: "Total Products",
     cardValue: `${products.length}`,
     cardIcon: "fa-solid fa-box",
-    color: "bg-info",
+    color: "info",
   },
 ];
-
 
 arr.forEach((item) => {
   console.log(item.cardName);
   $("#cards-container").append(`
-        <div class="col-12 col-md-6 col-lg-3 mt-2 ">
-                <div class="card dashboard-card ${item.color}-subtle text-primary border p-3 shadow">
+        <div class="col-12 col-md-6 col-lg-3 mt-2">
+                <div class="card dashboard-card  border p-4 shadow  text-${item.color}" style="color:#715831">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
                             <p class="h6">${item.cardName}</p>

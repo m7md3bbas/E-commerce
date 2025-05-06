@@ -23,7 +23,7 @@
             margin: 0px;
         }
         .card_graph:hover{
-            transform: scale(1.06);
+            transform: scale(1.04);
             transition: 0.5s;
         }
 
@@ -31,7 +31,7 @@
             transform: scale(1.05);
             transition: 0.3s;
             border: 1px solid black !important;
-            box-shadow: rgb(73, 215, 73) 2px 2px 40px !important;
+            box-shadow: #715831 2px 2px 40px !important;
         }
         body::-webkit-scrollbar {
             display: none;
@@ -116,69 +116,105 @@
 
 <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
 
-    <section class="col-12 p-5 bg-info-subtle mb-5 shadow" style="margin-top: 80px;border-radius: 10px; border: 2px solid black;">
-        <h1 class="text-capitalize text-center mb-5">Customers Graph</h1>
+    <section class="col-12  mb-5" style="margin-top: 80px;border-radius: 10px;">
+        <h1 class="text-capitalize text-center mb-5 fa-bol text" style="color: #bd924c;text-shadow: 1px 1px 2px #e1ae5b;">Salles Graph</h1>
+
         <div class="d-md-flex flex-row justify-content-between ">
-            <div class="col-12 col-md-6">
-                <div class="card col-11 shadow-sm m-auto card_graph">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Products Graph For last seven month</h5>
-                        <div class="col-12" style="height: 300px;"><canvas id="pieChart4" class="m-2"></canvas></div>
-                    </div>
+
+            
+            <div class="col-12 col-md-6 p-2">
+                <div class="card_graph shadow ">
+                    <div class=" col-12 shadow-sm">
+                        <div class="card-body  m-0 p-0">
+                            <div class="text-center text-white mb-0 fw-bold d-flex flex-column justify-content-center "
+                            style="background-color:#e1ae5b; height: 4rem;border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                                <h5><i class="fas fa-chart-bar me-2"></i>Products Graph For last seven month</h5>
+                            </div>
+                            <div class="d-flex flex-row justify-content-center">
+                                <div class="col-12"><canvas id="pieChart4" class="m-2"></canvas></div>
+                            </div>
+                        </div>
+                    </div> 
                 </div>
             </div>
 
-            <div class="col-12 col-md-6">
-                <div class="card col-11 shadow-sm m-auto card_graph" style="">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Best salles in places</h5>
-                        <div class="col-12" style="height: 300px;"><canvas id="pieChart5" class="m-2"></canvas></div>
-                    </div>
+            <div class="col-12 col-md-6 p-2">
+                <div class="card_graph shadow ">
+                    <div class=" col-12 shadow-sm">
+                        <div class="card-body  m-0 p-0">
+                            <div class="text-center text-white mb-0 fw-bold d-flex flex-column justify-content-center "
+                            style="background-color:#e1ae5b; height: 4rem;border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                                <h5><i class="fas fa-chart-bar me-2"></i>Best salles in places</h5>
+                            </div>
+                            <div class="d-flex flex-row justify-content-center">
+                                <div class="col-12"><canvas id="pieChart5" class="m-2"></canvas></div>
+                            </div>
+                        </div>
+                    </div> 
                 </div>
             </div>
-        </div>
 
     </section>
 
 <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
-    <section  id="users_analyze" class="col-12 p-4 bg-warning-subtle mb-5 shadow" style="margin-top: 80px;border-radius: 10px; border: 2px solid black;">
-        <h1 class="text-capitalize text-center mb-5">Customers Graph</h1>
+    <section  id="users_analyze" class="col-12 p-4  mb-5" style="margin-top: 80px;border-radius: 10px;">
+        <h1 class="text-capitalize text-center mb-5 fa-bol text" style="color: #bd924c;text-shadow: 1px 1px 2px #e1ae5b;">Customers Graph</h1>
         <div class="d-md-flex flex-row justify-content-evenly">
             
             <div class="col-12 col-md-4 p-2">
-                <div class="card_graph ">
-                    <div class="card col-12 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">Customer Gender Graph</h5>
-                            <div class="col-12" style="height: 300px;"><canvas id="pieChart" class="m-2"></canvas></div>
+                <div class="card_graph shadow ">
+                    <div class=" col-12 shadow-sm">
+                        <div class="card-body  m-0 p-0">
+                            <div class="text-center text-white mb-0 fw-bold d-flex flex-column justify-content-center "
+                            style="background-color:#e1ae5b; height: 4rem;border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                                <h5><i class="fas fa-chart-bar me-2"></i>Customer Gender Distribution</h5>
+                            </div>
+                            <div class="d-flex flex-row justify-content-center">
+                                <div class="col-12"><canvas id="pieChart" class="m-2"></canvas></div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+
+
+
+            <div class="col-12 col-md-4 p-2">
+                <div class="card_graph shadow">
+                    <div class=" col-12 shadow-sm">
+                        <div class="card-body  m-0 p-0">
+                            <div class="text-center text-white mb-0 fw-bold d-flex flex-column justify-content-center "
+                            style="background-color:#e1ae5b; height: 4rem;border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                                <h5><i class="fas fa-chart-bar me-2"></i>Age Distribution</h5>
+                            </div>
+                            <div class="d-flex flex-row justify-content-center">
+                                <div class="col-12"><canvas id="pieChart2" class="m-2"></canvas></div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+
+
+            
+
+            <div class="col-12 col-md-4 p-2">
+                <div class="card_graph shadow">
+                    <div class=" col-12 shadow-sm">
+                        <div class="card-body  m-0 p-0">
+                            <div class="text-center text-white mb-0 fw-bold d-flex flex-column justify-content-center "
+                            style="background-color:#e1ae5b; height: 4rem;border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                                <h5><i class="fas fa-share-alt me-2"></i>Social Media Sources</h5>
+                            </div>
+                            <div class="d-flex flex-row justify-content-center">
+                                <div class="col-12"><canvas id="pieChart3" class="m-2"></canvas></div>
+                            </div>
                         </div>
                     </div> 
                 </div>
             </div>
 
             
-
-            <div class="col-12 col-md-4 p-2">
-                <div class="card_graph ">
-                    <div class="card col-12 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">Ages Graph</h5>
-                            <div class="col-12" style="height: 300px;"><canvas id="pieChart2" class="m-2"></canvas></div>
-                        </div>
-                    </div> 
-                </div>
-            </div>
-
-            <div class="col-12 col-md-4 p-2">
-                <div class="card_graph ">
-                    <div class="card col-12 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">Social Graph</h5>
-                            <div class="col-12" style="height: 300px;"><canvas id="pieChart3" class="m-2"></canvas></div>
-                        </div>
-                    </div> 
-                </div>
-            </div>
 
             
         </div>
