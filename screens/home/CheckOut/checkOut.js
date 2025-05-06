@@ -18,9 +18,9 @@ window.addEventListener('load', function () {
     cardDetails.forEach(item => {
       viewProduct.innerHTML += `
         <div class="col-4">
-          <div class='border border-2 main-border text-center mb-3'>
-            <img src="${item.img}" style="width:100px;" alt="Product Image">
-            <h6 class='main-color'>Price: ${item.unitPrice}</h6>
+          <div class='border border-2 main-border text-center mb-3' >
+            <img src="${item.img}" class='w-100' alt="Product Image">
+            <h6 class='main-color pt-3'>Price: ${item.unitPrice}</h6>
           </div>
         </div>
       `;
@@ -77,12 +77,7 @@ function addressValidation() {
       apartmentErrorMsg.textContent = '';
     }
 
-    if (!cityInput.value.trim()) {
-      cityErrorMsg.textContent = "City is required.";
-      isValid = false;
-    } else {
-      cityErrorMsg.textContent = '';
-    }
+   
 
     let regex = /^01[0125][0-9]{8}$/;
     if (phoneInput.value.trim() === '') {
@@ -104,11 +99,12 @@ function addressValidation() {
 
 // Add space after every 4 digits in card number
 const cardNumberInput = document.getElementById('cardNumber');
-
-cardNumberInput.addEventListener('input', function (e) {
-  let value = e.target.value.replace(/\D/g, '').slice(0, 16);
-  e.target.value = value.replace(/(.{4})/g, '$1 ').trim();
-});
+if (cardNumberInput) {
+  cardNumberInput.addEventListener('input', function (e) {
+    let value = e.target.value.replace(/\D/g, '').slice(0, 16);
+    e.target.value = value.replace(/(.{4})/g, '$1 ').trim();
+  });
+}
 
 // Submit payment method selection
 function submitPayment() {
@@ -120,7 +116,8 @@ function submitPayment() {
     cardDetails.style.display = 'block';
   } else {
     cardDetails.style.display = 'none';
-    alert("Cash on Delivery Selected");
+    alert("Cash on Delivery Selected , Wish see you again .....");
+    window.location.href='./thankYou.html'
   }
 }
 
@@ -184,7 +181,15 @@ function validationCardData() {
   }
 
   if (isValid) {
-    alert("Card details are valid!");
-     window.location.href='../Home_Page/index.html';
+    // alert("Thanks, Wish see you again .....");
+     window.location.href='./thankYou.html';
   }
+}
+
+
+const backBtn = document.querySelector('#backToHome');
+if (backBtn) {
+  backBtn.addEventListener('click', function() {
+    window.location.href = '../Home_Page/index.html';
+  });
 }

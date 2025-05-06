@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
   $("#owl-demo").owlCarousel({
-    autoPlay: 500, //Set AutoPlay to 3 seconds
+    autoPlay: 500, 
 
     items: 4,
     itemsDesktop: [1199, 3],
@@ -24,30 +24,55 @@ document.querySelectorAll('.addToCart').forEach(button => {
     const productItem = card.querySelector('#productItem').textContent;
     const price = card.querySelector('#price').textContent;
 
-    const item = `
-      <div class="col-md-4 col-lg-3">
-        <div class="card m-2 product">
-          <img src="${img.src}" class="card-img-top" alt="productImg">
-          <div class="card-body">
-            <h2 class="main-color">${category}</h2>
-            <p>${productItem}</p>
-            <h4>Price: <span class="text-secondary price">${price}</span></h4>
-            <h5>Total Price: <span class="text-secondary total-price">2000 EGP</span></h5>
-            <hr>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-light text-black border">-</button>
-                <button type="button" class="btn btn-outline-light text-black border">3</button>
-                <button type="button" class="btn btn-outline-light text-black border">+</button>
-              </div>
-              <div>
-                <i class="close-btn fa-solid fa-trash cursor-pointer fa-lg ms-auto"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+    // const item = `
+    //   <div class="col-md-4 col-lg-3">
+    //     <div class="card m-2 product">
+    //       <img src="${img.src}" class="card-img-top " alt="productImg">
+    //       <div class="card-body">
+    //         <h2 class="main-color">${category}</h2>
+    //         <p>${productItem}</p>
+    //         <h4>Price: <span class="text-secondary price">${price}</span></h4>
+    //         <h5>Total Price: <span class="text-secondary total-price">2000 EGP</span></h5>
+    //         <hr>
+    //         <div class="d-flex justify-content-between align-items-center">
+    //           <div class="btn-group" role="group">
+    //             <button type="button" class="btn btn-outline-light text-black border">-</button>
+    //             <button type="button" class="btn btn-outline-light text-black border">3</button>
+    //             <button type="button" class="btn btn-outline-light text-black border">+</button>
+    //           </div>
+    //           <div>
+    //             <i class="close-btn fa-solid fa-trash cursor-pointer fa-lg ms-auto"></i>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // `;
+    const item =`
+    <div class="col-md-4 col-lg-3 mb-4">
+  <div class="card h-100 product" style="display: flex; flex-direction: column;">
+    <div style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+      <img src="${img.src}" class="card-img-top img-fluid" alt="productImg" style="object-fit: contain; max-height: 100%; width: auto;">
+    </div>
+    <div class="card-body d-flex flex-column" style="flex-grow: 1;">
+      <div style="margin-bottom: auto;">
+        <h5 class="main-color text-truncate">${category}</h5>
+        <p class="text-truncate">${productItem}</p>
+        <h6>Price: <span class="text-secondary price">${price}</span></h6>
+        <h6>Total: <span class="text-secondary total-price">2000 EGP</span></h6>
       </div>
-    `;
+      <hr class="w-100">
+      <div class="d-flex justify-content-between align-items-center mt-auto">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-outline-secondary">-</button>
+          <button type="button" class="btn btn-outline-dark disabled">3</button>
+          <button type="button" class="btn btn-outline-secondary">+</button>
+        </div>
+        <i class="close-btn fa-solid fa-trash cursor-pointer text-danger"></i>
+      </div>
+    </div>
+  </div>
+</div>`
 
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -68,8 +93,8 @@ const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".nav-link");
 
 const observerOptions = {
-    root: null, // يراقب ضمن نافذة العرض
-    threshold: 0.5 // يظهر عندما يكون 50% من العنصر مرئيًا
+    root: null, 
+    threshold: 0.5 
 };
 
 const observer = new IntersectionObserver((entries) => {

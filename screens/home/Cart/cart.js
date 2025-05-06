@@ -77,7 +77,7 @@ function initProduct(product) {
     updateTotal();
   });
 
-  closeBtn.addEventListener('click', function () {
+  closeBtn.addEventListener('click', function (e) {
     const wrapper = product.closest('.col-md-4, .col-lg-3');
     if (wrapper) {
       wrapper.remove();
@@ -95,7 +95,7 @@ function initProduct(product) {
 
       const remainingProducts = document.querySelectorAll('.product');
       if (remainingProducts.length === 0) {
-        document.getElementById('cart').innerHTML = `<p class="alert alert-warning text-center">No Product in Your Cart</p>`;
+        document.getElementById('cart').innerHTML = `<h2 class="alert alert-warning text-center ">No Product in Your Cart</h2>`;
       }
     }
   });
