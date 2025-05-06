@@ -1,15 +1,15 @@
 import {
   getProducts
-} from "./../../../projectModules/productModule.js"; 
+} from "../../../../projectModules/productModule.js"; 
 
-$(document).ready(function () {
-  $("#owl-demo").owlCarousel({
-    autoPlay: 500,
-    items: 4,
-    itemsDesktop: [1199, 3],
-    itemsDesktopSmall: [979, 3],
-  });
-});
+// $(document).ready(function () {
+//   $("#owl-demo").owlCarousel({
+//     autoPlay: 500,
+//     items: 4,
+//     itemsDesktop: [1199, 3],
+//     itemsDesktopSmall: [979, 3],
+//   });
+// });
 
 
 
@@ -17,8 +17,6 @@ $(".cartHome").click(function () {
   $(this).css('cursor','pointer')
   window.location.href = '../Cart/cart.html'
 });
-
-
 
 
 document.querySelectorAll('.addToCart').forEach(button => {
@@ -117,40 +115,48 @@ document.addEventListener("DOMContentLoaded", function () {
 /***************************************************************** */
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  const catalogContainer = document.querySelector(".cards");
+  const products = getProducts(); // الحصول على المنتجات
 
-// document.addEventListener("DOMContentLoaded", () => {
-//   const catalogContainer = document.querySelector(".cards"); 
-//   const products = getProducts(); 
+  products.forEach((product) => {
+    const productCard = document.createElement("div");
+    productCard.classList.add("col-xl-3", "col-lg-4", "col-sm-6", "col-6");
 
-//   products.forEach((product) => {
-//     const productCard = document.createElement("div");
-//     productCard.classList.add("col-xl-3", "col-lg-4", "col-sm-6", "col-6");
+    productCard.innerHTML = `
+      <div class="card">
+        <img src="${product.getImages()[0]}" alt="${product.getProductName()}" width="100%" class="details" data-id="${product.getId()}">
+        <div class="links">
+          <ul>
+            <li><a><i class="fa-solid fa-cart-shopping"></i></a></li>
+            <li><a><i class="fa-regular fa-heart"></i></a></li>
+            <li><a href="./details.html?productId=${product.getId()}"><i class="fa-solid fa-circle-info"></i></a></li>
+          </ul>
+        </div>
+        <div class="info p-2">
+          <div>
+            <span>${product.getCategory()}</span>
+            <span class="star text-warning ms-4">
+              ${"★".repeat(Math.floor(product.getRating()))}
+              ${product.getRating() % 1 ? "☆" : ""}
+            </span>
+          </div>
+          <p class="h5">${product.getProductName()}</p>
+          <span>${product.getPrice()}$</span>
+        </div>
+        <button class="addToCart" data-id="${product.getId()}">Add To Cart</button>
+      </div>
+    `;
 
-//     productCard.innerHTML = `
-//       <div class="card">
-//         <img src="${product.getImages()[0]}" alt="${product.getProductName()}" width="100%">
-//         <div class="links">
-//           <ul>
-//             <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
-//             <li><a href="#"><i class="fa-regular fa-heart"></i></a></li>
-//             <li><a href="#"><i class="fa-solid fa-circle-info"></i></a></li>
-//           </ul>
-//         </div>
-//         <div class="info p-2">
-//           <div>
-//             <span>${product.getCategory()}</span>
-//             <span class="star text-warning ms-4">
-//               ${"★".repeat(Math.floor(product.getRating()))}
-//               ${product.getRating() % 1 ? "☆" : ""}
-//             </span>
-//           </div>
-//           <p class="h5">${product.getProductName()}</p>
-//           <span>${product.getPrice()}$</span>
-//         </div>
-//         <button class="addToCart" data-id="${product.getId()}">Add To Cart</button>
-//       </div>
-//     `;
+    catalogContainer.appendChild(productCard);
+  });
 
-//     catalogContainer.appendChild(productCard);
-//   });
-// });
+  // Delegate click event to .details images
+  catalogContainer.addEventListener("click", (e) => {
+    if (e.target.classList.contains("details")) {
+      const productId = e.target.dataset.id;
+      window.location.href = `./datails.html?productId=${productId}`; // إضافة معرّف المنتج للرابط
+      console.log("Navigating to details page with productId: ", productId);
+    }
+  });
+});
