@@ -1,4 +1,6 @@
-
+import {
+  getProducts,
+} from "./../../../../projectModules/productModule"; 
 $(document).ready(function () {
   $("#owl-demo").owlCarousel({
     autoPlay: 500,
@@ -117,3 +119,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  const catalogContainer = document.querySelector(".cards"); 
+  const products = getProducts(); 
+
+  products.forEach((product) => {
+    const productCard = document.createElement("div");
+    productCard.classList.add("col-xl-3", "col-lg-4", "col-sm-6", "col-6");
+
+    productCard.innerHTML = `
+      <div class="card">
+        <img src="${product.getImages()[0]}" alt="${product.getProductName()}" width="100%">
+        <div class="links">
+          <ul>
+            <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
+            <li><a href="#"><i class="fa-regular fa-heart"></i></a></li>
+            <li><a href="#"><i class="fa-solid fa-circle-info"></i></a></li>
+          </ul>
+        </div>
+        <div class="info p-2">
+          <div>
+            <span>${product.getCategory()}</span>
+            <span class="star text-warning ms-4">
+              ${"★".repeat(Math.floor(product.getRating()))}
+              ${product.getRating() % 1 ? "☆" : ""}
+            </span>
+          </div>
+          <p class="h5">${product.getProductName()}</p>
+          <span>${product.getPrice()}$</span>
+        </div>
+        <button class="addToCart" data-id="${product.getId()}">Add To Cart</button>
+      </div>
+    `;
+
+    catalogContainer.appendChild(productCard);
+  });
+});
