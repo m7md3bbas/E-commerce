@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     productCard.innerHTML = `
       <div class="card">
-        <img src="${product.getImages()[0]}" alt="${product.getProductName()}" width="100%" class="details" data-id="${product.getId()}">
+        <img src="${product.getImages()[0]}" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
         <div class="links">
           <ul>
             <li><a><i class="fa-solid fa-cart-shopping"></i></a></li>
