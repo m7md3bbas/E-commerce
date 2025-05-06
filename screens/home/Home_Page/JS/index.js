@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <ul>
             <li><a><i class="fa-solid fa-cart-shopping"></i></a></li>
             <li><a><i class="fa-regular fa-heart"></i></a></li>
-            <li><a href="./details.html?productId=${product.getId()}"><i class="fa-solid fa-circle-info"></i></a></li>
+            <li><a href="./datails.html?productId=${product.getId()}"><i class="fa-solid fa-circle-info"></i></a></li>
           </ul>
         </div>
         <div class="info p-2">
