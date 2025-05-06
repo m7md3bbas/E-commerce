@@ -7,15 +7,10 @@ import {
 } from "../../../projectModules/productsModule.js";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-let products = await getProducts();
-let product1 = await getProductById("182");
-let seller1 = getProductsBySellerName;
-let seller2 = getProductsBySellerEmail;
+let products = getProducts();
+console.log(getProductById("190"));
 
-// console.log(await getProducts());
-console.log(product1);
-console.log(seller1("Diaa Taha"));
-console.log(seller2("user45@gmail.com"));
+
 
 let users = getUsers();
 let customers = 0;
