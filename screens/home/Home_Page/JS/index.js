@@ -95,15 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="info p-2">
           <div>
             <span id='productCategory'>${product.getCategory()}</span>
-            <span class="star text-warning ms-4">
-              ${"★".repeat(Math.floor(product.getRating()))}
-              ${product.getRating() % 1 ? "☆" : ""}
-            </span>
+           
           </div>
           <p class="h5" style="max-width:1000px">${product.getProductName()}</p>
           <span>${product.getPrice()}$</span>
-          <p class="h5" id='productItem'>${product.getProductName()}</p>
-          <span id="price">${product.getPrice()}$</span>
         </div>
         <button class="addToCart"  data-id="${product.getId()}">Add To Cart</button>
       </div>
