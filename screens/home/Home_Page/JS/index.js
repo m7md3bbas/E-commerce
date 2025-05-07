@@ -1,6 +1,6 @@
 import {
   getProducts
-} from "../../../../projectModules/productModule.js"; 
+} from "../../../../projectModules/productModule.js";
 
 // $(document).ready(function () {
 //   $("#owl-demo").owlCarousel({
@@ -14,7 +14,7 @@ import {
 
 
 $(".cartHome").click(function () {
-  $(this).css('cursor','pointer')
+  $(this).css('cursor', 'pointer')
   window.location.href = '../Cart/cart.html'
 });
 
@@ -87,75 +87,80 @@ document.addEventListener("DOMContentLoaded", () => {
         <img src="${product.getImages()[0]}" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
         <div class="links">
           <ul>
-            <li><a><i class="fa-solid fa-cart-shopping addToCart "></i></a></li>
-            <li><a><i class="fa-regular fa-heart "></i></a></li>
-            <li><a href="./datails.html?productId=${product.getId()}"><i class="fa-solid fa-circle-info "></i></a></li>
+            <li><a><i class="fa-solid fa-cart-shopping addToCart"></i></a></li>
+            <li><a><i class="fa-regular fa-heart"></i></a></li>
+            <li><a href="./datails.html?productId=${product.getId()}"><i class="fa-solid fa-circle-info"></i></a></li>
           </ul>
         </div>
         <div class="info p-2">
+         
           <div>
-            <span id='productCategory'>${product.getCategory()}</span>
-           
+           <span id='productCategory'>${product.getCategory()}</span>
+            <span class="star text-warning ms-4">
+              ${"★".repeat(Math.floor(product.getRating()))}
+              ${product.getRating() % 1 ? "☆" : ""}
+            </span>
+
           </div>
-          <p class="h5" style="max-width:1000px">${product.getProductName()}</p>
+          <p class="h5 product-title">${product.getProductName()}</p>
           <span>${product.getPrice()}$</span>
         </div>
-        <button class="addToCart"  data-id="${product.getId()}">Add To Cart</button>
+        <button class="addToCart" data-id="${product.getId()}">Add To Cart</button>
       </div>
     `;
 
     catalogContainer.appendChild(productCard);
   });
 
+
   // Delegate click event to .details images
   catalogContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("details")) {
       const productId = e.target.dataset.id;
       window.location.href = `./datails.html?productId=${productId}`; // إضافة معرّف المنتج للرابط
-      console.log("Navigating to details page with productId: ", productId);
+
     }
   });
 });
 
 
-  document.addEventListener('click', function (e) {
-    if (e.target.classList.contains('addToCart')) {
-      const button = e.target;
-      const card = button.closest('.card');
-      const img = card.querySelector('img');
-      const productId = button.dataset.id;
-      const category = card.querySelector('#productCategory').textContent;
-      const productItem = card.querySelector('#productItem').textContent;
-      const price = card.querySelector('#price').textContent;
-  
-      const product = {
-        id: productId,
-        img: img.src,
-        name: productItem,
-        category,
-        price: parseInt(price.replace(/\D/g, '')),
-         quantity: 1
-      };
-  
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  
-      console.log("Before adding:", cart); 
-  
-      const existingProduct = cart.find(item => item.id === productId);
-      if (existingProduct) {
-        existingProduct.quantity += 1; 
-      } else {
-        cart.push(product); 
-      }
-  
-      localStorage.setItem('cart', JSON.stringify(cart));
-  
-      console.log("After adding:", cart); 
-  
-      showToast('Product added successfully to cart');
-    }
-  });
-  
+document.addEventListener('click', function (e) {
+  if (e.target.classList.contains('addToCart')) {
+    const button = e.target;
+    const card = button.closest('.card');
+    const img = card.querySelector('img');
+    const productId = button.dataset.id;
+    const category = card.querySelector('#productCategory').textContent;
+    const productItem = card.querySelector('#productItem').textContent;
+    const price = card.querySelector('#price').textContent;
 
- 
-  
+    const product = {
+      id: productId,
+      img: img.src,
+      name: productItem,
+      category,
+      price: parseInt(price.replace(/\D/g, '')),
+      quantity: 1
+    };
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    console.log("Before adding:", cart);
+
+    const existingProduct = cart.find(item => item.id === productId);
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    } else {
+      cart.push(product);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    console.log("After adding:", cart);
+
+    showToast('Product added successfully to cart');
+  }
+});
+
+
+

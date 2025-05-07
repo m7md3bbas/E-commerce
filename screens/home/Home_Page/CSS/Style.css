@@ -2,9 +2,11 @@
     scroll-behavior: smooth;
     scroll-padding-top: 5.3868rem;
 }
-.cursor-pointer{
+
+.cursor-pointer {
     cursor: pointer;
 }
+
 img {
     display: block;
 }
@@ -30,7 +32,10 @@ p {
 
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     font-family: "Roboto", sans-serif;
     font-optical-sizing: auto;
 }
@@ -61,10 +66,11 @@ h2::before {
 
 .navbar-nav .nav-link {
     position: relative;
-    
+
 }
 
-.navbar-nav .nav-link.active::before, .navbar-nav .nav-link::before {
+.navbar-nav .nav-link.active::before,
+.navbar-nav .nav-link::before {
     content: "";
     width: 40px;
     background-color: #be985a;
@@ -94,7 +100,8 @@ button {
     color: white;
 }
 
-button:hover, .card:hover button {
+button:hover,
+.card:hover button {
 
     background-color: black;
 }
@@ -151,13 +158,15 @@ button:hover, .card:hover button {
 
 /*Catalog Style*/
 
-.catalog img, .ralatedProduct img {
+.catalog img,
+.ralatedProduct img {
     height: 300px !important;
     object-fit: contain;
 
 }
 
-.catalog button, .ralatedProduct button {
+.catalog button,
+.ralatedProduct button {
     border-radius: 0;
 }
 
@@ -270,7 +279,8 @@ textarea {
     color: white !important;
 }
 
-.detail .button button, button {
+.detail .button button,
+button {
     border: none;
     background-color: #be985a;
     padding: 10px 25px;
@@ -280,7 +290,8 @@ textarea {
 
 }
 
-.detail .button button:hover, button:hover {
+.detail .button button:hover,
+button:hover {
     background-color: black;
 }
 
@@ -294,4 +305,12 @@ textarea {
     height: 50px;
     object-fit: contain;
     border-radius: 50%;
+}
+
+
+.product-title {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +11,12 @@
     <link rel="stylesheet" href="./CSS/Style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Righteous&family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Pacifico&family=Righteous&family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
 
 </head>
+
 <body>
 
     <!-- <div class="container">
@@ -248,70 +252,76 @@
     </div>
 </div> -->
 
-<div class="container">
-    <div class="row my-3">
-        <div class="breadcrumb">
-            <!-- الترويسة -->
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-black">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Details Page</li>
-            </ol>
-        </div>
+    <div class="container">
+        <div class="row my-3">
+            <div class="breadcrumb">
+                <!-- الترويسة -->
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-black">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Details Page</li>
+                </ol>
+            </div>
 
-        <div class="detail d-flex flex-wrap justify-content-between">
-            <!-- صورة المنتج -->
-            <div class="image col-xl-4 col-lg-4 col-md-5 col-10 position-relative">
-                <img src="../../../assets/imgs/Home/Images/1680395631938-cover.jpeg" width="100%" class="product-image">
-                <div class="icondetail position-absolute d-flex flex-column top-0 end-0">
-                    <i class="fa-solid fa-arrow-up-from-bracket fs-5 mb-3"></i>
-                    <i class="fa-regular fa-heart fs-5"></i>
+            <div class="detail d-flex flex-wrap justify-content-between">
+                <!-- صورة المنتج -->
+                <div class="image col-xl-4 col-lg-4 col-md-5 col-10 position-relative">
+                    <img src="" width="100%" class="product-image">
+                    <div class="icondetail position-absolute d-flex flex-column top-0 end-0">
+                        <i class="fa-solid fa-arrow-up-from-bracket fs-5 mb-3"></i>
+                        <i class="fa-regular fa-heart fs-5"></i>
+                    </div>
+                </div>
+
+                <!-- تفاصيل المنتج -->
+                <div class="info col-xl-6 col-lg-6 col-md-6 col-12">
+                    <p class="h3 product-name">Logo T-Shirt Green</p>
+                    <div class="rate d-flex flex-wrap justify-content-between">
+                        <p class="h4 product-price"></p>
+                        <p> <span class="text-warning rating"> </span>
+                        </p>
+                    </div>
+                    <hr>
+
+                    <h4>Description</h4>
+                    <p class="product-description text-black-50">Lorem ipsum dolor sit amet consectetur, adipisicing
+                        elit...</p>
+
+                    <div class="size">
+                        <p> <span class="text-black-50">Size:</span> <span class="num">6</span></p>
+                        <button class="text-black">6</button>
+                        <button class="text-black">8</button>
+                        <button class="text-black">10</button>
+                        <button class="text-black">14</button>
+                        <button class="text-black">18</button>
+                        <button class="text-black">20</button>
+                    </div>
+
+                    <div class="button mt-4">
+                        <button class="text-white">Add To Cart</button>
+                        <button class="text-white"> Checkout Now</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- تفاصيل المنتج -->
-            <div class="info col-xl-6 col-lg-6 col-md-6 col-12">
-                <p class="h3 product-name">Logo T-Shirt Green</p>
-                <div class="rate d-flex flex-wrap justify-content-between">
-                    <p><del class="text-black-50">40$</del> <span class="fs-5">30$</span></p>
-                    <p> <span class="text-black-50">1,236 Sold </span><i class="fa-solid fa-star text-warning"></i> 4.5</p>
+            <!-- قسم المنتجات ذات الصلة -->
+
+
+            <div class="related-products mt-5">
+                <p class="h2 mb-2">Related Product</p>
+                <div class="cards row g-4">
+                    <!-- يجب ملء هذه المنتجات بناءً على بياناتك (مثلاً، يمكن استعراض المنتجات الأخرى بناءً على التصنيف أو المعايير الأخرى) -->
                 </div>
-                <hr>
-
-                <h4>Description</h4>
-                <p class="product-description text-black-50">Lorem ipsum dolor sit amet consectetur, adipisicing elit...</p>
-
-                <div class="size">
-                    <p> <span class="text-black-50">Size:</span> <span class="num">6</span></p>
-                    <button class="text-black">6</button>
-                    <button class="text-black">8</button>
-                    <button class="text-black">10</button>
-                    <button class="text-black">14</button>
-                    <button class="text-black">18</button>
-                    <button class="text-black">20</button>
-                </div>
-
-                <div class="button mt-4">
-                    <button class="text-white">Add To Cart</button>
-                    <button class="text-white"> Checkout Now</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- قسم المنتجات ذات الصلة -->
-        <div class="ralatedProduct mt-5">
-            <p class="h2 mb-2">Related Product</p>
-            <div class="cards row g-4">
-                <!-- يجب ملء هذه المنتجات بناءً على بياناتك (مثلاً، يمكن استعراض المنتجات الأخرى بناءً على التصنيف أو المعايير الأخرى) -->
             </div>
         </div>
     </div>
-</div>
 
-<footer class="  p-5 pb-3 bg-light ">
-    <p class="text-center">Copy Right 2018 <span style="color: #be985a;"> ©</span> By Daniels All Rights Reserved</p>
-</footer>
+    <footer class="  p-5 pb-3 bg-light ">
+        <p class="text-center">Copy Right 2018 <span style="color: #be985a;"> ©</span> By Daniels All Rights Reserved
+        </p>
+    </footer>
 
-<script src="../Home_Page/JS/bootstrap.bundle.min.js"></script>
-<script type="module" src="../Home_Page/JS/details.js"></script>
+    <script src="../Home_Page/JS/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../Home_Page/JS/details.js"></script>
 </body>
+
 </html>

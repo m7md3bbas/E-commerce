@@ -1,6 +1,4 @@
 // استيراد الدوال والبيانات من ملف المنتج
-import { getProductById, getProducts } from '../../../../projectModules/productModule.js';
-
 document.addEventListener("DOMContentLoaded", () => {
     // جلب معرّف المنتج من URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -8,35 +6,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (productId) {
         // استعراض المنتج بناءً على الـ productId
-        const product = getProductById(productId);
-        
-        if (product) {
-            // عرض تفاصيل المنتج في الصفحة
-            displayProductDetails(product);
+        //read products from local storage
+        var savedProducts = localStorage.getItem("products");
+        //parse products from local storage 
+        savedProducts = JSON.parse(savedProducts);
+        console.log(savedProducts);
+        console.log(typeof productId);
+        console.log(savedProducts[0]["id"]);
+        console.log(savedProducts.length);
+
+        // search for the product in the array of products saved in local storage by productId
+        var selectedProduct = savedProducts.find(product => product.id == productId);
+        console.log("selectedProduct is ");
+        console.log(selectedProduct);
+        console.log(selectedProduct.productName);
+
+
+
+        if (selectedProduct) {
+            // select product-name from details page
+            document.querySelector('.product-name').textContent = selectedProduct.productName;
+            // select product-image from details page
+            document.querySelector('.product-image').src = selectedProduct.images[0];
+            // select product-description from details page
+            document.querySelector('.product-description').textContent = selectedProduct.description;
+            // select price from details page
+            document.querySelector('.product-price').textContent = `$${selectedProduct.price}`;
+            // select rating from details page
+            document.querySelector('.rating').innerHTML = generateRatingStars(selectedProduct.rating);
+            // select seller-info from details page
+            // document.querySelector('.seller-info').textContent = `Sold by: ${selectedProduct.seller}`;
+            // select product-category from details page
+            // document.querySelector('.product-category').textContent = `Category: ${selectedProduct.category}`;
+            // show related products 
+            displayRelatedProducts(selectedProduct.category, selectedProduct.id);
         } else {
+            console.log(urlParams);
+            console.log(productId);
             console.error('Product not found!');
         }
 
-        // عرض المنتجات ذات الصلة بناءً على التصنيف
-        displayRelatedProducts(product?.getCategory());
+        // displayRelatedProducts(selectedProduct?.getCategory());
     } else {
         console.error('Product ID not found!');
     }
 });
 
-// دالة لعرض تفاصيل المنتج في الصفحة
-function displayProductDetails(product) {
-    // تحديد العناصر في الصفحة
-    document.querySelector('.product-name').textContent = product.getProductName();
-    document.querySelector('.product-image').src = product.getImages()[0]; // عرض أول صورة من الصور
-    document.querySelector('.product-description').textContent = product.getDescription();
-    document.querySelector('.price').textContent = `$${product.getPrice()}`;
-    document.querySelector('.rating').innerHTML = generateRatingStars(product.getRating());
-    
-    // يمكن إضافة تفاصيل أخرى مثل المراجعات والمزيد
-    document.querySelector('.seller-info').textContent = `Sold by: ${product.getSeller()}`;
-    document.querySelector('.product-category').textContent = `Category: ${product.getCategory()}`;
-}
+
 
 // دالة لتوليد النجوم بناءً على التقييم
 function generateRatingStars(rating) {
@@ -50,26 +66,33 @@ function generateRatingStars(rating) {
     return stars;
 }
 
-// دالة لعرض المنتجات ذات الصلة
-function displayRelatedProducts(category) {
-    const relatedProducts = getProducts().filter(product => product.getCategory() === category);
-    
-    const relatedProductContainer = document.querySelector('.related-products');
-    relatedProductContainer.innerHTML = ''; // مسح المنتجات السابقة
 
-    relatedProducts.forEach(product => {
+function displayRelatedProducts(category, currentProductId) {
+    const allProducts = JSON.parse(localStorage.getItem("products")) || [];
+
+    // تصفية المنتجات اللي من نفس الكاتيجوري وباستثناء المنتج المعروض
+    const related = allProducts.filter(
+        product => product.category === category && product.id !== currentProductId
+    );
+
+    const relatedContainer = document.querySelector('.related-products');
+
+    if (related.length === 0) {
+        relatedContainer.innerHTML = '<p>No related products found.</p>';
+        return;
+    }
+
+    related.forEach(product => {
         const productCard = document.createElement('div');
-        productCard.classList.add('col-xl-3', 'col-lg-4', 'col-md-4', 'col-sm-6', 'col-6');
+        productCard.className = 'product-card';
+
         productCard.innerHTML = `
-            <div class="card">
-                <img src="${product.getImages()[0]}" alt="${product.getProductName()}" width="100%">
-                <div class="info p-2">
-                    <p class="h5">${product.getProductName()}</p>
-                    <span>${product.getPrice()}$</span>
-                </div>
-                <button>Add To Cart</button>
-            </div>
+            <img src="${product.images[0]}" alt="${product.productName}" class="related-image" />
+            <h4 class="related-name">${product.productName}</h4>
+            <p class="related-price">$${product.price}</p>
+            <a href="product-details.html?productId=${product.id}" class="view-details">View Details</a>
         `;
-        relatedProductContainer.appendChild(productCard);
+
+        relatedContainer.appendChild(productCard);
     });
 }
