@@ -21,10 +21,10 @@ addEventListener("load", function () {
             const input = document.getElementById(icon.dataset.target);
             if (input.type === "password") {
                 input.type = "text";
-                icon.textContent = "🙈";
+                icon.innerHTML = '<i class="fa-solid fs-5 fa-eye-slash"></i>';
             } else {
                 input.type = "password";
-                icon.textContent = "👁️";
+                icon.innerHTML = '<i class="fa-solid fs-5 fa-eye"></i>';
             }
         });
     });
@@ -32,16 +32,17 @@ addEventListener("load", function () {
     isSeller.addEventListener("change", () => {
         type = isSeller.checked ? "seller" : "user";
     });
-    console.log(type);
 
     signupForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
+        
         if (!signupForm.checkValidity()) {
             signupForm.classList.add("was-validated");
             return;
         }
 
+        if(email.value.includes("@gmail.com"))
         if (password.value !== confirmPassword.value) {
             alert("Passwords do not match.");
             return;

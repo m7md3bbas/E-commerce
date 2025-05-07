@@ -162,5 +162,88 @@ document.addEventListener('click', function (e) {
   }
 });
 
+////////////////////////////////////////////////////////
+//search bar
+const searchIcon = document.querySelector('.fa-magnifying-glass');
+const searchContainer = document.getElementById('search-container');
+const searchInput = document.getElementById('search-input');
+const searchResults = document.getElementById('search-results');
+
+const items = getProducts().map(product => ({
+  name: product.getProductName(),
+  image: product.getImages()[0],
+  price: `${product.getPrice()}$`,
+  id: product.getId()
+}));
+
+
+searchIcon.addEventListener('click', () => {
+  if (searchContainer.style.display === 'none' || searchContainer.style.display === '') {
+    searchContainer.style.display = 'block';
+    searchContainer.style.opacity = '0';
+    searchContainer.style.transition = 'opacity 0.5s ease-in-out';
+    setTimeout(() => {
+      searchContainer.style.opacity = '1';
+    }, 0);
+    searchInput.focus();
+  } else {
+    searchContainer.style.opacity = '0';
+    setTimeout(() => {
+      searchContainer.style.display = 'none';
+      searchResults.innerHTML = '';
+      searchInput.value = '';
+    }, 500);
+  }
+});
+
+document.addEventListener('click', function (e) {
+  const isClickInside = searchContainer.contains(e.target) || searchIcon.contains(e.target);
+
+  if (!isClickInside) {
+    searchContainer.style.opacity = '0';
+    setTimeout(() => {
+      searchContainer.style.display = 'none';
+      searchResults.innerHTML = '';
+      searchInput.value = '';
+    }, 500);
+  }
+});
+
+
+searchInput.addEventListener('input', () => {
+  const query = searchInput.value.toLowerCase();
+  searchResults.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>'; // Show loading indicator
+
+  setTimeout(() => {
+    const filtered = items.filter(item => item.name.toLowerCase().includes(query));
+    renderResults(filtered);
+  }, 2000); 
+});
+
+function renderResults(results) {
+  searchResults.innerHTML = '';
+  if (results.length === 0) {
+    searchResults.innerHTML = '<p class="text-muted">No results found.</p>';
+    return;
+  }
+
+  results.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'search-item d-flex align-items-center p-2 border-bottom cursor-pointer';
+    div.innerHTML = `
+      <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+      <div>
+        <h6 class="mb-1">${item.name}</h6>
+        <p class="mb-0 text-muted">${item.price}</p>
+
+      </div>
+    `;
+    div.addEventListener('click', () => {
+      window.location.href = `./datails.html?productId=${item.id}`;
+    });
+    searchResults.appendChild(div);
+  });
+}
+
 
 

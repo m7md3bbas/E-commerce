@@ -89,7 +89,9 @@ h2::before {
 }
 
 
-
+#navbarNavDropdown>ul>li :hover {
+    color: #be985a;
+}
 
 button {
     background-color: #be985a;
@@ -313,4 +315,42 @@ button:hover {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.search-container {
+    position: fixed;
+    top: 70px;
+    width: 100%;
+    z-index: 999;
+    transition: all 0.4s ease-in-out;
+}
+
+.search-results {
+    max-height: 300px;
+    overflow-y: auto;
+
+}
+
+.search-results::-webkit-scrollbar {
+    display: none;
+}
+
+.search-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.search-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.search-item h6,
+.search-item p {
+    margin: 0;
 }
