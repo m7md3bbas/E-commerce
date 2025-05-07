@@ -100,13 +100,10 @@ document.addEventListener("DOMContentLoaded", () => {
               ${product.getRating() % 1 ? "☆" : ""}
             </span>
           </div>
-<<<<<<< HEAD
           <p class="h5" style="max-width:1000px">${product.getProductName()}</p>
           <span>${product.getPrice()}$</span>
-=======
           <p class="h5" id='productItem'>${product.getProductName()}</p>
           <span id="price">${product.getPrice()}$</span>
->>>>>>> c8ed019f2d076dd25ae5ae759ec29763058c5e71
         </div>
         <button class="addToCart"  data-id="${product.getId()}">Add To Cart</button>
       </div>
