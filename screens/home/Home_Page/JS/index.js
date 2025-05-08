@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
         <div class="links">
           <ul>
-            <li><a><i class="fa-solid fa-cart-shopping addToCart"></i></a></li>
+            <li><a><i class="fa-solid fa-cart-shopping addToCart" data-id="${product.getId()}"></i></a></li>
             <li><a><i class="fa-regular fa-heart"></i></a></li>
             <li><a href="./datails.html?productId=${product.getId()}"><i class="fa-solid fa-circle-info"></i></a></li>
           </ul>
@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <p class="h5 product-title" id='productItem'>${product.getProductName()}</p>
           <span id='price'>${product.getPrice()}$</span>
+          <p class="stock-label ">InStock:<span> ${product.getStock()}</span></p>
         </div>
         <button class="addToCart" data-id="${product.getId()}">Add To Cart</button>
       </div>
@@ -150,7 +151,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("addToCart")) {
-  
+    
+    
     const button = e.target;
     const card = button.closest(".card");
     const img = card.querySelector("img");
@@ -167,21 +169,48 @@ document.addEventListener("click", function (e) {
       price: parseInt(price.replace(/\D/g, "")),
       quantity: 1,
     };
- 
-     
-
-   if(getProductById(product.id).getStock() >0){
+    
               
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    console.log(cart);
+    
 
     console.log("Before adding:", cart);
 
+
+
+    var realProduct = getProductById(productId);  
+
     const existingProduct = cart.find((item) => item.id === productId);
-    if (existingProduct) {
-      existingProduct.quantity += 1;
-    } else {
-      cart.push(product);
-    }
+
+if (existingProduct) {
+  if (existingProduct.quantity < realProduct.getStock()) {
+    existingProduct.quantity += 1;
+   
+  } else {
+    alert("Stock limit reached.");
+    return;
+  }
+} else {
+  console.log(productId);
+  console.log(realProduct);
+  
+
+  if (realProduct.getStock() > 0) {
+    const newProduct = {
+      id: productId,
+      img: img.src,
+      name: productItem,
+      category,
+      price,
+      quantity: 1,
+    };
+    cart.push(newProduct);
+  } else {
+    alert("Stock is empty.");
+    return;
+  }
+}
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
@@ -191,7 +220,7 @@ document.addEventListener("click", function (e) {
    }
 
   }
-});
+);
 
 ////////////////////////////////////////////////////////
 //search bar
