@@ -52,7 +52,6 @@ class Product {
     return this.#productName;
   }
   setProductName(name) {
-    console.log("name");
     if (typeof name !== "string" || name.trim() === "") {
       throw new Error("Product name must be a non-empty string.");
     }
@@ -262,9 +261,12 @@ export const getProductById = (id) =>
   products.find((p) => p.getId() === id) || null;
 
 export const deleteProduct = (id) => {
-  const index = products.findIndex((p) => p.getId() === id);
+  const index = products.findIndex(
+    (p) => p.getId().toString() === id.toString()
+  );
   if (index !== -1) {
     const deleted = products.splice(index, 1)[0];
+    console.log(products);
     saveProductsToStorage();
     return deleted;
   }

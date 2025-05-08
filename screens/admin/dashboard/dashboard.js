@@ -94,7 +94,7 @@ let arr = [
 ];
 
 arr.forEach((item) => {
-  console.log(item.cardName);
+  // console.log(item.cardName);
   $("#cards-container").append(`
         <div class="col-12 col-md-6 col-lg-3 mt-2">
                 <div class="card dashboard-card  border p-4 shadow  text-${item.color}" style="color:#715831">

@@ -195,7 +195,9 @@ export const getUsers = () => {
 
 export const getUserByID = (id) => {
   loadFromLocalStorage();
-  return users.find((user) => user.getId() === id) || null;
+  return (
+    users.find((user) => user.getId().toString() === id.toString()) || null
+  );
 };
 
 export const getUserByEmail = (email) => {

@@ -1,8 +1,12 @@
+import { getProducts } from "../../../projectModules/productModule.js";
 import {
   pushUser,
   getUsers,
   deleteUser,
+  getUserByID,
   deleteLastUser,
+  getUserByEmail,
+  updateUser,
 } from "../../../projectModules/usersModule.js";
 
 let arr = getUsers();
@@ -32,29 +36,43 @@ let arr_seller = [
 arr.forEach((item, index) => {
   if (item.getType() === "user") {
     $("#cards-container").append(`
-        <div class="col-12 col-sm-6 col-xl-3 d-flex justify-content-center itemCard">
+        <div class="col-12 col-sm-6 col-xl-4 d-flex justify-content-center itemCard">
   <div class="card shadow mt-4" style="width: 100%; border-radius: 1rem; overflow: hidden;">
     
     <!-- Image Section -->
-    <img src="../../../assets/imgs/admin/img/default.png" class="card-img-top" alt="Customer" style="height: 200px; object-fit: cover;">
 
     <!-- Info Section -->
     <div class="card-body">
-      <h5 class="card-title fw-bold mb-3">${item.getName()}</h5>
+      <h5 class="card-title fw-bold mb-3">${
+        item.getName() || "Not entered"
+      }</h5>
       <p class="card-text mb-2">
-        <i class="fa-solid fa-envelope me-2 text-primary"></i>${item.getEmail()}
+        <i class="fa-solid fa-envelope me-2 text-primary"></i>${
+          item.getEmail() || "Not entered"
+        }
       </p>
       <p class="card-text mb-2">
-        <i class="fa-solid fa-phone me-2 text-success"></i>${item.getPhone()}
+        <i class="fa-solid fa-phone me-2 text-success"></i>${
+          item.getPhone() || "Not entered"
+        }
       </p>
       <p class="card-text mb-3">
-        <i class="fa-solid fa-location-dot me-2 text-danger"></i>${item.getAddress()}
+        <i class="fa-solid fa-location-dot me-2 text-danger"></i>${
+          item.getAddress() || "Not entered"
+        }
       </p>
     </div>
 
     <!-- Action Button Section -->
-    <div class="card-footer bg-white border-top-0 d-flex justify-content-center pb-3">
-      <button data-id="${item.getId()}" class="btn btn-outline-danger w-75 remove-btn">
+    <div class="card-footer bg-white border-top-0 d-flex justify-content-evenly pb-3">
+    
+    <button data-id="${item.getId()}" class="btn btn-outline-warning col-5 edit-btn-user" data-bs-toggle="modal" data-bs-target="#userModal">
+        <i class="fa-solid fa-pen me-2"></i>Edit
+      </button>
+
+      <button data-id="${
+        item.getId() || "Not entered"
+      }" class="btn btn-outline-danger col-5 remove-btn">
         <i class="fa-solid fa-trash me-2"></i>Remove
       </button>
     </div>
@@ -67,14 +85,14 @@ arr.forEach((item, index) => {
   }
 });
 
+//    <img src="../../../assets/imgs/admin/img/default.png" class="card-img-top" alt="Customer" style="height: 200px; object-fit: cover;">
+
 arr.forEach((item, index) => {
   if (item.getType() === "seller" && index > 0) {
     $("#cards-container-seller").append(`
-       <div class="col-12 col-sm-6 col-xl-3 d-flex justify-content-center itemCard">
+       <div class="col-12 col-sm-6 col-xl-4 d-flex justify-content-center itemCard">
   <div class="card shadow mt-4" style="width: 100%; border-radius: 1rem; overflow: hidden;">
     
-    <!-- Image Section -->
-    <img src="../../../assets/imgs/admin/img/default.png" class="card-img-top" alt="Customer" style="height: 200px; object-fit: cover;">
 
     <!-- Info Section -->
     <div class="card-body">
@@ -91,8 +109,13 @@ arr.forEach((item, index) => {
     </div>
 
     <!-- Action Button Section -->
-    <div class="card-footer bg-white border-top-0 d-flex justify-content-center pb-3">
-      <button data-id="${item.getId()}" class="btn btn-outline-danger w-75 remove-btn">
+    <div class="card-footer bg-white border-top-0 d-flex justify-content-evenly pb-3">
+
+    <button data-id="${item.getId()}" class="btn btn-outline-warning col-5 edit-btn-seller" data-bs-toggle="modal" data-bs-target="#sellerModal">
+        <i class="fa-solid fa-pen me-2"></i>Edit
+      </button>
+
+      <button data-id="${item.getId()}" class="btn btn-outline-danger col-5 remove-btn">
         <i class="fa-solid fa-trash me-2"></i>Remove
       </button>
     </div>
@@ -100,7 +123,6 @@ arr.forEach((item, index) => {
   </div>
 </div>
         `);
-    console.log(index);
   }
 });
 
@@ -146,28 +168,31 @@ document.getElementById("userForm").addEventListener("submit", function (e) {
   let gender = $("#user-gender").val();
   let birth = $("#user-birth").val();
   let phone = $("#user-phone").val();
+  try {
+    pushUser(
+      newId,
+      name,
+      email,
+      passowrd,
+      0,
+      address,
+      gender,
+      birth,
+      "Friend",
+      phone,
+      "../../../assets/imgs/admin/img/default.png",
+      "user"
+    );
 
-  pushUser(
-    newId,
-    name,
-    email,
-    passowrd,
-    0,
-    address,
-    gender,
-    birth,
-    "Friend",
-    phone,
-    "../../../assets/imgs/admin/img/default.png",
-    "user"
-  );
-
-  const modal = bootstrap.Modal.getInstance(
-    document.getElementById("userModal")
-  );
-  modal.hide();
-  this.reset();
-  location.reload();
+    const modal = bootstrap.Modal.getInstance(
+      document.getElementById("userModal")
+    );
+    modal.hide();
+    this.reset();
+    location.reload();
+  } catch (e) {
+    alert(e);
+  }
 });
 
 /////remove - customer//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,26 +231,169 @@ document.getElementById("sellerForm").addEventListener("submit", function (e) {
     gender: $("#seller-gender").val(),
   };
 
-  pushUser(
-    newId,
-    sellerData.name,
-    sellerData.email,
-    sellerData.password,
-    0,
-    sellerData.address,
-    sellerData.gender,
-    null,
-    null,
-    sellerData.phone,
-    "../../../assets/imgs/admin/img/default.png",
-    "seller"
-  );
+  console.log("add userwwwwwwwwwwwwwww");
+  try {
+    pushUser(
+      newId,
+      sellerData.name,
+      sellerData.email,
+      sellerData.password,
+      0,
+      sellerData.address,
+      sellerData.gender,
+      null,
+      null,
+      sellerData.phone,
+      "../../../assets/imgs/admin/img/default.png",
+      "seller"
+    );
 
-  const modal = bootstrap.Modal.getInstance(
-    document.getElementById("sellerModal")
-  );
-  modal.hide();
-  this.reset();
-  location.reload();
+    const modal = bootstrap.Modal.getInstance(
+      document.getElementById("sellerModal")
+    );
+    modal.hide();
+    this.reset();
+    location.reload();
+  } catch (e) {
+    alert(e);
+  }
 });
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////update seller////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+let sellerId = 0;
+$(".edit-btn-seller").click(function () {
+  $("#saveChangebtn").addClass("d-none");
+  $("#updateChangebtn").removeClass("d-none");
+
+  sellerId = $(this).data("id");
+  let seller = getUserByID(sellerId);
+
+  $("#seller-name").val(seller.getName()),
+    $("#seller-email").val(seller.getEmail()),
+    $("#seller-password").val(seller.getPassword()),
+    $("#seller-Phone").val(seller.getPhone()),
+    $("#seller-address").val(seller.getAddress()),
+    $("#seller-gender").val(seller.getGender());
+});
+
+$("#updateChangebtn").click(function (e) {
+  e.preventDefault;
+  // console.log("update btn");
+  const sellerData = {
+    name: $("#seller-name").val(),
+    email: $("#seller-email").val(),
+    password: $("#seller-password").val(),
+    phone: $("#seller-Phone").val(),
+    address: $("#seller-address").val(),
+    gender: $("#seller-gender").val(),
+  };
+
+  console.log(sellerData.email);
+  try {
+    updateUser(
+      sellerId,
+      sellerData.email,
+      sellerData.name,
+      sellerData.password,
+      sellerData.address,
+      sellerData.gender,
+      null,
+      null,
+      sellerData.phone,
+      "../../../assets/imgs/admin/img/default.png",
+      "seller"
+    );
+
+    const modal = bootstrap.Modal.getInstance(
+      document.getElementById("sellerModal")
+    );
+    modal.hide();
+    // this.reset();
+    location.reload();
+  } catch (e) {
+    alert(e);
+  }
+});
+
+///////update user////////////////////////////////////////////////////////////////////////////////////////////////////////////
+let userId = 0;
+$(".edit-btn-user").click(function () {
+  $("#Add-user-btn").addClass("d-none");
+  $("#update-user-btn").removeClass("d-none");
+
+  userId = $(this).data("id");
+  let user = getUserByID(userId);
+
+  $("#User-name").val(user.getName()),
+    $("#user-email").val(user.getEmail()),
+    $("#user-password").val(user.getPassword()),
+    $("#user-phone").val(user.getPhone()),
+    $("#user-address").val(user.getAddress()),
+    $("#user-gender").val(user.getGender());
+});
+
+$("#update-user-btn").click(function (e) {
+  e.preventDefault;
+  // console.log("update btn");
+  const userData = {
+    name: $("#User-name").val(),
+    email: $("#user-email").val(),
+    password: $("#user-password").val(),
+    phone: $("#user-phone").val(),
+    address: $("#user-address").val(),
+    gender: $("#user-gender").val(),
+  };
+
+  console.log(userData.email);
+  try {
+    updateUser(
+      userId,
+      userData.email,
+      userData.name,
+      userData.password,
+      userData.address,
+      userData.gender,
+      null,
+      null,
+      userData.phone,
+      "../../../assets/imgs/admin/img/default.png",
+      "user"
+    );
+
+    const modal = bootstrap.Modal.getInstance(
+      document.getElementById("userModal")
+    );
+
+    modal.hide();
+    location.reload();
+  } catch (e) {
+    alert(e);
+  }
+});
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+$("#mainAdduserbtn").click(function () {
+  {
+    $("#User-name").val(""),
+      $("#user-email").val(""),
+      $("#user-password").val(""),
+      $("#user-phone").val(""),
+      $("#user-address").val(""),
+      $("#user-gender").val("");
+    $("#Add-user-btn").removeClass("d-none");
+    $("#update-user-btn").addClass("d-none");
+  }
+});
+
+$("#mainAddsellerbtn").click(function () {
+  {
+    $("#seller-name").val(""),
+      $("#seller-email").val(""),
+      $("#seller-password").val(""),
+      $("#seller-Phone").val(""),
+      $("#seller-address").val(""),
+      $("#seller-gender").val("");
+    $("#saveChangebtn").removeClass("d-none");
+    $("#updateChangebtn").addClass("d-none");
+  }
+});

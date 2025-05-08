@@ -13,7 +13,7 @@
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"
         defer></script>
     <script src="../../../assets/libs/js/jquery-3.7.1.min.js"></script>
-    <!-- <script src="admin.js" defer></script> -->
+    <script type="module" src="product.js" defer></script>
 
     <style>
         .card-container:hover {
@@ -30,7 +30,19 @@
         padding: 6px 10px;
         border: 1px solid #ccc;
         border-radius: 4px;
-    }
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+        .d-none2{
+            display: none;
+        }
+        .d-none3{
+            display: none;
+        }
     </style>
 </head>
 
@@ -48,8 +60,8 @@
                 <div class="card dashboard-card border-primary p-3" style="border-left: 5px solid;">
                     <div class="card-body d-flex flex-row justify-content-between">
                         <div>
-                            <p class="card-title text-muted bold h6">Total Products</p>
-                            <p class="h1">0,000</p>
+                            <p id ="TPtitle" class="card-title text-muted bold h6">Total Products</p>
+                            <p id ="TPh1" class="h1">0,000</p>
                         </div>
                         <div class="text-center fs-6">
                             <i class="fas fa-boxes-stacked fa-2x text-primary p-3 mt-3 bg-primary-subtle"
@@ -65,8 +77,8 @@
                 <div class="card dashboard-card border-success p-3" style="border-left: 5px solid;">
                     <div class="card-body d-flex flex-row justify-content-between">
                         <div>
-                            <p class="card-title text-muted bold h6">Active Products</p>
-                            <p class="h1">0,000</p>
+                            <p id ="APtitle"  class="card-title text-muted bold h6">Active Products</p>
+                            <p id ="APh1" class="h1">0,000</p>
                         </div>
                         <div class="text-center fs-6">
                             <i class="fas fa-truck fa-2x text-success p-3 mt-3 bg-success-subtle"
@@ -81,8 +93,8 @@
                 <div class="card dashboard-card border-danger p-3" style="border-left: 5px solid;">
                     <div class="card-body d-flex flex-row justify-content-between">
                         <div>
-                            <p class="card-title text-muted bold h6">Out of Stock</p>
-                            <p class="h1">0,000</p>
+                            <p id ="OOStitle" class="card-title text-muted bold h6">Out of Stock</p>
+                            <p id ="OOSh1" class="h1">0,000</p>
                         </div>
                         <div class="text-center fs-6">
                             <i class="fas fa-xmark fa-2x text-danger p-3 mt-3 bg-danger-subtle"
@@ -102,32 +114,33 @@
                 <div class="row p-2 col-12">
 
 
-                    <div class="position-relative col-4">
-                        <input type="text" class="form-control ps-5" placeholder="Product name...">
+                    <div class="position-relative col-6">
+                        <input id="ProductSearch" type="text" class="form-control ps-5" placeholder="Search.....">
                         <i class="fa fa-search position-absolute top-50 start-0 translate-middle-y ms-4 text-muted"></i>
-                    </div>
-
-
-                    <div class="col-3">
-                        <select class="form-select" aria-label="Status">
-                            <option selected>Categories</option>
-                            <option value="1">All</option>
-                            <option>Electronics</option>
-                            <option>Clothing</option>
-                            <option>Home & Kitchen</option>
-                            <option>Books</option>
-                            <option>Toys & Games</option>
-                        </select>
                     </div>
                     
 
                     <div class="col-3">
-                        <input type="number" min="0" class="form-control" placeholder="Stock number" id="dateInput" name="date">
+                        <input type="number" min="0" class="form-control" placeholder="Max stock number" id="ProductStockInp" name="date">
                     </div>
 
-                    <div class="col-2">
-                        <button class="btn btn-primary col-12" type="button">Search</button>
+                    <div class=" col-3">
+                        <select class="form-select" aria-label="Default select example">
+                            <option value="Select Category" selected>Select Category</option>
+                            <option value="tops">tops</option>
+                            <option value="mens-shirts">mens-shirts</option>
+                            <option value="womens-dresses">womens-dresses</option>
+                            <option value="womens-jewellery">womens-jewellery</option>
+                            <option value="sports-accessories">sports-accessories</option>
+                            <option value="womens-bags">Thwomens-bagsree</option>
+                            <option value="womens-shoes">womens-shoes</option>
+                            <option value="womens-shoes">womens-shoes</option>
+                            <option value="fragrances">fragrances</option>
+                            <option value="mens-shoes">mens-shoes</option>
+                            <option value="mens-watches">mens-watches</option>
+                        </select>
                     </div>
+
                 </div>
             </nav>
         </div>
@@ -141,120 +154,15 @@
                     <th scope="col">#</th>
                     <th scope="col">Id</th>
                     <th scope="col">Product</th>
+                    <th scope="col">seller name</th>
                     <th scope="col">Price</th>
                     <th scope="col">Stock</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Created Time</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>565-511</td>
-                    <td class="h6">Wire-less Mouse</td>
-                    <td class="text-danger">128.9$</td>
-                    <td class="text-success">48</td>
-                    <td class="">available</td>
-                    <td class="action-buttons">
-                        <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#userModal">
-                            <i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>565-511</td>
-                    <td class="h6">Wire-less Mouse</td>
-                    <td class="text-danger">128.9$</td>
-                    <td class="text-success">48</td>
-                    <td class="">available</td>
-                    <td class="action-buttons">
-                        <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#userModal">
-                            <i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>565-511</td>
-                    <td class="h6">Wire-less Mouse</td>
-                    <td class="text-danger">128.9$</td>
-                    <td class="text-success">48</td>
-                    <td class="">available</td>
-                    <td class="action-buttons">
-                        <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#userModal">
-                            <i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>565-511</td>
-                    <td class="h6">Wire-less Mouse</td>
-                    <td class="text-danger">128.9$</td>
-                    <td class="text-success">48</td>
-                    <td class="">available</td>
-                    <td class="action-buttons">
-                        <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#userModal">
-                            <i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>565-511</td>
-                    <td class="h6">Wire-less Mouse</td>
-                    <td class="text-danger">128.9$</td>
-                    <td class="text-success">48</td>
-                    <td class="">available</td>
-                    <td class="action-buttons">
-                        <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#userModal">
-                            <i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th scope="row">1</th>
-                    <td>565-511</td>
-                    <td class="h6">Wire-less Mouse</td>
-                    <td class="text-danger">128.9$</td>
-                    <td class="text-success">48</td>
-                    <td class="">available</td>
-                    <td class="action-buttons">
-                        <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#userModal">
-                            <i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th scope="row">1</th>
-                    <td>565-511</td>
-                    <td class="h6">Wire-less Mouse</td>
-                    <td class="text-danger">128.9$</td>
-                    <td class="text-success">48</td>
-                    <td class="">available</td>
-                    <td class="action-buttons">
-                        <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#userModal">
-                            <i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th scope="row">1</th>
-                    <td>565-511</td>
-                    <td class="h6">Wire-less Mouse</td>
-                    <td class="text-danger">128.9$</td>
-                    <td class="text-success">48</td>
-                    <td class="">available</td>
-                    <td class="action-buttons">
-                        <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#userModal">
-                            <i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>
+                
             </tbody>
         </table>
     </section>
@@ -267,7 +175,7 @@
 
 
     <!-- Add product Modal --------------------------------------------------------------------------------------------------------------->
-    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -294,10 +202,36 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+
+
+<!-- Product Details Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalProductName">Product Name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    id="closeModal-btn"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div id="mycarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner"></div>
+                </div>
+                <!-- Align product info to the right -->
+                <div class="product-info mt-3 text-start">
+                    <div class="d-flex justify-content-between">
+                        <p><strong>Price:</strong> <span id="modalProductPrice"></span></p>
+                        <p><strong>Category:</strong> <span id="modalProductCategory"></span></p>
+                        <p><strong>Quantity:</strong> <span id="modalProductQuantity"></span></p>
+                    </div>
+                    <p><strong>Description:</strong> <span id="modalProductDescription"></span></p>
+
+                </div>
+            </div>
         </div>
-
-
-
+    </div>
+</div>
 
 
 </body>
