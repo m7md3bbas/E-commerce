@@ -335,6 +335,18 @@ button:hover {
     display: none;
 }
 
+#logout {
+    cursor: pointer;
+}
+
+#dashboard {
+    cursor: pointer;
+}
+
+
+
+
+
 .search-item {
     display: flex;
     align-items: center;
@@ -353,4 +365,15 @@ button:hover {
 .search-item h6,
 .search-item p {
     margin: 0;
+}
+
+
+/****************************************/
+.image-thumbnails img {
+    border: 2px solid transparent;
+    transition: border 0.3s;
+}
+
+.image-thumbnails img:hover {
+    border: 2px solid #be985a;
 }

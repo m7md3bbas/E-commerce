@@ -1,5 +1,5 @@
 import { getUsers } from "../../../projectModules/usersModule.js";
-
+localStorage.setItem("current_user", JSON.stringify(null));
 document.addEventListener("DOMContentLoaded", function () {
     const loginForm = document.querySelector("form");
     const emailInput = document.getElementById("floatingEmail");
@@ -7,12 +7,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const loginBtn = document.querySelector("button[type='submit']");
     const toggleIcons = document.querySelectorAll(".password-toggle");
 
+
+
+
     // Password toggle functionality
     toggleIcons.forEach(icon => {
         icon.addEventListener("click", () => {
             const input = icon.closest('.form-floating').querySelector('input');
             const iconElement = icon.querySelector('i');
-            
+
             if (input.type === "password") {
                 input.type = "text";
                 iconElement.classList.remove("fa-eye-slash");
@@ -42,17 +45,25 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             // Admin login check
             if (emailInput.value === "admin@gmail.com" && passwordInput.value === "admin123") {
-                window.location.href = "./../admin/admin.html";
+                const currentUser = {
+                    email: "admin@gmail.com",
+                    password: "admin123",
+                    type: "admin"
+                };
+                localStorage.setItem("current_user", JSON.stringify(currentUser));
+                window.location.replace("./../home/Home_Page/index.html");
                 return;
             }
 
             // Regular user authentication
             const users = getUsers();
             const user = users.find(
-                u => u.getEmail() === emailInput.value && 
-                     u.getPassword() === passwordInput.value
+                u => u.getEmail() === emailInput.value &&
+                    u.getPassword() === passwordInput.value
             );
+            const currentUser = user;
 
+            localStorage.setItem("current_user", JSON.stringify(currentUser));
             // Reset button state
             loginBtn.disabled = false;
             loginBtn.innerHTML = "Login";
@@ -62,13 +73,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // Redirect based on user type
-            if (user.getType() === "seller") {
-                window.location.href = "./../seller/html/seller-dashboard.html";
-            } else {
-                window.location.href = "./../home/Home_Page/index.html";
-            }
-            
+
+            window.location.replace("./../home/Home_Page/index.html");
+
+
         }, 1500);
     });
 });

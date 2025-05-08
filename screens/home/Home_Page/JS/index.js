@@ -10,13 +10,40 @@ import {
 //     itemsDesktopSmall: [979, 3],
 //   });
 // });
+const current_user = JSON.parse(localStorage.getItem("current_user"));
+if (current_user) {
+  $("#login").css('display', 'none');
+  if (current_user.type === "admin") {
+    $("#dashboard").css('display', 'block');
+    $("#logout").css('display', 'block');
+    $("#dashboard").on("click", () => {
+      window.location.replace("./../../../admin/admin.html");
+    })
+  } else if (current_user.type === "seller") {
+    $("#dashboard").css('display', 'block');
+    $("#logout").css('display', 'block');
+    $("#dashboard").on("click", () => {
+      window.location.replace("./../../seller/dashboard/dashboard.html");
+    });
+  } else if (current_user.type === "user") {
+    $("#logout").css('display', 'block');
+    $("#dashboard").css('display', 'none');
+  }
+} else {
+  $("#logout").css('display', 'none');
+  $("#dashboard").css('display', 'none');
+  $("#cart").on("click", () => {
+    window.location.href = "./../../auth/login.html";
+  })
+}
+
+$("#logout").on("click", logout);
+function logout() {
+  localStorage.removeItem("current_user");
+  window.location.replace("./../../auth/login.html");
+}
 
 
-
-$(".cartHome").click(function () {
-  $(this).css('cursor', 'pointer')
-  window.location.href = '../Cart/cart.html'
-});
 
 function showToast(message, type = "success", duration = 1000) {
   const toast = document.createElement('div');
@@ -100,7 +127,6 @@ document.addEventListener("DOMContentLoaded", () => {
               ${"★".repeat(Math.floor(product.getRating()))}
               ${product.getRating() % 1 ? "☆" : ""}
             </span>
-
           </div>
           <p class="h5 product-title" id='productItem'>${product.getProductName()}</p>
           <span id='price'>${product.getPrice()}$</span>
@@ -217,7 +243,7 @@ searchInput.addEventListener('input', () => {
   setTimeout(() => {
     const filtered = items.filter(item => item.name.toLowerCase().includes(query));
     renderResults(filtered);
-  }, 2000); 
+  }, 2000);
 });
 
 function renderResults(results) {
