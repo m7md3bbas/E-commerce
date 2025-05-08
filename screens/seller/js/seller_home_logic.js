@@ -114,6 +114,9 @@ function showPage(page) {
     if (page === 'orders') {
         displayOrders();
     }
+    if (page === 'analytics') {
+        loadSalesAnalytics();
+    }
 }
 
 function showEditModal(productId) {
@@ -506,7 +509,7 @@ function displayOrders() {
                 <small>${buyer?.phone || ''}</small>
             </td>
             <td>${product?.productName || 'Unknown'}</td>
-            <td>${product?.price ? product.price + ' EGP' : '--'}</td>
+            <td>${product?.price ? product.price + ' $' : '--'}</td>
             <td>1</td>
             <td>${buyer?.address || 'N/A'}</td>
             <td>${purchase.dateOfPurchase}</td>
@@ -555,3 +558,98 @@ function searchOrders() {
         row.style.display = rowText.includes(input) ? "" : "none";
     });
 }
+
+// sales analytics
+// This function should be called when the analytics page is shown
+function loadSalesAnalytics() {
+    const purchases = JSON.parse(localStorage.getItem('purchases_storage')) || [];
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const products = JSON.parse(localStorage.getItem('products')) || [];
+
+    const monthlySales = {};
+    const productSales = {};
+    const revenuePerProduct = {};
+    const addressCount = {};
+    const customerOrders = {};
+
+    let totalRevenue = 0;
+    let totalOrders = purchases.length;
+
+    purchases.forEach(purchase => {
+        const date = new Date(purchase.dateOfPurchase);
+        const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+
+        const product = products.find(p => p.id == purchase.productId);
+        const user = users.find(u => u.id == purchase.buyerId);
+
+        if (!product || !user) return;
+
+        const price = product.price;
+        const address = user.address;
+        const productName = product.productName;
+        const buyerId = user.id;
+
+        monthlySales[monthKey] = (monthlySales[monthKey] || 0) + price;
+        productSales[productName] = (productSales[productName] || 0) + 1;
+        revenuePerProduct[productName] = (revenuePerProduct[productName] || 0) + price;
+        addressCount[address] = (addressCount[address] || 0) + 1;
+        customerOrders[buyerId] = (customerOrders[buyerId] || 0) + 1;
+
+        totalRevenue += price;
+    });
+
+    // Find top stats
+    const topProduct = Object.entries(productSales).sort((a, b) => b[1] - a[1])[0];
+    const topRevenueProduct = Object.entries(revenuePerProduct).sort((a, b) => b[1] - a[1])[0];
+    const topCustomer = Object.entries(customerOrders).sort((a, b) => b[1] - a[1])[0];
+    const topAddress = Object.entries(addressCount).sort((a, b) => b[1] - a[1])[0];
+
+    // Get customer name for the top customer
+    const topCustomerName = topCustomer ? users.find(u => u.id == topCustomer[0])?.name : 'N/A';
+
+    // Update summary in HTML
+    document.getElementById('totalSales').textContent = `${totalRevenue} $`;
+    document.getElementById('topProduct').textContent = topProduct ? `${topProduct[0]} (${topProduct[1]} sales)` : 'N/A';
+    document.getElementById('topAddress').textContent = topAddress ? `${topAddress[0]} (${topAddress[1]} orders)` : 'N/A';
+
+    // Optional: Displaying the top revenue product and top customer
+    document.getElementById('topRevenueProduct').textContent = topRevenueProduct ? `${topRevenueProduct[0]} (${topRevenueProduct[1]} EGP)` : 'N/A';
+    document.getElementById('topCustomer').textContent = topCustomerName ? `${topCustomerName} (${topCustomer[1]} orders)` : 'N/A';
+
+    // Destroy the previous chart if it exists
+    if (window.salesChart && window.salesChart.destroy) {
+        window.salesChart.destroy();
+    }
+
+    // Draw Monthly Sales Chart
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    window.salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: Object.keys(monthlySales),
+            datasets: [{
+                label: 'Monthly Revenue',
+                data: Object.values(monthlySales),
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+
+
+
+// Make sure this function is triggered when switching to Analytics tab
+// Example: if you use showPage('analytics') then call loadSalesAnalytics() inside it
+
