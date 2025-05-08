@@ -2,14 +2,19 @@ import {
   getProducts
 } from "../../../../projectModules/productModule.js";
 
-// $(document).ready(function () {
-//   $("#owl-demo").owlCarousel({
-//     autoPlay: 500,
-//     items: 4,
-//     itemsDesktop: [1199, 3],
-//     itemsDesktopSmall: [979, 3],
-//   });
-// });
+$(document).ready(function () {
+
+  $("#owl-demo").owlCarousel({
+
+    autoPlay: 500, //Set AutoPlay to 3 seconds
+
+    items: 4,
+    itemsDesktop: [1199, 3],
+    itemsDesktopSmall: [979, 3]
+
+  });
+
+});
 const current_user = JSON.parse(localStorage.getItem("current_user"));
 if (current_user) {
   $("#login").css('display', 'none');
