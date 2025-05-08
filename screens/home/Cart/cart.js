@@ -123,11 +123,13 @@ function initProduct(productElement, itemData) {
 function updateCartTotal() {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   const total = cart.reduce((sum, item) => sum + (Number(item.price.split('$')[0]) * item.quantity), 0);
+ console.log( total.toFixed(3));
+ 
   const cartTotal = document.getElementById('cartTotal');
   if (cartTotal) {
-    cartTotal.textContent = total + '$';
+    cartTotal.textContent =  total.toFixed(3) + '$';
   }
-  localStorage.setItem('totalCartPrice', JSON.stringify(total));
+  localStorage.setItem('totalCartPrice', JSON.stringify( total.toFixed(3)));
 }
 window.addEventListener('load', updateCartTotal);
 
