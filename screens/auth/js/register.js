@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const passwordInput = document.getElementById("floatingPassword");
     const confirmPasswordInput = document.getElementById("floatingConfirmPassword");
     const signupBtn = document.querySelector("button[type='submit']");
+    const isSellerInput = document.getElementById("sellerCheck");
 
     // Password toggle functionality
     const toggleIcons = document.querySelectorAll(".password-toggle");
@@ -30,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
 
     signupForm.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -80,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 null,  // favorites
                 null,  // cart
                 null,  // orders
-                "user" // type
+                isSellerInput.checked ? "seller" : "user", // type
             );
 
             // Get the newly created user and their backup code

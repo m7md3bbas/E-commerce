@@ -1,13 +1,18 @@
 import { getProductById, getProducts } from "../../../../projectModules/productModule.js";
 
-// $(document).ready(function () {
-//   $("#owl-demo").owlCarousel({
-//     autoPlay: 500,
-//     items: 4,
-//     itemsDesktop: [1199, 3],
-//     itemsDesktopSmall: [979, 3],
-//   });
-// });
+$(document).ready(function () {
+
+  $("#owl-demo").owlCarousel({
+
+    autoPlay: 500, //Set AutoPlay to 3 seconds
+
+    items: 4,
+    itemsDesktop: [1199, 3],
+    itemsDesktopSmall: [979, 3]
+
+  });
+
+});
 const current_user = JSON.parse(localStorage.getItem("current_user"));
 if (current_user) {
   $("#login").css("display", "none");
@@ -41,8 +46,8 @@ function logout() {
   window.location.replace("./../../auth/login.html");
 }
 
-document.querySelector('.cartHome').addEventListener('click',function(){
-  window.location.href='../Cart/cart.html'
+document.querySelector('.cartHome').addEventListener('click', function () {
+  window.location.href = '../Cart/cart.html'
 })
 
 function showToast(message, type = "success", duration = 1000) {
@@ -75,28 +80,28 @@ function showToast(message, type = "success", duration = 1000) {
 
 document;
 
-document.addEventListener("DOMContentLoaded", function () {
-  const sections = document.querySelectorAll("section");
-  const navLinks = document.querySelectorAll(".nav-link");
+// document.addEventListener("DOMContentLoaded", function () {
+//   const sections = document.querySelectorAll("section");
+//   const navLinks = document.querySelectorAll(".nav-link");
 
-  const observerOptions = {
-    root: null, // يراقب ضمن نافذة العرض
-    threshold: 0.5, // يظهر عندما يكون 50% من العنصر مرئيًا
-  };
+//   const observerOptions = {
+//     root: null, // يراقب ضمن نافذة العرض
+//     threshold: 0.5, // يظهر عندما يكون 50% من العنصر مرئيًا
+//   };
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        navLinks.forEach((link) => link.classList.remove("active"));
-        document
-          .querySelector(`.nav-link[href="#${entry.target.id}"]`)
-          .classList.add("active");
-      }
-    });
-  }, observerOptions);
+//   const observer = new IntersectionObserver((entries) => {
+//     entries.forEach((entry) => {
+//       if (entry.isIntersecting) {
+//         navLinks.forEach((link) => link.classList.remove("active"));
+//         document
+//           .querySelector(`.nav-link[href="#${entry.target.id}"]`)
+//           .classList.add("active");
+//       }
+//     });
+//   }, observerOptions);
 
-  sections.forEach((section) => observer.observe(section));
-});
+//   sections.forEach((section) => observer.observe(section));
+// });
 
 /***************************************************************** */
 
@@ -110,9 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     productCard.innerHTML = `
       <div class="card cursor-pointer">
-        <img src="${
-          product.getImages()[0]
-        }" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
+        <img src="${product.getImages()[0]
+      }" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
         <div class="links">
           <ul>
             <li><a><i class="fa-solid fa-cart-shopping addToCart" data-id="${product.getId()}"></i></a></li>
@@ -151,8 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("addToCart")) {
-    
-    
+
     const button = e.target;
     const card = button.closest(".card");
     const img = card.querySelector("img");
@@ -169,13 +172,8 @@ document.addEventListener("click", function (e) {
       price: parseInt(price.replace(/\D/g, "")),
       quantity: 1,
     };
-    
-              
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    console.log(cart);
-    
 
-    console.log("Before adding:", cart);
+
 
 
 
@@ -211,16 +209,28 @@ if (existingProduct) {
     return;
   }
 }
+    if (getProductById(product.id).getStock() > 0) {
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    console.log("After adding:", cart);
+      console.log("Before adding:", cart);
 
-    showToast("Product added successfully to cart");
-   }
+      const existingProduct = cart.find((item) => item.id === productId);
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        cart.push(product);
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      console.log("After adding:", cart);
+
+      showToast("Product added successfully to cart");
+    }
 
   }
-);
+});
 
 ////////////////////////////////////////////////////////
 //search bar

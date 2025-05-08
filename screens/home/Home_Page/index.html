@@ -7,10 +7,6 @@
   <link rel="stylesheet" href="../../../assets/libs/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../../assets/libs/css/all.min.css">
   <link rel="stylesheet" href="./CSS/Style.css">
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Righteous&family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet"> -->
-  <!---->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -27,9 +23,20 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+  <!-- Owl Carousel CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+
 </head>
 
 <body>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <!-- Owl Carousel JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
 
   <nav class="navbar navbar-expand-lg bg-white  position-fixed fixed-top">
     <div class="container">
@@ -76,9 +83,9 @@
             <a class="nav-link fw-medium " href="./../../auth/login.html">SIGN IN</a>
           </li>
           <li class="nav-item" id="dashboard">
-            <a class="nav-link fw-medium " >Dashboard</a>
+            <a class="nav-link fw-medium ">Dashboard</a>
           </li>
-          <li class="nav-item" id="logout"><a class="nav-link fw-medium " >Logout</a></li>
+          <li class="nav-item" id="logout"><a class="nav-link fw-medium ">Logout</a></li>
         </ul>
       </div>
 
@@ -102,7 +109,7 @@
   <section id="Categories" class="container Categories mt-5">
     <h2 class="text-center mb-4">Categories</h2>
     <div class="row  justify-content-center align-items-center">
-      <div id="owl-demo" class="owl-carousel owl-theme text-center     ">
+      <div id="owl-demo" class="owl-carousel owl-theme text-center">
 
         <div class="item">
           <img src="../../../assets/imgs/Home/Images/mena.webp" alt="" width="100%">
@@ -226,20 +233,33 @@
   <footer class="  p-5 pb-3 bg-light ">
     <p class="text-center">Copy Right 2018 <span style="color: #be985a;"> ©</span> By Daniels All Rights Reserved</p>
   </footer>
-
-
   <div id="toastContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   <script src="../Home_Page/JS/bootstrap.bundle.min.js"></script>
-  <script src="../../../assets/libs/js/jquery-3.7.1.min.js"></script>
   <script type="module" src="./JS/index.js" defer></script>
+  <script>
+    $(document).ready(function () {
+      // Update active nav link on scroll
+      $(window).on('scroll', function () {
+        const scrollPos = $(document).scrollTop();
 
-
-
-
-
+        $('.navbar-nav a.nav-link').each(function () {
+          const currLink = $(this);
+          const refElement = $(currLink.attr("href"));
+          if (refElement.length) {
+            if (refElement.offset().top - 80 <= scrollPos && refElement.offset().top + refElement.height() > scrollPos) {
+              $('.navbar-nav a.nav-link').removeClass("active");
+              currLink.addClass("active");
+            } else {
+              currLink.removeClass("active");
+            }
+          }
+        });
+      });
+    });
+  </script>
 
 </body>
 
