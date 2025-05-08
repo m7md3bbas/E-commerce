@@ -260,6 +260,16 @@ export const getProducts = () => {
 export const getProductById = (id) =>
   products.find((p) => p.getId() === id) || null;
 
+export const decreaseProductStock = (id) => {
+  const product = products.find((p) => p.getId().toString() === id.toString());
+  if (!product) return;
+  let stock = parseInt(product.getStock(), 10) - 1;
+  if (stock >= 0) {
+    product.setStock(stock);
+    saveProductsToStorage();
+  }
+};
+
 export const deleteProduct = (id) => {
   const index = products.findIndex(
     (p) => p.getId().toString() === id.toString()
@@ -313,6 +323,5 @@ export const updateProduct = (
   }
   return null;
 };
-
 
 loadProductsFromStorage();
