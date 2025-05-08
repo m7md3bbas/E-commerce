@@ -442,49 +442,25 @@ document.addEventListener("DOMContentLoaded", () => {
         saveProducts([
             {
                 id: 1,
-                sellerId: 1,
-                rateAvg: 4.5,
-                name: "Men's T-shirt",
-                price: 200,
-                images: [
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDZtF5rfMcbRQtx72_ahxf5VF5sCq4KW_OEA&s"
-                ],
-                category: "clothing",
-                quantity: 10,
-                description: "High quality cotton t-shirt",
-                seller: "Fashion Store",
-                sellerEmail: "fashion@example.com"
+                productName: "Product 1",
+                category: "Category 1",
+                description: "Description 1",
+                price: 10,
+                stock: 10,
+                images: [defaultImage],
+                createdAt: new Date().toISOString()
             },
             {
                 id: 2,
-                sellerId: 1,
-                rateAvg: 4.5,
-                name: "Wrist Watch",
-                price: 350,
-                images: [
-                    "https://m.media-amazon.com/images/I/610OiiTm9PL.jpg"
-                ],
-                category: "accessories",
-                quantity: 10,
-                description: "Luxury wrist watch",
-                seller: "Watch Store",
-                sellerEmail: "watches@example.com"
-            },
-            {
-                id: 3,
-                sellerId: 1,
-                rateAvg: 4.5,
-                name: "Wireless Earbuds",
-                price: 500,
-                images: [
-                    "https://three-egypt.com/cdn/shop/files/AweiTrueWirelessSportsEarbudsT26Prothreestore_5.webp?v=1720103238"
-                ],
-                category: "electronics",
-                quantity: 10,
-                description: "High quality wireless earbuds",
-                seller: "Audio Store",
-                sellerEmail: "audio@example.com"
+                productName: "Product 2",
+                category: "Category 2",
+                description: "Description 2",
+                price: 20,
+                stock: 20,
+                images: [defaultImage],
+                createdAt: new Date().toISOString()
             }
+
         ]);
     }
 
