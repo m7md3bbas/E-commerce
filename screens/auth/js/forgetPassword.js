@@ -8,22 +8,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const verifyBackupCodeBtn = document.getElementById("verifyBackupCode");
     const updatePasswordBtn = document.getElementById("updatePassword");
     const continueBtn = document.querySelector("button[type='submit']");
-    const toggleIcons = document.querySelectorAll(".password-toggle");
 
-    toggleIcons.forEach(icon => {
-        icon.addEventListener("click", () => {
-            const input = icon.closest('.form-floating').querySelector('input');
-            const iconElement = icon.querySelector('i');
+    // Add this function to handle password visibility toggling
+    function togglePasswordVisibility(fieldId) {
+        const input = document.getElementById(fieldId);
+        const icon = input.nextElementSibling.querySelector('i');
 
-            if (input.type === "password") {
-                input.type = "text";
-                iconElement.classList.remove("fa-eye-slash");
-                iconElement.classList.add("fa-eye");
-            } else {
-                input.type = "password";
-                iconElement.classList.remove("fa-eye");
-                iconElement.classList.add("fa-eye-slash");
-            }
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        }
+    }
+
+    // Remove the existing toggleIcons code and replace it with this:
+    document.querySelectorAll('.password-toggle').forEach(icon => {
+        icon.addEventListener('click', function (e) {
+            e.preventDefault();
+            const fieldId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+            togglePasswordVisibility(fieldId);
         });
     });
 
@@ -145,20 +152,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 newPasswordModal.hide();
 
-                // Show success toast
                 const toastHTML = `
-                    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-                        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-                            <div class="toast-header bg-success text-white">
-                                <strong class="me-auto">Success</strong>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-                            </div>
-                            <div class="toast-body">
+                <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1060; width: 100%; max-width: 500px;">
+                    <div class="toast show align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                        <div class="d-flex">
+                            <div class="toast-body d-flex align-items-center" style="color: #155724; background-color: #d4edda; border-left: 4px solid #28a745; padding: 1rem;">
+                                <i class="fas fa-check-circle me-2" style="color: #28a745;"></i>
                                 Password updated successfully! Redirecting to login...
                             </div>
+                            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                         </div>
                     </div>
-                `;
+                </div>
+            `;
 
                 document.body.insertAdjacentHTML('beforeend', toastHTML);
 
@@ -177,25 +183,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Show error toast
             const toastHTML = `
-                <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-                    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-                        <div class="toast-header bg-danger text-white">
-                            <strong class="me-auto">Error</strong>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-                        </div>
-                        <div class="toast-body">
-                            ${error.message || "Failed to update password. Please try again."}
-                        </div>
-                    </div>
-                </div>
-            `;
+<div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1060; width: 100%; max-width: 500px;">
+    <div class="toast show align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <div class="d-flex">
+            <div class="toast-body d-flex align-items-center" style="color: #721c24; background-color: #f8d7da; border-left: 4px solid #dc3545; padding: 1rem;">
+                <i class="fas fa-exclamation-circle me-2" style="color: #dc3545;"></i>
+                ${error.message || "Failed to update password. Please try again."}
+            </div>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+`;
 
             document.body.insertAdjacentHTML('beforeend', toastHTML);
 
-            // Remove toast after 5 seconds
+            // Auto-remove after 5 seconds
             setTimeout(() => {
-                const toasts = document.querySelectorAll('.toast');
-                toasts.forEach(toast => toast.remove());
+                const toast = document.querySelector('.toast.show');
+                if (toast) {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }
             }, 5000);
         }
     }
