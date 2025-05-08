@@ -16,8 +16,7 @@ window.addEventListener('load', function () {
   
   
   cartItems.forEach(item => {
-    console.log(item.quantity);
-    console.log(Number(item.price.split('$')[0]) * item.quantity);
+ 
     
     
     const card = document.createElement('div');
@@ -59,7 +58,6 @@ function initProduct(productElement, itemData) {
 
   let quantity = itemData.quantity;
   const unitPrice = Number(itemData.price.split('$')[0]);
-  console.log(unitPrice);
   
 
   function updateTotal() {
@@ -123,7 +121,6 @@ function initProduct(productElement, itemData) {
 function updateCartTotal() {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   const total = cart.reduce((sum, item) => sum + (Number(item.price.split('$')[0]) * item.quantity), 0);
- console.log( total.toFixed(3));
  
   const cartTotal = document.getElementById('cartTotal');
   if (cartTotal) {
