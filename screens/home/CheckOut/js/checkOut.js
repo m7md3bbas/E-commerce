@@ -1,6 +1,7 @@
-import {pushPurchase} from '../../../../projectModules/purchases.js'
-import {getUserByEmail } from '../../../../projectModules/usersModule.js'
-import {getProductById} from '../../../../projectModules/productModule.js'
+
+import { getUserByEmail } from './../../../../projectModules/usersModule.js';
+import { pushPurchase } from './../../../../projectModules/purchases.js';
+import { getProductById } from '../../../../projectModules/productModule.js';
 
 // Address Validation Function
 window.addEventListener('DOMContentLoaded', function () {
@@ -31,7 +32,7 @@ window.addEventListener('DOMContentLoaded', function () {
         <div class="col-4">
           <div class='border border-2 main-border text-center mb-3'>
             <img src="${item.img}" class='w-100' alt="Product Image">
-            <h6 class='main-color pt-3'>Price: ${item.price} EGP</h6>
+            <h6 class='main-color pt-3'>Price: ${item.price} $</h6>
           </div>
         </div>
       `;
@@ -108,10 +109,41 @@ window.addEventListener('DOMContentLoaded', function () {
       }
   
       if (isValid) {
+       const UserEmail=JSON.parse(localStorage.getItem('current_user'))
+       
+       const buyer=getUserByEmail(UserEmail.email)
+
+       const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+      
+       
+       console.log(cartItems);
+       cartItems.forEach((item)=>{
+
+         console.log(item);
+         const product=getProductById(item.id)
+         console.log(product.getStock());
+         
+
+         console.log(product);
+         
+
+         const purchaseId = `order-${Date.now()}`;
+         console.log(purchaseId);
+         
+        
+         
+         let data=  pushPurchase(purchaseId,'pending',buyer,product)
+        console.log(data);
+
+       })
+       
+       
+      
+        
        
       
         form.reset();
-        // Show success message and redirect
+      
         alert("Form submitted successfully!");
         window.location.href = './paymentMethod.html';
   
