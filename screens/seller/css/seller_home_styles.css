@@ -424,11 +424,11 @@ button:hover {
     background-color: var(--black-color)
 }
 
-.form-control:focus,
+ .form-control:focus,
 .form-select:focus {
     border-color: var(--main-color);
     box-shadow: 0 0 0 .25rem #be985a81;
-}
+} 
 
 .delete-product,
 .reset-btn {
