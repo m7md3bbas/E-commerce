@@ -335,6 +335,18 @@ button:hover {
     display: none;
 }
 
+#logout {
+    cursor: pointer;
+}
+
+#dashboard {
+    cursor: pointer;
+}
+
+
+
+
+
 .search-item {
     display: flex;
     align-items: center;
