@@ -100,7 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
               ${"★".repeat(Math.floor(product.getRating()))}
               ${product.getRating() % 1 ? "☆" : ""}
             </span>
-
           </div>
           <p class="h5 product-title">${product.getProductName()}</p>
           <span>${product.getPrice()}$</span>

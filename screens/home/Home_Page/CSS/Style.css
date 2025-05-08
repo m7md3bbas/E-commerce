@@ -354,3 +354,14 @@ button:hover {
 .search-item p {
     margin: 0;
 }
+
+
+/****************************************/
+.image-thumbnails img {
+    border: 2px solid transparent;
+    transition: border 0.3s;
+}
+
+.image-thumbnails img:hover {
+    border: 2px solid #be985a;
+}
