@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
         <div class="links">
           <ul>
-            <li><a><i class="fa-solid fa-cart-shopping addToCart"></i></a></li>
+            <li><a><i class="fa-solid fa-cart-shopping addToCart" data-id="${product.getId()}"></i></a></li>
             <li><a><i class="fa-regular fa-heart"></i></a></li>
             <li><a href="./datails.html?productId=${product.getId()}"><i class="fa-solid fa-circle-info"></i></a></li>
           </ul>
@@ -135,6 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <p class="h5 product-title" id='productItem'>${product.getProductName()}</p>
           <span id='price'>${product.getPrice()}$</span>
+          <p class="stock-label ">InStock:<span> ${product.getStock()}</span></p>
         </div>
         <button class="addToCart" data-id="${product.getId()}">Add To Cart</button>
       </div>
@@ -168,32 +169,57 @@ document.addEventListener("click", function (e) {
       img: img.src,
       name: productItem,
       category,
-      price: parseInt(price.replace(/\D/g, "")),
+      price,
       quantity: 1,
     };
 
+             
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    console.log(cart);
+    
+    var realProduct = getProductById(productId);  
 
+    const existingProduct = cart.find((item) => item.id === productId);
 
-    if (getProductById(product.id).getStock() > 0) {
+    if (existingProduct) {
+         if (existingProduct.quantity < realProduct.getStock()) {
+                    existingProduct.quantity += 1;
+                    showToast('Product added to cart')
+                    console.log('Product added to cart');
+                    
+   
+           } else {
+                  alert("Stock limit reached.");
+          return;
+        }
 
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    } else {
+  console.log(productId);
+  console.log(realProduct);
+  
 
-      console.log("Before adding:", cart);
+  if (realProduct.getStock() > 0) {
+    const newProduct = {
+      id: productId,
+      img: img.src,
+      name: productItem,
+      category,
+      price,
+      quantity: 1,
+    };
+    cart.push(newProduct);
+    showToast('Product added to cart')
 
-      const existingProduct = cart.find((item) => item.id === productId);
-      if (existingProduct) {
-        existingProduct.quantity += 1;
-      } else {
-        cart.push(product);
-      }
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-
-      console.log("After adding:", cart);
-
-      showToast("Product added successfully to cart");
-    }
-
+    console.log('Product added to cart');
+    
+  } else {
+    alert("Stock is empty.");
+    return;
+  }
+}
+ localStorage.setItem("cart", JSON.stringify(cart));
+ console.log(JSON.parse(localStorage.getItem('cart')));
+ 
   }
 });
 

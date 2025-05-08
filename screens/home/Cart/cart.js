@@ -1,4 +1,4 @@
-
+import { getProductById } from "../../../projectModules/productModule.js";
 window.addEventListener('load', function () {
   const container = document.querySelector('.addProduct');
   let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
@@ -10,7 +10,15 @@ window.addEventListener('load', function () {
     return;
   }
 
+
+  console.log(cartItems);
+  console.log();
+  
+  
   cartItems.forEach(item => {
+ 
+    
+    
     const card = document.createElement('div');
     card.classList.add('col-md-4', 'col-lg-3');
     card.innerHTML = `
@@ -19,8 +27,8 @@ window.addEventListener('load', function () {
         <div class="card-body">
           <h5 class="main-color">${item.category}</h5>
           <p>${item.name}</p>
-          <h6>Price: <span class="text-secondary price">${item.price} $</span></h6>
-          <h6>Total Price: <span class="text-secondary total-price">${item.price * item.quantity} $</span></h6>
+          <h6>Price: <span class="text-secondary price">${Number(item.price.split('$')[0])} </span></h6>
+          <h6>Total Price: <span class="text-secondary total-price">${Number(item.price.split('$')[0]) * item.quantity} $</span></h6>
           <hr>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
@@ -49,7 +57,8 @@ function initProduct(productElement, itemData) {
   const closeBtn = productElement.querySelector('.close-btn');
 
   let quantity = itemData.quantity;
-  const unitPrice = itemData.price;
+  const unitPrice = Number(itemData.price.split('$')[0]);
+  
 
   function updateTotal() {
     if (quantity < 1) quantity = 1;
@@ -66,6 +75,8 @@ function initProduct(productElement, itemData) {
     updateCartTotal();
   }
 
+  
+  
   minusBtn.addEventListener('click', () => {
     if (quantity > 1) {
       quantity--;
@@ -74,11 +85,19 @@ function initProduct(productElement, itemData) {
   });
 
   plusBtn.addEventListener('click', () => {
-    if(getProductById(product.id).getStock() ){
-
+    console.log(itemData);
+    console.log(getProductById(itemData.id).getStock());
+    console.log(quantity);
+    
+    
+    if(quantity < getProductById(itemData.id).getStock()){
+      quantity++;
+      updateTotal();
+    }else{
+      alert('Stock is empty')
     }
-    quantity++;
-    updateTotal();
+
+
   });
 
   closeBtn.addEventListener('click', () => {
@@ -101,12 +120,13 @@ function initProduct(productElement, itemData) {
 
 function updateCartTotal() {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const total = cart.reduce((sum, item) => sum + (Number(item.price.split('$')[0]) * item.quantity), 0);
+ 
   const cartTotal = document.getElementById('cartTotal');
   if (cartTotal) {
-    cartTotal.textContent = total + '$';
+    cartTotal.textContent =  total.toFixed(3) + '$';
   }
-  localStorage.setItem('totalCartPrice', JSON.stringify(total));
+  localStorage.setItem('totalCartPrice', JSON.stringify( total.toFixed(3)));
 }
 window.addEventListener('load', updateCartTotal);
 

@@ -1,172 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Home</title>
 
-    <link rel="stylesheet" href="../../assets/libs/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"
-        defer></script>
+    <link rel="stylesheet" href="../../assets/libs/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+      crossorigin="anonymous"
+      defer
+    ></script>
     <script src="../../assets/libs/js/jquery-3.7.1.min.js"></script>
     <script src="admin.js" defer></script>
 
-
     <style>
-
-        :root{
-        --main-color:#be985a;
-        }
-        /* .form-control:focus{
+      :root {
+        --main-color: #be985a;
+      }
+      /* .form-control:focus{
         border-color: rgb(85, 208, 232) !important;
         box-shadow: 0 0 0 0.25rem rgb(138, 160, 223) !important;
         } */
-        #sidebarMenu {
-            height: 100vh;
-            background-color:#343a40;
-            position: relative;
-            z-index: 1
-        }
+      #sidebarMenu {
+        height: 100vh;
+        background-color: #343a40;
+        position: relative;
+        z-index: 1;
+      }
 
-        .nav-item {
-            margin: 6px;
-        }
+      .nav-item {
+        margin: 6px;
+      }
 
-        .nav-link:hover {
-            background-color:var(--main-color);
-            border-radius: 5px;
-            transform: scale(1.1);
-            transition: 0.2s;
-            color: white ;
-        }
+      .nav-link:hover {
+        background-color: var(--main-color);
+        border-radius: 5px;
+        transform: scale(1.1);
+        transition: 0.2s;
+        color: white;
+      }
 
-        .nav-link.active {
-            color: #fff ;
-            background-color: var(--main-color);
-            border-radius: 5px;
-        }
+      .nav-link.active {
+        color: #fff;
+        background-color: var(--main-color);
+        border-radius: 5px;
+      }
 
-        .nav-link{
-            color: var(--main-color);
-        }
+      .nav-link {
+        color: var(--main-color);
+      }
 
+      #contain {
+        margin: 0px;
+        padding: 0px;
+        height: 92vh;
+        display: flex;
+        flex-direction: row;
+        position: fixed;
+        width: 100%;
+      }
+
+      @media (max-width: 767.98px) {
         #contain {
-            margin: 0px;
-            padding: 0px;
-            height: 92vh;
-            display: flex;
-            flex-direction: row;
-            position: fixed;
-            width: 100%;
+          height: 100vh;
         }
 
-        @media (max-width: 767.98px) {
-
-            #contain {
-                height: 100vh;
-            }
-
-            #Tbtn {
-                position: fixed;
-                top: 5px;
-                right: 10px;
-                z-index: 1;
-            }
-
-            #search {
-                margin: 5px;
-            }
+        #Tbtn {
+          position: fixed;
+          top: 5px;
+          right: 10px;
+          z-index: 1;
         }
 
+        #search {
+          margin: 5px;
+        }
+      }
     </style>
-    <script>
+    <script></script>
+  </head>
 
-
-    </script>
-</head>
-
-
-<body>
-
-
+  <body>
     <div id="contain" class="row">
-        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-            <p class="h2 p-3 fw-bolder" style="color: var(--main-color);">Admin Page</p>
-            <div class="sidebar-sticky pt-3">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" data-section="dashboard">
-                            <i class="fas fa-tachometer-alt"></i>
-                            Dashboard
-                        </a>
-                    </li>
+      <nav
+        id="sidebarMenu"
+        class="col-md-3 col-lg-2 d-md-block sidebar collapse"
+      >
+        <p class="h2 p-3 fw-bolder" style="color: var(--main-color)">
+          Admin Page
+        </p>
+        <div class="sidebar-sticky pt-3">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="#" data-section="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+              </a>
+            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="orders">
-                            <i class="fas fa-shopping-cart"></i>Orders</a>
-                    </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-section="orders">
+                <i class="fas fa-shopping-cart"></i>Orders</a
+              >
+            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="products">
-                            <i class="fas fa-box"></i>
-                            Products
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="customers">
-                            <i class="fas fa-users"></i>
-                            Customers
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="contactUs">
-                            <i class="fas fa-chart-bar"></i>
-                            Contact Us
-                        </a>
-                    </li>
-                </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-section="products">
+                <i class="fas fa-box"></i>
+                Products
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-section="customers">
+                <i class="fas fa-users"></i>
+                Customers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-section="contactUs">
+                <i class="fas fa-chart-bar"></i>
+                Contact Us
+              </a>
+            </li>
+          </ul>
 
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Store Management</span>
-                </h6>
-                <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
+          <h6
+            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"
+          >
+            <span>Store Management</span>
+          </h6>
+          <ul class="nav flex-column mb-2">
+            <!-- <li class="nav-item">
                         <a class="nav-link" href="#" data-section="settings">
                             <i class="fas fa-cog"></i>
                             Settings
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="settings">
-                            <i class="fas fa-sign-out"></i>
-                            Sing Out
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="col-md-9 col-lg-10 p-0 m-0">
-
-            <iframe id="dashboard" class="collapse w-100 show p-0 m-0" src="dashboard/dashboard.html"
-                height="100%"></iframe>
-            <iframe id="orders" class="collapse w-100 p-0 m-0" src="orders/orders.html" height="99%"></iframe>
-            <iframe id="products" class="collapse w-100 p-0 m-0" src="products/product.html" height="99%"></iframe>
-            <iframe id="customers" class="collapse w-100 p-0 m-0" src="users/customer.html" height="99%"></iframe>
-            <iframe id="contactUs" class="collapse w-100 p-0 m-0" src="contactUs/contactUs.html" height="99%"></iframe>
-            <iframe id="settings" class="collapse w-100 p-0 m-0" src="setting/setting.html" height="99%"></iframe>
-
+                    </li> -->
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-section="settings">
+                <i class="fas fa-sign-out"></i>
+                Sing Out
+              </a>
+            </li>
+          </ul>
         </div>
+      </nav>
 
+      <div class="col-md-9 col-lg-10 p-0 m-0">
+        <iframe
+          id="dashboard"
+          class="collapse w-100 show p-0 m-0"
+          src="dashboard/dashboard.html"
+          height="100%"
+        ></iframe>
+        <iframe
+          id="orders"
+          class="collapse w-100 p-0 m-0"
+          src="orders/orders.html"
+          height="99%"
+        ></iframe>
+        <iframe
+          id="products"
+          class="collapse w-100 p-0 m-0"
+          src="products/product.html"
+          height="99%"
+        ></iframe>
+        <iframe
+          id="customers"
+          class="collapse w-100 p-0 m-0"
+          src="users/customer.html"
+          height="99%"
+        ></iframe>
+        <iframe
+          id="contactUs"
+          class="collapse w-100 p-0 m-0"
+          src="contactUs/contactUs.html"
+          height="99%"
+        ></iframe>
+        <iframe
+          id="settings"
+          class="collapse w-100 p-0 m-0"
+          src="setting/setting.html"
+          height="99%"
+        ></iframe>
+      </div>
     </div>
-    
-
-
-</body>
-
+  </body>
 </html>

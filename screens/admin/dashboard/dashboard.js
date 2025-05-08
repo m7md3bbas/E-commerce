@@ -4,6 +4,7 @@ import {
   getProductById,
   getProductsBySellerName,
   getProductsBySellerEmail,
+  decreaseProductStock,
 } from "../../../projectModules/productModule.js";
 import { getAllPurchases } from "../../../projectModules/purchases.js";
 
@@ -30,6 +31,8 @@ let age3 = 0;
 let age4 = 0;
 let age5 = 0;
 let other_age = 0;
+
+let totalRevenue = 0;
 
 users.forEach(function (item) {
   // console.log(item.getGender());
@@ -72,12 +75,13 @@ let kfrElshekh = 0;
 let other_govern = 0;
 
 allPurchases.forEach(function (item) {
-  let address = item.getBuyer().getAddress();
-  if (address === "Garbia") garbia++;
-  if (address === "Behera") behera++;
-  if (address === "Monofia") monofia++;
-  if (address === "Sharqia") sharpia++;
-  if (address === "Kfr Elshekh") kfrElshekh++;
+  totalRevenue += parseInt(item.getProduct().getPrice());
+  let address = item.getBuyer().getAddress().toLowerCase();
+  if (address === "garbia") garbia++;
+  if (address === "behera") behera++;
+  if (address === "monofia") monofia++;
+  if (address === "sharqia") sharpia++;
+  if (address === "kfr elshekh") kfrElshekh++;
   else other_govern++;
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,13 +90,13 @@ allPurchases.forEach(function (item) {
 let arr = [
   {
     cardName: "Total Orders",
-    cardValue: "0.000",
+    cardValue: `${allPurchases.length}`,
     cardIcon: "fa-solid fa-shopping-cart",
     color: "primary",
   },
   {
     cardName: "Total Revenue",
-    cardValue: "0.000",
+    cardValue: `${totalRevenue}`,
     cardIcon: "fa-solid fa-dollar-sign",
     color: "success",
   },
@@ -273,3 +277,4 @@ const regionChart = new Chart(regionCtx, {
     ],
   },
 });
+/////////////////////////////////////////////////////////////////////////

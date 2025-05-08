@@ -121,12 +121,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
          console.log(item);
          const product=getProductById(item.id)
-         console.log(product.getStock());
-         
-
-         console.log(product);
-         
-
+  
          const purchaseId = `order-${Date.now()}`;
          console.log(purchaseId);
          
@@ -136,12 +131,7 @@ window.addEventListener('DOMContentLoaded', function () {
         console.log(data);
 
        })
-       
-       
-      
-        
-       
-      
+          
         form.reset();
       
         alert("Form submitted successfully!");
