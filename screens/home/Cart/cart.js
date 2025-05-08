@@ -19,8 +19,8 @@ window.addEventListener('load', function () {
         <div class="card-body">
           <h5 class="main-color">${item.category}</h5>
           <p>${item.name}</p>
-          <h6>Price: <span class="text-secondary price">${item.price} EGP</span></h6>
-          <h6>Total Price: <span class="text-secondary total-price">${item.price * item.quantity} EGP</span></h6>
+          <h6>Price: <span class="text-secondary price">${item.price} $</span></h6>
+          <h6>Total Price: <span class="text-secondary total-price">${item.price * item.quantity} $</span></h6>
           <hr>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
@@ -54,7 +54,7 @@ function initProduct(productElement, itemData) {
   function updateTotal() {
     if (quantity < 1) quantity = 1;
     quantitySpan.textContent = quantity;
-    totalPriceSpan.textContent = `${unitPrice * quantity} EGP`;
+    totalPriceSpan.textContent = `${unitPrice * quantity} $`;
 
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const index = cart.findIndex(p => p.id === itemData.id);
@@ -74,6 +74,9 @@ function initProduct(productElement, itemData) {
   });
 
   plusBtn.addEventListener('click', () => {
+    if(getProductById(product.id).getStock() ){
+
+    }
     quantity++;
     updateTotal();
   });
@@ -101,7 +104,7 @@ function updateCartTotal() {
   const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const cartTotal = document.getElementById('cartTotal');
   if (cartTotal) {
-    cartTotal.textContent = total + ' EGP';
+    cartTotal.textContent = total + '$';
   }
   localStorage.setItem('totalCartPrice', JSON.stringify(total));
 }

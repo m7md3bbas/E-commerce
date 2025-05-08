@@ -211,6 +211,10 @@
             const quantity = parseInt(document.getElementById("productQuantity").value);
             const imageUrls = getImageUrls();
             const imageFiles = document.getElementById("productImages").files;
+            const rate = .1;
+            const reviews = [];
+            const tags = [];
+            const createdTime = "2025-05-08T17:15:28.048Z";
             // === Validation ===
             if (!name) return showNotification('Please enter a product name.', "error");
             if (!category) return showNotification('Please enter a product category.', "error");
@@ -220,6 +224,7 @@
             if (imageUrls.length === 0 && imageFiles.length === 0) {
                 return showNotification('Please add at least one image.', "error");
             }
+
 
             const uploadedImages = [];
             const fileReaders = [];
@@ -254,7 +259,13 @@
                     price,
                     stock: quantity,
                     images: allImages,
-                    createdAt: new Date().toISOString()
+                    rating: rate,
+                    reviews,
+                    tags: [],
+                    seller: 'seller@test',
+                    sellerEmail: 'test@test.com',
+                    createdTime: "2025-05-08T17:15:28.048Z"
+
                 };
                 // Push product to local storage in the first index of the array
 

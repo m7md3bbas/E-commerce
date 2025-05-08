@@ -1,40 +1,43 @@
-import {
-  getProducts
-} from "../../../../projectModules/productModule.js";
+import { getProductById, getProducts } from "../../../../projectModules/productModule.js";
 
-// $(document).ready(function () {
-//   $("#owl-demo").owlCarousel({
-//     autoPlay: 500,
-//     items: 4,
-//     itemsDesktop: [1199, 3],
-//     itemsDesktopSmall: [979, 3],
-//   });
-// });
+$(document).ready(function () {
+
+  $("#owl-demo").owlCarousel({
+
+    autoPlay: 500, //Set AutoPlay to 3 seconds
+
+    items: 4,
+    itemsDesktop: [1199, 3],
+    itemsDesktopSmall: [979, 3]
+
+  });
+
+});
 const current_user = JSON.parse(localStorage.getItem("current_user"));
 if (current_user) {
-  $("#login").css('display', 'none');
+  $("#login").css("display", "none");
   if (current_user.type === "admin") {
-    $("#dashboard").css('display', 'block');
-    $("#logout").css('display', 'block');
+    $("#dashboard").css("display", "block");
+    $("#logout").css("display", "block");
     $("#dashboard").on("click", () => {
       window.location.replace("./../../../admin/admin.html");
-    })
+    });
   } else if (current_user.type === "seller") {
-    $("#dashboard").css('display', 'block');
-    $("#logout").css('display', 'block');
+    $("#dashboard").css("display", "block");
+    $("#logout").css("display", "block");
     $("#dashboard").on("click", () => {
       window.location.replace("./../../seller/dashboard/dashboard.html");
     });
   } else if (current_user.type === "user") {
-    $("#logout").css('display', 'block');
-    $("#dashboard").css('display', 'none');
+    $("#logout").css("display", "block");
+    $("#dashboard").css("display", "none");
   }
 } else {
-  $("#logout").css('display', 'none');
-  $("#dashboard").css('display', 'none');
+  $("#logout").css("display", "none");
+  $("#dashboard").css("display", "none");
   $("#cart").on("click", () => {
     window.location.href = "./../../auth/login.html";
-  })
+  });
 }
 
 $("#logout").on("click", logout);
@@ -43,10 +46,12 @@ function logout() {
   window.location.replace("./../../auth/login.html");
 }
 
-
+document.querySelector('.cartHome').addEventListener('click', function () {
+  window.location.href = '../Cart/cart.html'
+})
 
 function showToast(message, type = "success", duration = 1000) {
-  const toast = document.createElement('div');
+  const toast = document.createElement("div");
   toast.className = `alert alert-${type} toast-message shadow`;
   toast.textContent = message;
   toast.style.cssText = `
@@ -56,54 +61,53 @@ function showToast(message, type = "success", duration = 1000) {
     transition: opacity 0.5s ease-in-out;
   `;
 
-  const container = document.getElementById('toastContainer');
+  const container = document.getElementById("toastContainer");
   container.appendChild(toast);
 
   // Fade in
   setTimeout(() => {
-    toast.style.opacity = '1';
+    toast.style.opacity = "1";
   }, 100);
 
   // Fade out & remove
   setTimeout(() => {
-    toast.style.opacity = '0';
+    toast.style.opacity = "0";
     setTimeout(() => {
       toast.remove();
     }, 100);
   }, duration);
 }
 
+document;
 
+// document.addEventListener("DOMContentLoaded", function () {
+//   const sections = document.querySelectorAll("section");
+//   const navLinks = document.querySelectorAll(".nav-link");
 
-document.addEventListener("DOMContentLoaded", function () {
-  const sections = document.querySelectorAll("section");
-  const navLinks = document.querySelectorAll(".nav-link");
+//   const observerOptions = {
+//     root: null, // يراقب ضمن نافذة العرض
+//     threshold: 0.5, // يظهر عندما يكون 50% من العنصر مرئيًا
+//   };
 
-  const observerOptions = {
-    root: null, // يراقب ضمن نافذة العرض
-    threshold: 0.5 // يظهر عندما يكون 50% من العنصر مرئيًا
-  };
+//   const observer = new IntersectionObserver((entries) => {
+//     entries.forEach((entry) => {
+//       if (entry.isIntersecting) {
+//         navLinks.forEach((link) => link.classList.remove("active"));
+//         document
+//           .querySelector(`.nav-link[href="#${entry.target.id}"]`)
+//           .classList.add("active");
+//       }
+//     });
+//   }, observerOptions);
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navLinks.forEach(link => link.classList.remove("active"));
-        document.querySelector(`.nav-link[href="#${entry.target.id}"]`).classList.add("active");
-      }
-    });
-  }, observerOptions);
-
-  sections.forEach(section => observer.observe(section));
-});
-
-
+//   sections.forEach((section) => observer.observe(section));
+// });
 
 /***************************************************************** */
 
-
 document.addEventListener("DOMContentLoaded", () => {
   const catalogContainer = document.querySelector(".cards");
-  const products = getProducts(); // الحصول على المنتجات 
+  const products = getProducts(); // الحصول على المنتجات
 
   products.forEach((product) => {
     const productCard = document.createElement("div");
@@ -111,7 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     productCard.innerHTML = `
       <div class="card cursor-pointer">
-        <img src="${product.getImages()[0]}" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
+        <img src="${product.getImages()[0]
+      }" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
         <div class="links">
           <ul>
             <li><a><i class="fa-solid fa-cart-shopping addToCart"></i></a></li>
@@ -128,8 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
               ${product.getRating() % 1 ? "☆" : ""}
             </span>
           </div>
-          <p class="h5 product-title">${product.getProductName()}</p>
-          <span>${product.getPrice()}$</span>
+          <p class="h5 product-title" id='productItem'>${product.getProductName()}</p>
+          <span id='price'>${product.getPrice()}$</span>
         </div>
         <button class="addToCart" data-id="${product.getId()}">Add To Cart</button>
       </div>
@@ -138,124 +143,134 @@ document.addEventListener("DOMContentLoaded", () => {
     catalogContainer.appendChild(productCard);
   });
 
-
   // Delegate click event to .details images
   catalogContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("details")) {
       const productId = e.target.dataset.id;
       window.location.href = `./datails.html?productId=${productId}`; // إضافة معرّف المنتج للرابط
-
     }
   });
 });
 
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("addToCart")) {
 
-document.addEventListener('click', function (e) {
-  if (e.target.classList.contains('addToCart')) {
     const button = e.target;
-    const card = button.closest('.card');
-    const img = card.querySelector('img');
+    const card = button.closest(".card");
+    const img = card.querySelector("img");
     const productId = button.dataset.id;
-    const category = card.querySelector('#productCategory').textContent;
-    const productItem = card.querySelector('#productItem').textContent;
-    const price = card.querySelector('#price').textContent;
+    const category = card.querySelector("#productCategory").textContent;
+    const productItem = card.querySelector("#productItem").textContent;
+    const price = card.querySelector("#price").textContent;
 
     const product = {
       id: productId,
       img: img.src,
       name: productItem,
       category,
-      price: parseInt(price.replace(/\D/g, '')),
-      quantity: 1
+      price: parseInt(price.replace(/\D/g, "")),
+      quantity: 1,
     };
 
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    console.log("Before adding:", cart);
 
-    const existingProduct = cart.find(item => item.id === productId);
-    if (existingProduct) {
-      existingProduct.quantity += 1;
-    } else {
-      cart.push(product);
+    if (getProductById(product.id).getStock() > 0) {
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      console.log("Before adding:", cart);
+
+      const existingProduct = cart.find((item) => item.id === productId);
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        cart.push(product);
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      console.log("After adding:", cart);
+
+      showToast("Product added successfully to cart");
     }
 
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    console.log("After adding:", cart);
-
-    showToast('Product added successfully to cart');
   }
 });
 
 ////////////////////////////////////////////////////////
 //search bar
-const searchIcon = document.querySelector('.fa-magnifying-glass');
-const searchContainer = document.getElementById('search-container');
-const searchInput = document.getElementById('search-input');
-const searchResults = document.getElementById('search-results');
+const searchIcon = document.querySelector(".fa-magnifying-glass");
+const searchContainer = document.getElementById("search-container");
+const searchInput = document.getElementById("search-input");
+const searchResults = document.getElementById("search-results");
 
-const items = getProducts().map(product => ({
+const items = getProducts().map((product) => ({
   name: product.getProductName(),
   image: product.getImages()[0],
   price: `${product.getPrice()}$`,
-  id: product.getId()
+  id: product.getId(),
 }));
 
-
-searchIcon.addEventListener('click', () => {
-  if (searchContainer.style.display === 'none' || searchContainer.style.display === '') {
-    searchContainer.style.display = 'block';
-    searchContainer.style.opacity = '0';
-    searchContainer.style.transition = 'opacity 0.5s ease-in-out';
+searchIcon.addEventListener("click", () => {
+  if (
+    searchContainer.style.display === "none" ||
+    searchContainer.style.display === ""
+  ) {
+    searchContainer.style.display = "block";
+    searchContainer.style.opacity = "0";
+    searchContainer.style.transition = "opacity 0.5s ease-in-out";
     setTimeout(() => {
-      searchContainer.style.opacity = '1';
+      searchContainer.style.opacity = "1";
     }, 0);
     searchInput.focus();
   } else {
-    searchContainer.style.opacity = '0';
+    searchContainer.style.opacity = "0";
     setTimeout(() => {
-      searchContainer.style.display = 'none';
-      searchResults.innerHTML = '';
-      searchInput.value = '';
+      searchContainer.style.display = "none";
+      searchResults.innerHTML = "";
+      searchInput.value = "";
     }, 500);
   }
 });
 
-document.addEventListener('click', function (e) {
-  const isClickInside = searchContainer.contains(e.target) || searchIcon.contains(e.target);
+document.addEventListener("click", function (e) {
+  const isClickInside =
+    searchContainer.contains(e.target) || searchIcon.contains(e.target);
 
   if (!isClickInside) {
-    searchContainer.style.opacity = '0';
+    searchContainer.style.opacity = "0";
     setTimeout(() => {
-      searchContainer.style.display = 'none';
-      searchResults.innerHTML = '';
-      searchInput.value = '';
+      searchContainer.style.display = "none";
+      searchResults.innerHTML = "";
+      searchInput.value = "";
     }, 500);
   }
 });
 
-
-searchInput.addEventListener('input', () => {
+searchInput.addEventListener("input", () => {
   const query = searchInput.value.toLowerCase();
-  searchResults.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>'; // Show loading indicator
+  searchResults.innerHTML =
+    '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>'; // Show loading indicator
 
   setTimeout(() => {
-    const filtered = items.filter(item => item.name.toLowerCase().includes(query));
+    const filtered = items.filter((item) =>
+      item.name.toLowerCase().includes(query)
+    );
     renderResults(filtered);
   }, 2000);
 });
 
 function renderResults(results) {
-  searchResults.innerHTML = '';
+  searchResults.innerHTML = "";
   if (results.length === 0) {
     searchResults.innerHTML = '<p class="text-muted">No results found.</p>';
     return;
   }
 
-  results.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'search-item d-flex align-items-center p-2 border-bottom cursor-pointer';
+  results.forEach((item) => {
+    const div = document.createElement("div");
+    div.className =
+      "search-item d-flex align-items-center p-2 border-bottom cursor-pointer";
     div.innerHTML = `
       <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
       <div>
@@ -264,12 +279,9 @@ function renderResults(results) {
 
       </div>
     `;
-    div.addEventListener('click', () => {
+    div.addEventListener("click", () => {
       window.location.href = `./datails.html?productId=${item.id}`;
     });
     searchResults.appendChild(div);
   });
 }
-
-
-

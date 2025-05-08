@@ -21,11 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(selectedProduct);
         console.log(selectedProduct.productName);
 
-          
+
 
         if (selectedProduct) {
-          
-            
+
+
 
             // select product-name from details page
             document.querySelector('.product-name').textContent = selectedProduct.productName;
@@ -37,11 +37,32 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector('.product-price').textContent = `$${selectedProduct.price}`;
             // select rating from details page
             document.querySelector('.rating').innerHTML = generateRatingStars(selectedProduct.rating);
-           
+
             const productImages = selectedProduct.images;
             const thumbnailsContainer = document.querySelector('.image-thumbnails');
             thumbnailsContainer.innerHTML = '';
-           /***********Same image For same Product***************************/ 
+            // التحكم في عرض المقاسات بناءً على التصنيف
+            const sizeSection = document.getElementById('sizes-container');
+            const sizesNumberSection = document.getElementById('sizes-numbers-container');
+
+            const clothingCategories = ['tops', 'mens-shirts', 'womens-dresses'];
+            const shoesCategories = ['womens-shoes', 'mens-shoes'];
+
+            // إخفاء الاتنين في البداية
+            sizeSection.style.display = 'none';
+            sizesNumberSection.style.display = 'none';
+
+            // لو ملابس ➜ عرض المقاسات
+            if (clothingCategories.includes(selectedProduct.category)) {
+                sizeSection.style.display = 'block';
+            }
+            // لو أحذية ➜ عرض مقاسات بالأرقام
+            else if (shoesCategories.includes(selectedProduct.category)) {
+                sizesNumberSection.style.display = 'block';
+            }
+
+
+            /***********Same image For same Product***************************/
             productImages.forEach((imgSrc, index) => {
                 const thumb = document.createElement('img');
                 thumb.src = imgSrc;
@@ -51,11 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 thumb.style.height = '80px';
                 thumb.style.cursor = 'pointer';
                 thumb.style.objectFit = 'cover';
-    
+
                 thumb.addEventListener('click', () => {
                     document.querySelector('.product-image').src = imgSrc;
                 });
-    
+
                 thumbnailsContainer.appendChild(thumb);
             });
             displayRelatedProducts(selectedProduct.category, selectedProduct.id);
@@ -120,21 +141,25 @@ function displayRelatedProducts(category, currentProductId) {
 
         </div>
       `;
-      
+
         relatedContainer.appendChild(productCard);
     });
 }
 
 /* <a href="details.html?productId=${product.id}" class="view-details">View Details</a> */
 
-/*Size Button*/ 
+/*Size Button*/
 document.addEventListener("DOMContentLoaded", () => {
-    const sizeButtons = document.querySelectorAll(".size button");
-    const selectedSizeSpan = document.querySelector(".size .num");
+    const allSizeSections = document.querySelectorAll(".size");
 
-    sizeButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            selectedSizeSpan.textContent = button.textContent;
+    allSizeSections.forEach(section => {
+        const buttons = section.querySelectorAll("button");
+        const numSpan = section.querySelector(".num");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", () => {
+                numSpan.textContent = button.textContent;
+            });
         });
     });
 });
