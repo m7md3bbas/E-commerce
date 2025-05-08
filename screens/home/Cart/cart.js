@@ -74,6 +74,9 @@ function initProduct(productElement, itemData) {
   });
 
   plusBtn.addEventListener('click', () => {
+    if(getProductById(product.id).getStock() ){
+
+    }
     quantity++;
     updateTotal();
   });
