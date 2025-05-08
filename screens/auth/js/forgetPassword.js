@@ -1,140 +1,202 @@
-// Update the import statement to include updateUserPassword
-import { getUsers, getUserByEmail, updateUser, updateUserPassword } from "../../../projectModules/usersModule.js";
-
-const forgotPasswordForm = document.getElementById("forgotPasswordForm");
-const backupCodeModal = new bootstrap.Modal(document.getElementById('backupCodeModal'));
-const newPasswordModal = new bootstrap.Modal(document.getElementById('newPasswordModal'));
-const verifyBackupCodeBtn = document.getElementById("verifyBackupCode");
-const updatePasswordBtn = document.getElementById("updatePassword");
-
-let currentUser = null;
-let emailAttempts = 0;
-const MAX_ATTEMPTS = 3;
+import { getUsers, getUserByEmail, updateUserPassword } from "../../../projectModules/usersModule.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+    const forgotPasswordForm = document.querySelector("form");
+    const emailInput = document.getElementById("floatingEmail");
+    const backupCodeModal = new bootstrap.Modal(document.getElementById('backupCodeModal'));
+    const newPasswordModal = new bootstrap.Modal(document.getElementById('newPasswordModal'));
+    const verifyBackupCodeBtn = document.getElementById("verifyBackupCode");
+    const updatePasswordBtn = document.getElementById("updatePassword");
+    const continueBtn = document.querySelector("button[type='submit']");
+    const toggleIcons = document.querySelectorAll(".password-toggle");
+
+    toggleIcons.forEach(icon => {
+        icon.addEventListener("click", () => {
+            const input = icon.closest('.form-floating').querySelector('input');
+            const iconElement = icon.querySelector('i');
+
+            if (input.type === "password") {
+                input.type = "text";
+                iconElement.classList.remove("fa-eye-slash");
+                iconElement.classList.add("fa-eye");
+            } else {
+                input.type = "password";
+                iconElement.classList.remove("fa-eye");
+                iconElement.classList.add("fa-eye-slash");
+            }
+        });
+    });
+
+    let currentUser = null;
+    let emailAttempts = 0;
+    const MAX_ATTEMPTS = 3;
+
     forgotPasswordForm.addEventListener("submit", handleEmailSubmission);
     verifyBackupCodeBtn.addEventListener("click", verifyBackupCode);
     updatePasswordBtn.addEventListener("click", updatePassword);
-});
 
-function handleEmailSubmission(e) {
-    e.preventDefault();
-    e.stopPropagation();
+    function handleEmailSubmission(e) {
+        e.preventDefault();
+        e.stopPropagation();
 
-    const emailInput = document.getElementById("email");
-    const email = emailInput.value.trim();
+        const email = emailInput.value.trim();
 
-    if (!email) {
-        emailInput.setCustomValidity("Please enter your email address");
-        emailInput.reportValidity();
-        return;
-    }
-
-    const user = getUserByEmail(email);
-    if (!user) {
-        emailAttempts++;
-        if (emailAttempts >= MAX_ATTEMPTS) {
-            alert("Too many attempts. Please try again later.");
-            window.location.replace("./../login.html");
+        // Basic email validation
+        if (!email || !email.includes("@")) {
+            emailInput.setCustomValidity("Please enter a valid email address");
+            emailInput.reportValidity();
             return;
         }
-        emailInput.setCustomValidity("Email not found in our system");
-        emailInput.reportValidity();
-        return;
-    }
 
-    emailInput.setCustomValidity("");
-    currentUser = user;
-    
-    backupCodeModal.show();
-}
+        // Show loading state
+        continueBtn.disabled = true;
+        continueBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Checking...';
 
-function verifyBackupCode() {
-    const backupCodeInput = document.getElementById("backupCode");
-    const code = backupCodeInput.value.trim();
-
-    if (!code) {
-        backupCodeInput.setCustomValidity("Please enter your backup code");
-        backupCodeInput.reportValidity();
-        return;
-    }
-
-    if (code !== currentUser.getBackupCode()) {
-        backupCodeInput.setCustomValidity("Invalid backup code");
-        backupCodeInput.reportValidity();
-        return;
-    }
-
-    backupCodeInput.setCustomValidity("");
-    backupCodeModal.hide();
-    newPasswordModal.show();
-}
-
-function updatePassword() {
-    backupCodeModal.hide();
-    const newPasswordForm = document.getElementById("newPasswordForm");
-    const newPassword = document.getElementById("newPassword").value;
-    const confirmNewPassword = document.getElementById("confirmNewPassword").value;
-
-    if (!newPasswordForm.checkValidity()) {
-        newPasswordForm.classList.add("was-validated");
-        return;
-    }
-
-    if (newPassword !== confirmNewPassword) {
-        document.getElementById("confirmNewPassword").setCustomValidity("Passwords must match");
-        document.getElementById("confirmNewPassword").reportValidity();
-        return;
-    }
-
-    try {
-        const updateBtn = document.getElementById("updatePassword");
-        updateBtn.disabled = true;
-        updateBtn.innerHTML = 'Updating... <span class="spinner-border spinner-border-sm"></span>';
-
-        const updatedUser = updateUserPassword(currentUser.getId(), newPassword);
-
-        if (!updatedUser) {
-            throw new Error("Failed to update password");
-        }
-
+        // Simulate API delay
         setTimeout(() => {
-            newPasswordModal.hide();
-            
-            // Use a better alert system if available (like Bootstrap alerts)
-            const alertDiv = document.createElement('div');
-            alertDiv.className = 'alert alert-success position-fixed top-0 end-0 m-3';
-            alertDiv.style.zIndex = '1060';
-            alertDiv.textContent = 'Password updated successfully!';
-            document.body.appendChild(alertDiv);
-            
-            // Remove alert after 3 seconds
-            setTimeout(() => alertDiv.remove(), 3000);
-            
-            window.location.href = "login.html";
-        }, 500);
+            const user = getUserByEmail(email);
 
-    } catch (error) {
-        console.error("Password update error:", error);
-        
-        // Reset button state
-        const updateBtn = document.getElementById("updatePassword");
-        updateBtn.disabled = false;
-        updateBtn.innerHTML = 'Update Password';
+            // Reset button state
+            continueBtn.disabled = false;
+            continueBtn.innerHTML = 'Continue';
 
-        // Show error message
-        let errorMessage = "An error occurred while updating your password.";
-        if (error.message.includes("Password must be at least 6 characters")) {
-            errorMessage = "Password must be at least 6 characters long.";
-        }
-        
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'alert alert-danger position-fixed top-0 end-0 m-3';
-        errorDiv.style.zIndex = '1060';
-        errorDiv.textContent = errorMessage;
-        document.body.appendChild(errorDiv);
-        
-        // Remove error after 5 seconds
-        setTimeout(() => errorDiv.remove(), 5000);
+            if (!user) {
+                emailAttempts++;
+                if (emailAttempts >= MAX_ATTEMPTS) {
+                    alert("Too many attempts. Please try again later.");
+                    window.location.href = "./login.html";
+                    return;
+                }
+                emailInput.setCustomValidity("Email not found in our system");
+                emailInput.reportValidity();
+                return;
+            }
+
+            emailInput.setCustomValidity("");
+            currentUser = user;
+            backupCodeModal.show();
+        }, 1000);
     }
-}
+
+    function verifyBackupCode() {
+        const backupCodeInput = document.getElementById("backupCode");
+        const code = backupCodeInput.value.trim();
+
+        if (!code) {
+            backupCodeInput.setCustomValidity("Please enter your backup code");
+            backupCodeInput.reportValidity();
+            return;
+        }
+
+        // Show loading state
+        verifyBackupCodeBtn.disabled = true;
+        verifyBackupCodeBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Verifying...';
+
+        // Simulate verification delay
+        setTimeout(() => {
+            if (code !== currentUser.getBackupCode()) {
+                backupCodeInput.setCustomValidity("Invalid backup code");
+                backupCodeInput.reportValidity();
+
+                // Reset button state
+                verifyBackupCodeBtn.disabled = false;
+                verifyBackupCodeBtn.innerHTML = 'Verify';
+                return;
+            }
+
+            backupCodeInput.setCustomValidity("");
+            backupCodeModal.hide();
+            newPasswordModal.show();
+
+            // Reset button state
+            verifyBackupCodeBtn.disabled = false;
+            verifyBackupCodeBtn.innerHTML = 'Verify';
+        }, 800);
+    }
+
+    function updatePassword() {
+        const newPasswordForm = document.getElementById("newPasswordForm");
+        const newPassword = document.getElementById("newPassword").value;
+        const confirmNewPassword = document.getElementById("confirmNewPassword").value;
+
+        if (!newPasswordForm.checkValidity()) {
+            newPasswordForm.classList.add("was-validated");
+            return;
+        }
+
+        if (newPassword !== confirmNewPassword) {
+            document.getElementById("confirmNewPassword").setCustomValidity("Passwords must match");
+            document.getElementById("confirmNewPassword").reportValidity();
+            return;
+        }
+
+        // Show loading state
+        updatePasswordBtn.disabled = true;
+        updatePasswordBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Updating...';
+
+        try {
+            // Simulate update delay
+            setTimeout(() => {
+                const updatedUser = updateUserPassword(currentUser.getId(), newPassword);
+
+                if (!updatedUser) {
+                    throw new Error("Failed to update password");
+                }
+
+                newPasswordModal.hide();
+
+                // Show success toast
+                const toastHTML = `
+                    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header bg-success text-white">
+                                <strong class="me-auto">Success</strong>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                                Password updated successfully! Redirecting to login...
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.body.insertAdjacentHTML('beforeend', toastHTML);
+
+                // Redirect after delay
+                setTimeout(() => {
+                    window.location.href = "./login.html";
+                }, 2000);
+            }, 1000);
+
+        } catch (error) {
+            console.error("Password update error:", error);
+
+            // Reset button state
+            updatePasswordBtn.disabled = false;
+            updatePasswordBtn.innerHTML = 'Update Password';
+
+            // Show error toast
+            const toastHTML = `
+                <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header bg-danger text-white">
+                            <strong class="me-auto">Error</strong>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            ${error.message || "Failed to update password. Please try again."}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', toastHTML);
+
+            // Remove toast after 5 seconds
+            setTimeout(() => {
+                const toasts = document.querySelectorAll('.toast');
+                toasts.forEach(toast => toast.remove());
+            }, 5000);
+        }
+    }
+});

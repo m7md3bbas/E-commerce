@@ -11,38 +11,43 @@
 
     <link rel="stylesheet" href="../../assets/libs/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../assets/libs/css/hover-min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/login.css">
 
 </head>
 
 <body>
-    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-        <div class="col-12 col-md-12 col-lg-6">
-            <form class="form-login " id="loginForm" >
-                <h1 class="h3 mb-3 text-center">Welcome Back</h1>
-
-                <div class="form-floating mb-3">
-                    <input type="email" id="email" class="form-control" placeholder="name@example.com" required />
-                    <label for="email">Email address</label>
-                </div>
-
-                <div class="form-floating mb-3 position-relative">
-                    <input type="password" id="password" class="form-control" placeholder="Password" required />
-                    <label for="password">Password</label>
-                    <span class="password-toggle" data-target="password"><i class="fa-solid fs-5 fa-eye-slash"></i></span>
-                </div>
-                <div class="text-center mb-3">
-                    <a href="forgetpassword.html" class="text-decoration-none">Forgot your password?</a>
-                </div>
-
-                <button class="btn w-100 py-2 hvr-rectangle-out" type="submit">Log In</button>
-
-                <p class="mt-5 mb-3 text-muted text-center">
-                    Don't have an account?
-                    <a href="register.html" class="fw-bold">Sign up</a>
-                </p>
-            </form>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7 d-flex align-items-center justify-content-center" id="leftDiv">
+                <form class="w-75">
+                    <h2 class="mb-2">Login Here</h2>
+                    <p class="mb-4">Welcome Back !!!</p>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" required>
+                        <label for="floatingEmail">Email address</label>
+                    </div>
+                    <div class="form-floating mb-4 position-relative">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+                        <label for="floatingPassword">Password</label>
+                        <span class="password-toggle" data-target="password"><i
+                                class="fa-solid fs-5 fa-eye-slash"></i></span>
+                    </div>
+                    <div class="mb-3 text-end">
+                        <a href="./forgetpassword.html" class="text-secondary text-decoration-none">Forgot Password?</a>
+                    </div>
+                    <div>
+                        <p class="text-secondary">Don't have an account ? <a class="text-secondary "
+                                href="./register.html">Sign Up</a></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+            </div>
+            <div class="col-md-5 d-none d-md-flex" id="rightDiv">
+                <img src="./../../assets/imgs/Auth/Group 2014.png" alt="Login illustration">
+            </div>
         </div>
     </div>
     <script type="module" src="js/login.js"></script>

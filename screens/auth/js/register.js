@@ -3,86 +3,94 @@ import {
     getUsers,
 } from "../../../projectModules/usersModule.js";
 
-
-
-addEventListener("load", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const signupForm = document.getElementById("signupForm");
-    const name = document.getElementById("name");
-    const email = document.getElementById("email");
-    const password = document.getElementById("password");
-    const confirmPassword = document.getElementById("confirmPassword");
-    const isSeller = document.getElementById("isSeller");
-    const loginBtn = document.querySelector("button");
+    const nameInput = document.getElementById("floatingName");
+    const emailInput = document.getElementById("floatingEmail");
+    const passwordInput = document.getElementById("floatingPassword");
+    const confirmPasswordInput = document.getElementById("floatingConfirmPassword");
+    const signupBtn = document.querySelector("button[type='submit']");
 
-    let type = "user";
+    // Password toggle functionality
     const toggleIcons = document.querySelectorAll(".password-toggle");
     toggleIcons.forEach(icon => {
         icon.addEventListener("click", () => {
-            const input = document.getElementById(icon.dataset.target);
+            const targetId = icon.closest('.form-floating').querySelector('input').id;
+            const input = document.getElementById(targetId);
+            const iconElement = icon.querySelector('i');
+
             if (input.type === "password") {
                 input.type = "text";
-                icon.innerHTML = '<i class="fa-solid fs-5 fa-eye-slash"></i>';
+                iconElement.classList.remove("fa-eye-slash");
+                iconElement.classList.add("fa-eye");
             } else {
                 input.type = "password";
-                icon.innerHTML = '<i class="fa-solid fs-5 fa-eye"></i>';
+                iconElement.classList.remove("fa-eye");
+                iconElement.classList.add("fa-eye-slash");
             }
         });
-    });
-
-    isSeller.addEventListener("change", () => {
-        type = isSeller.checked ? "seller" : "user";
     });
 
     signupForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        
+        // Form validation
         if (!signupForm.checkValidity()) {
             signupForm.classList.add("was-validated");
             return;
         }
 
-        if(email.value.includes("@gmail.com"))
-        if (password.value !== confirmPassword.value) {
+        // Email validation
+        if (!emailInput.value.includes("@")) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+
+        // Password match validation
+        if (passwordInput.value !== confirmPasswordInput.value) {
             alert("Passwords do not match.");
             return;
         }
 
-        if (getUsers().some(user => user.getEmail() === email.value)) {
+        // Check if email already exists
+        if (getUsers().some(user => user.getEmail() === emailInput.value)) {
             alert("Email already exists.");
             return;
         }
 
-        loginBtn.disabled = true;
-        loginBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...`;
+        // Disable button and show loading state
+        signupBtn.disabled = true;
+        signupBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...`;
 
+        // Simulate API call delay
         setTimeout(() => {
             const users = getUsers();
             const id = users.length + 1;
 
+            // Create new user (default type is "user")
             pushUser(
                 id,
-                name.value,
-                email.value,
-                password.value,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-                ,
-                type
+                nameInput.value,
+                emailInput.value,
+                passwordInput.value,
+                null,  // phone
+                null,  // address
+                null,  // profileImage
+                null,  // paymentMethod
+                null,  // favorites
+                null,  // cart
+                null,  // orders
+                "user" // type
             );
 
+            // Get the newly created user and their backup code
             const newUser = getUsers().find(user => user.getId() === id);
             const backupCode = newUser.getBackupCode();
 
-            // Show backup code in an alert or modal
+            // Show backup code to user
             alert(`Your backup code is: ${backupCode}\n\nPlease save this code somewhere safe. It will not be shown again.`);
 
-            // Create downloadable file
+            // Create downloadable backup code file
             const blob = new Blob(
                 [`Your backup code is: ${backupCode}\n\nKeep this code safe. It can be used to recover your account.`],
                 { type: "text/plain" }
@@ -90,21 +98,17 @@ addEventListener("load", function () {
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `BackupCode-${name.value}.txt`;
+            a.download = `BackupCode-${nameInput.value}.txt`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
 
-            alert("Registration successful! Redirecting to the home page...");
-
+            // Redirect after successful registration
             setTimeout(() => {
-                loginBtn.disabled = false;
-                loginBtn.innerHTML = "Register";
-                window.location.href="./login.html";
+                window.location.href = "./login.html";
             }, 1500);
 
         }, 2000);
-
     });
 });

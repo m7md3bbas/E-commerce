@@ -7,58 +7,58 @@
     <title>Sign Up</title>
     <link rel="stylesheet" href="../../assets/libs/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../assets/libs/css/hover-min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/login.css" />
 </head>
 
 <body>
-    <div class="container blur-wrapper d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-        <div class="col-12 col-md-12 col-lg-6">
-            <form class="form-signin " id="signupForm" >
-                <h1 class="h3 mb-3 text-center">Create an account</h1>
+    <div class="container-fluid blur-wrapper ">
+        <div class="row">
+            <div class="col-md-7 d-flex align-items-center justify-content-center" id="leftDiv">
+                <form class="form-signup w-75 " id="signupForm">
+                    <h2 class="mb-4">Sign Up Now</h2>
 
-                <div class="form-floating mb-3">
-                    <input type="text" id="name" class="form-control" placeholder="Your name" required />
-                    <label for="name">Name</label>
-                </div>
-
-                <div class="form-floating mb-3">
-                    <input type="email" id="email" class="form-control" placeholder="name@example.com" required />
-                    <label for="email">Email address</label>
-                </div>
-
-                <div class="row g-2">
-                    <div class="col-md-6 position-relative">
-                        <div class="form-floating mb-3">
-                            <input type="password" id="password" class="form-control" placeholder="Password" required
-                                minlength="6" />
-                            <label for="password">Password</label>
-                            <span class="password-toggle" data-target="password"><i class="fa-solid fs-5 fa-eye-slash"></i></span>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingName" placeholder="Yourname">
+                        <label for="floatingEmail">Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+                        <label for="floatingEmail">Email</label>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-6 mb-3 mb-md-0 position-relative">
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="floatingPassword"
+                                    placeholder="Password">
+                                <label for="floatingPassword">Password</label>
+                                <span class="password-toggle" data-target="password"><i
+                                        class="fa-solid fs-5 fa-eye-slash"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 position-relative">
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="floatingConfirmPassword"
+                                    placeholder="Confirm Password">
+                                <label for="floatingConfirmPassword">Confirm Password</label>
+                                <span class="password-toggle" data-target="password"><i
+                                        class="fa-solid fs-5 fa-eye-slash"></i></span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-md-6 position-relative">
-                        <div class="form-floating mb-3">
-                            <input type="password" id="confirmPassword" class="form-control"
-                                placeholder="Confirm Password" required minlength="6" />
-                            <label for="confirmPassword">Confirm Password</label>
-                            <span class="password-toggle" data-target="confirmPassword"><i class="fa-solid fs-5 fa-eye-slash"></i></span>
-                        </div>
+                    <div>
+                        <p class="text-secondary">Already have an account ? <a class="text-secondary "
+                                href="./login.html">Login</a></p>
                     </div>
-                </div>
-
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="isSeller" name="isSeller" />
-                    <label class="form-check-label" for="isSeller">Do you want to be a seller?</label>
-                </div>
-
-                <button class="btn w-100 py-2 hvr-rectangle-out" type="submit">Sign up</button>
-
-                <p class="mt-5 mb-3 text-muted text-center">
-                    Already have an account?
-                    <a href="login.html" class="fw-bold">Sign in</a>
-                </p>
-            </form>
+                    <button type="submit" class="btn btn-primary w-100 ">Sign Up</button>
+                </form>
+            </div>
+            <div class="col-md-5 d-none d-md-flex" id="rightDiv">
+                <img src="./../../assets/imgs/Auth/Group 2014.png" alt="Login illustration">
+            </div>
         </div>
     </div>
 
