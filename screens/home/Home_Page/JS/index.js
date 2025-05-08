@@ -128,8 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
               ${product.getRating() % 1 ? "☆" : ""}
             </span>
           </div>
-          <p class="h5 product-title">${product.getProductName()}</p>
-          <span>${product.getPrice()}$</span>
+          <p class="h5 product-title" id='productItem'>${product.getProductName()}</p>
+          <span id='price'>${product.getPrice()}$</span>
         </div>
         <button class="addToCart" data-id="${product.getId()}">Add To Cart</button>
       </div>

@@ -313,3 +313,6 @@ export const updateProduct = (
   }
   return null;
 };
+
+
+loadProductsFromStorage();

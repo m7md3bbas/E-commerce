@@ -5,12 +5,12 @@ import {
   getProductsBySellerName,
   getProductsBySellerEmail,
 } from "../../../projectModules/productModule.js";
+import { getAllPurchases } from "../../../projectModules/purchases.js";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 let products = getProducts();
+let allPurchases = getAllPurchases();
 console.log(getProductById("190"));
-
-
 
 let users = getUsers();
 let customers = 0;
@@ -63,6 +63,23 @@ users.forEach(function (item) {
   }
 });
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+let garbia = 0;
+let behera = 0;
+let monofia = 0;
+let sharpia = 0;
+let kfrElshekh = 0;
+let other_govern = 0;
+
+allPurchases.forEach(function (item) {
+  let address = item.getBuyer().getAddress();
+  if (address === "Garbia") garbia++;
+  if (address === "Behera") behera++;
+  if (address === "Monofia") monofia++;
+  if (address === "Sharqia") sharpia++;
+  if (address === "Kfr Elshekh") kfrElshekh++;
+  else other_govern++;
+});
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // console.log(await getProducts());
 
@@ -239,11 +256,11 @@ const regionCtx = document.getElementById("pieChart5");
 const regionChart = new Chart(regionCtx, {
   type: "bar",
   data: {
-    labels: ["Garbia", "Behera", "Cairo", "Monofia", "Sharqia", "Kfr Elshekh"],
+    labels: ["Garbia", "Behera", "Monofia", "Sharqia", "Kfr Elshekh", "Other"],
     datasets: [
       {
         label: "Sales ($)",
-        data: [60, 50, 20, 40, 70, 90],
+        data: [garbia, behera, monofia, sharpia, kfrElshekh, other_govern],
         backgroundColor: [
           "rgba(78, 115, 223, 0.8)",
           "rgba(28, 200, 138, 0.8)",

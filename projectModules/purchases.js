@@ -1,10 +1,15 @@
+const STORAGE_KEY = "purchases_storage";
+import { getUserByID } from "./usersModule.js";
+import { getProductById } from "./productModule.js";
+
 class Purchase {
   #id;
   #status;
   #buyer;
   #product;
+  #date_of_purchase;
 
-  constructor(id, status, buyer, product) {
+  constructor(id, status, buyer, product, date_of_purchase) {
     if (!(buyer instanceof Object) || typeof buyer.getId !== "function") {
       throw new Error("Buyer must be an instance of User.");
     }
@@ -17,6 +22,7 @@ class Purchase {
     this.setStatus(status);
     this.setBuyer(buyer);
     this.setProduct(product);
+    this.setDateOfPurchase(date_of_purchase);
   }
 
   getId() {
@@ -53,28 +59,43 @@ class Purchase {
   setProduct(product) {
     this.#product = product;
   }
+  setDateOfPurchase(date) {
+    if (date) this.#date_of_purchase = date;
+    else this.#date_of_purchase = new Date().toISOString().split("T")[0];
+  }
+  getDateOfPurchase() {
+    return this.#date_of_purchase;
+  }
 }
 
 let purchases_arr = [];
-export const pushPurchase = function (id, status, buyer, product) {
-  const purchase = new Purchase(id, status, buyer, product);
+export const pushPurchase = function (
+  id,
+  status,
+  buyer,
+  product,
+  dateOfPurchase
+) {
+  const purchase = new Purchase(id, status, buyer, product, dateOfPurchase);
   purchases_arr.push(purchase);
+  savePurchasesToStorage();
   return purchase;
 };
 
 export const getPurchaseById = function (id) {
+  loadPurchasesFromStorage();
   const purchase = purchases_arr.find((purchase) => purchase.getId() === id);
   return purchase || null;
 };
 
 export const getPurchaseBySellerId = function (sellerName) {
-  return purchase_arr.filter(
+  return purchases_arr.filter(
     (purchase) => purchase.getProduct().getSeller() === sellerName
   );
 };
 
 export const getPurchaseBySellerGmail = function (sellerEmail) {
-  return purchase_arr.filter(
+  return purchases_arr.filter(
     (purchase) => purchase.getProduct().getSellerEmail() === sellerEmail
   );
 };
@@ -94,3 +115,56 @@ export const getPurchasesByBuyerEmail = function (userEmail) {
     (purchase) => purchase.getBuyer().getEmail() === userEmail
   );
 };
+
+export const deletePurchase = (id) => {
+  const index = purchases_arr.findIndex(
+    (purchase) => purchase.getId().toString() === id.toString()
+  );
+  if (index !== -1) {
+    const [removed] = purchases_arr.splice(index, 1);
+    savePurchasesToStorage();
+    return removed;
+  }
+  return null;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////  Save
+export const savePurchasesToStorage = () => {
+  const simplifiedPurchases = purchases_arr.map((purchase) => ({
+    id: purchase.getId(),
+    status: purchase.getStatus(),
+    buyerId: purchase.getBuyer().getId(),
+    productId: purchase.getProduct().getId(),
+    dateOfPurchase: purchase.getDateOfPurchase(),
+  }));
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(simplifiedPurchases));
+};
+
+////// Load
+export const loadPurchasesFromStorage = () => {
+  const purchase = localStorage.getItem(STORAGE_KEY);
+  if (!purchase) return;
+
+  try {
+    const parsed = JSON.parse(purchase);
+    purchases_arr = parsed.map(
+      ({ id, status, buyerId, productId, dateOfPurchase }) => {
+        const buyer = getUserByID(buyerId);
+        const product = getProductById(productId);
+
+        if (!buyer || !product)
+          throw new Error("Invalid reference in storage.");
+
+        return new Purchase(id, status, buyer, product, dateOfPurchase);
+      }
+    );
+  } catch (err) {
+    console.error("Failed to load purchases from storage:", err);
+    purchases_arr = [];
+  }
+};
+
+loadPurchasesFromStorage();
