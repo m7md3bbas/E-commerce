@@ -15,7 +15,8 @@
     <script src="../js/seller_home_logic.js"></script>
 
     <div class="sidebar">
-        <h5 class="text-center" id="sellerPanel">Seller Panel</h5>
+        <p class="navbar-brand fs-2 text-center">Rewaq</p>
+        <!-- <h5 class="text-center" id="sellerPanel">Seller Panel</h5> -->
         <a href="#" class="active" id="homeLink" onclick="showPage('home')">Home</a>
         <a href="#add-product" id="addProductLink" onclick="showPage('addProduct')">Add Product</a>
         <a href="#manage-products" id="manageProductsLink" onclick="showPage('manageProducts')">Manage Products</a>
@@ -118,7 +119,33 @@
 
         <div id="orders" class="page-content">
             <h4>Orders</h4>
-            <p>Here you can view and track your orders.</p>
+            <div class="table-responsive">
+                <div class="mb-3   ">
+                    <input type="search" id="orderSearchInput" class="form-control" placeholder="Search orders..."
+                        oninput="searchOrders()">
+                </div>
+
+
+                <table class="table table-bordered table-hover table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Address</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <!-- Orders will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
         </div>
 
         <div id="analytics" class="page-content">

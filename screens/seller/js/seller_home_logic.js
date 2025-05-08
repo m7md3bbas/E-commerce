@@ -35,7 +35,7 @@ function updateProductCards() {
             <img class="product-image" src="${mainImage}" alt="${product.productName || 'Product Image'}">
             <div>
                 <h5 class="mt-2">${product.productName || 'No Name'}</h5>
-                <p>Price: ${product.price?.toFixed(2) || '0.00'} EGP</p>
+                <p>Price: ${product.price?.toFixed(2) || '0.00'} $</p>
                 <p>Quantity: ${product.stock || '0'}</p>
                 <button class="btn btn-sm btn-outline-primary view-details" data-index="${index}">
                     View Details
@@ -69,7 +69,7 @@ function updateProductsTable() {
             <td><img src="${mainImage}" alt="${product.productName}" style="width: 50px; height: 50px; object-fit: cover;"></td>
             <td>${product.productName || 'No Name'}</td>
             <td>${product.category || 'Uncategorized'}</td>
-            <td>${product.price?.toFixed(2) || '0.00'} EGP</td>
+            <td>${product.price?.toFixed(2) || '0.00'} $</td>
             <td>${product.stock || '0'}</td>
             <td>${product.rating || '0'}</td>
             <td>
@@ -110,6 +110,9 @@ function showPage(page) {
         setupManageProductsPage();
     } else if (page === 'home') {
         updateProductCards();
+    }
+    if (page === 'orders') {
+        displayOrders();
     }
 }
 
@@ -290,7 +293,7 @@ function filterAndSortProducts() {
                     <td><img src="${mainImage}" alt="${product.productName}" style="width: 50px; height: 50px; object-fit: cover;"></td>
                     <td>${product.productName?.en || product.productName || 'No Name'}</td>
                     <td>${product.category || 'Uncategorized'}</td>
-                    <td>${product.price?.toFixed(2) || '0.00'} EGP</td>
+                    <td>${product.price?.toFixed(2) || '0.00'} $</td>
                     <td>${product.stock || '0'}</td>
                     <td>${product.rating || '0'}</td>
                     <td>
@@ -344,7 +347,7 @@ function showProductModal(product) {
 
 
     if (modalProductName) modalProductName.textContent = product.productName || 'No Name';
-    if (modalProductPrice) modalProductPrice.textContent = (product.price?.toFixed(2) || '0.00') + " EGP";
+    if (modalProductPrice) modalProductPrice.textContent = (product.price?.toFixed(2) || '0.00') + " $";
     if (modalProductQuantity) modalProductQuantity.textContent = product.stock || '0';
     if (modalProductDescription) modalProductDescription.textContent = product.description || 'No Description';
     if (modalProductCategory) modalProductCategory.textContent = product.category || 'Uncategorized';
@@ -478,3 +481,77 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+
+// orders logic
+
+
+function displayOrders() {
+    const purchases = JSON.parse(localStorage.getItem('purchases_storage')) || [];
+    const products = JSON.parse(localStorage.getItem('products')) || [];
+    const buyers = JSON.parse(localStorage.getItem('users')) || [];
+
+    const tbody = document.getElementById('ordersTableBody');
+    tbody.innerHTML = '';
+
+    purchases.forEach((purchase, index) => {
+        const product = products.find(p => p.id == purchase.productId);
+        const buyer = buyers.find(b => b.id == purchase.buyerId);
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${purchase.id}</td>
+            <td>
+                <strong>${buyer?.name || 'Unknown'}</strong><br>
+                <small>${buyer?.phone || ''}</small>
+            </td>
+            <td>${product?.productName || 'Unknown'}</td>
+            <td>${product?.price ? product.price + ' EGP' : '--'}</td>
+            <td>1</td>
+            <td>${buyer?.address || 'N/A'}</td>
+            <td>${purchase.dateOfPurchase}</td>
+            <td>
+                <span class="badge ${purchase.status === 'shipped' ? 'bg-success' : 'bg-warning'}">
+                    ${purchase.status === 'shipped' ? 'Delivered' : 'Pending'}
+                </span>
+            </td>
+  <td>
+    <select class="form-select form-select-sm" onchange="updatePurchaseStatus('${purchase.id}', this.value)">
+        <option value="pending" ${purchase.status === 'pending' ? 'selected' : ''}>Pending</option>
+        <option value="shipped" ${purchase.status === 'shipped' ? 'selected' : ''}>Delivered</option>
+    </select>
+</td>
+
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function updatePurchaseStatus(orderId, newStatus) {
+    const purchases = JSON.parse(localStorage.getItem('purchases_storage')) || [];
+    const updatedPurchases = purchases.map(p => {
+        if (p.id == orderId) {
+            return { ...p, status: newStatus };
+        }
+        return p;
+    });
+    localStorage.setItem('purchases_storage', JSON.stringify(updatedPurchases));
+    displayOrders();
+}
+
+
+
+function updateOrderStatus(index, newStatus) {
+    sampleOrders[index].status = newStatus;
+    displayOrders();
+}
+
+function searchOrders() {
+    const input = document.getElementById("orderSearchInput").value.toLowerCase();
+    const rows = document.querySelectorAll("#ordersTableBody tr");
+
+    rows.forEach(row => {
+        const rowText = row.innerText.toLowerCase();
+        row.style.display = rowText.includes(input) ? "" : "none";
+    });
+}
