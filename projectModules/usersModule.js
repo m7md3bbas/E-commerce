@@ -1,4 +1,4 @@
- class User {
+class User {
   #id;
   #name;
   #email;
@@ -45,14 +45,21 @@
   }
 
   // Getters and Setters
-  getId() { return this.#id; }
-  getName() { return this.#name; }
+  getId() {
+    return this.#id;
+  }
+  getName() {
+    return this.#name;
+  }
   setName(name) {
-    if (typeof name !== "string" || name.trim() === "") throw new Error("Name must be a non-empty string.");
+    if (typeof name !== "string" || name.trim() === "")
+      throw new Error("Name must be a non-empty string.");
     this.#name = name;
   }
 
-  getEmail() { return this.#email; }
+  getEmail() {
+    return this.#email;
+  }
   setEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     // console.log(email)
@@ -60,55 +67,79 @@
     this.#email = email;
   }
 
-  getPassword() { return this.#password; }
+  getPassword() {
+    return this.#password;
+  }
   setPassword(password) {
-    if (typeof password !== "string" || password.length < 6) throw new Error("Password must be at least 6 characters long.");
+    if (typeof password !== "string" || password.length < 6)
+      throw new Error("Password must be at least 6 characters long.");
     this.#password = password;
   }
 
-  getBackupCode() { return this.#backupCode; }
+  getBackupCode() {
+    return this.#backupCode;
+  }
 
-  getAddress() { return this.#address; }
+  getAddress() {
+    return this.#address;
+  }
   setAddress(address) {
-    if (typeof address !== "string" || address.trim() === "") throw new Error("Address must be a non-empty string.");
+    if (typeof address !== "string" || address.trim() === "")
+      throw new Error("Address must be a non-empty string.");
     this.#address = address;
   }
 
-  getType() { return this.#type; }
+  getType() {
+    return this.#type;
+  }
   setType(type) {
-    if (type !== "seller" && type !== "user") throw new Error("Type must be either 'seller' or 'user'.");
+    if (type !== "seller" && type !== "user")
+      throw new Error("Type must be either 'seller' or 'user'.");
     this.#type = type;
   }
 
-  getGender() { return this.#gender; }
+  getGender() {
+    return this.#gender;
+  }
   setGender(gender) {
     const validGenders = ["male", "female"];
-    if (!validGenders.includes(gender.toLowerCase())) throw new Error('Gender must be "male", "female".');
+    if (!validGenders.includes(gender.toLowerCase()))
+      throw new Error('Gender must be "male", "female".');
     this.#gender = gender.toLowerCase();
   }
 
-  getDateOfBirth() { return this.#date_of_birth; }
+  getDateOfBirth() {
+    return this.#date_of_birth;
+  }
   setDateOfBirth(date) {
     const dob = new Date(date);
     if (isNaN(dob.getTime())) throw new Error("Invalid date of birth.");
     this.#date_of_birth = dob.toISOString().split("T")[0];
   }
 
-  getListen() { return this.#listen; }
+  getListen() {
+    return this.#listen;
+  }
   setListen(listen) {
     if (listen !== null && listen !== undefined) this.#listen = listen;
   }
 
-  getPhone() { return this.#phone; }
+  getPhone() {
+    return this.#phone;
+  }
   setPhone(phone) {
     const phoneRegex = /^\+?\d{10,15}$/;
-    if (!phoneRegex.test(phone)) throw new Error("Invalid phone number format.");
+    if (!phoneRegex.test(phone))
+      throw new Error("Invalid phone number format.");
     this.#phone = phone;
   }
 
-  getImage() { return this.#image; }
+  getImage() {
+    return this.#image;
+  }
   setImage(image) {
-    if (typeof image !== "string" || image.trim() === "") throw new Error("Image must be a non-empty string URL.");
+    if (typeof image !== "string" || image.trim() === "")
+      throw new Error("Image must be a non-empty string URL.");
     this.#image = image;
   }
 
@@ -215,14 +246,11 @@ export const deleteUser = (id) => {
   return null;
 };
 
-
 export const deleteLastUser = () => {
-  
-    const [removed] = users.splice(users.length-1, 1);
-    saveToLocalStorage();
-    return removed;
+  const [removed] = users.splice(users.length - 1, 1);
+  saveToLocalStorage();
+  return removed;
 };
-
 
 export const updateUser = function (
   id,
@@ -255,11 +283,9 @@ export const updateUser = function (
   return null;
 };
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-export const updateUserPassword = function(id, newPassword) {
+export const updateUserPassword = function (id, newPassword) {
   const user = users.find((u) => u.getId() === id);
   if (user) {
     user.updatePassword(newPassword);
@@ -282,3 +308,22 @@ const loadFromLocalStorage = () => {
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Deleted user
+
+export function deletedUser() {
+  return new User(
+    "--",
+    "Deleted User",
+    "deleted@account.c",
+    "12345678",
+    "12345678",
+    "del",
+    "male",
+    null,
+    "del",
+    "01123456789",
+    "del",
+    "user"
+  );
+}

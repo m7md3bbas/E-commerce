@@ -3,8 +3,8 @@ import { getProductById } from "../../../projectModules/productModule.js";
 export function showItem() {
   $(".showBtn").click(function () {
     const productId = $(this).data("id");
-    const product = getProductById(productId + "");
-    console.log(getProductById(productId + "").getProductName());
+    const product = getProductById(productId);
+    console.log(getProductById(productId).getProductName());
 
     // product = $(this).data('id')
     // const productImages = product.getImages();
@@ -24,7 +24,7 @@ export function showItem() {
       modalProductName.textContent = product.getProductName() || "No Name";
     if (modalProductPrice)
       modalProductPrice.textContent =
-        (product.getPrice()?.toFixed(2) || "0.00") + " EGP";
+        (product.getPrice()?.toFixed(2) || "0.00") + " $";
     if (modalProductQuantity)
       modalProductQuantity.textContent = product.getStock() || "0";
     if (modalProductDescription)

@@ -91,7 +91,7 @@ $(".form-select").on("change", function (e) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-showItem(); /// form ahmed abd elwahed
+showItem();
 
 $(document).on("click", ".deletePro", function () {
   let result = confirm("Are you sure?");

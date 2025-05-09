@@ -4,8 +4,26 @@ import {
   getProductById,
   getProductsBySellerName,
   getProductsBySellerEmail,
+  decreaseProductStock,
 } from "../../../projectModules/productModule.js";
 import { getAllPurchases } from "../../../projectModules/purchases.js";
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const getLast7Months = () => {
+  const months = [];
+  const now = new Date();
+
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const monthName = date.toLocaleString("default", { month: "long" });
+    months.push(monthName);
+  }
+
+  return months.reverse();
+};
+let months = getLast7Months();
+
+// console.log(getLast7Months());
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 let products = getProducts();
@@ -30,6 +48,8 @@ let age3 = 0;
 let age4 = 0;
 let age5 = 0;
 let other_age = 0;
+
+let totalRevenue = 0;
 
 users.forEach(function (item) {
   // console.log(item.getGender());
@@ -71,14 +91,46 @@ let sharpia = 0;
 let kfrElshekh = 0;
 let other_govern = 0;
 
+let monthRevenue = [0, 0, 0, 0, 0, 0, 0];
+let monthOrders = [0, 0, 0, 0, 0, 0, 0];
+
 allPurchases.forEach(function (item) {
-  let address = item.getBuyer().getAddress();
-  if (address === "Garbia") garbia++;
-  if (address === "Behera") behera++;
-  if (address === "Monofia") monofia++;
-  if (address === "Sharqia") sharpia++;
-  if (address === "Kfr Elshekh") kfrElshekh++;
+  if (item.getStatus().toLowerCase() == "cancelled") return;
+  const date = new Date(item.getDateOfPurchase());
+  const monthName = date.toLocaleString("default", { month: "long" });
+
+  totalRevenue += parseInt(item.getProduct().getPrice());
+  let address = item.getBuyer().getAddress().toLowerCase();
+  if (address === "garbia") garbia++;
+  if (address === "behera") behera++;
+  if (address === "monofia") monofia++;
+  if (address === "sharqia") sharpia++;
+  if (address === "kfr elshekh") kfrElshekh++;
   else other_govern++;
+
+  let price = parseInt(item.getProduct().getPrice());
+  if (monthName === months[0]) {
+    monthOrders[0]++;
+    monthRevenue[0] += price;
+  } else if (monthName === months[1]) {
+    monthOrders[1]++;
+    monthRevenue[1] += price;
+  } else if (monthName === months[2]) {
+    monthOrders[2]++;
+    monthRevenue[2] += price;
+  } else if (monthName === months[3]) {
+    monthOrders[3]++;
+    monthRevenue[3] += price;
+  } else if (monthName === months[4]) {
+    monthOrders[4]++;
+    monthRevenue[4] += price;
+  } else if (monthName === months[5]) {
+    monthOrders[5]++;
+    monthRevenue[5] += price;
+  } else if (monthName === months[6]) {
+    monthOrders[6]++;
+    monthRevenue[6] += price;
+  }
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // console.log(await getProducts());
@@ -86,13 +138,13 @@ allPurchases.forEach(function (item) {
 let arr = [
   {
     cardName: "Total Orders",
-    cardValue: "0.000",
+    cardValue: `${allPurchases.length}`,
     cardIcon: "fa-solid fa-shopping-cart",
     color: "primary",
   },
   {
     cardName: "Total Revenue",
-    cardValue: "0.000",
+    cardValue: `${totalRevenue}`,
     cardIcon: "fa-solid fa-dollar-sign",
     color: "success",
   },
@@ -123,7 +175,7 @@ arr.forEach((item) => {
                         <i class="${item.cardIcon} fa-2x mt-3"></i>
                     </div>
                     <div class="mt-2">
-                        <span><i class="fas fa-arrow-up"></i> 0.0% since last month</span>
+                        <span>Since launching the website</span>
                     </div>
                 </div>
             </div>
@@ -207,13 +259,13 @@ new Chart(document.getElementById("pieChart3"), {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+const labels = months;
 const data4 = {
   labels: labels,
   datasets: [
     {
-      label: "My First Dataset",
-      data: [65, 59, 80, 81, 56, 55, 40],
+      label: "Order",
+      data: monthOrders,
       backgroundColor: [
         "rgba(255, 99, 132, 0.2)",
         "rgba(255, 159, 64, 0.2)",
@@ -259,7 +311,7 @@ const regionChart = new Chart(regionCtx, {
     labels: ["Garbia", "Behera", "Monofia", "Sharqia", "Kfr Elshekh", "Other"],
     datasets: [
       {
-        label: "Sales ($)",
+        label: "Purchase operation",
         data: [garbia, behera, monofia, sharpia, kfrElshekh, other_govern],
         backgroundColor: [
           "rgba(78, 115, 223, 0.8)",
@@ -272,4 +324,24 @@ const regionChart = new Chart(regionCtx, {
       },
     ],
   },
+});
+/////////////////////////////////////////////////////////////////////////
+
+const labels7 = months;
+const data7 = {
+  labels: labels,
+  datasets: [
+    {
+      label: "Revenue in $",
+      data: monthRevenue,
+      fill: false,
+      borderColor: "rgb(75, 192, 192)",
+      tension: 0.1,
+    },
+  ],
+};
+
+new Chart(document.getElementById("pieChart7"), {
+  type: "line",
+  data: data7,
 });

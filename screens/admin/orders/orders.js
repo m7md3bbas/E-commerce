@@ -34,21 +34,40 @@ getAllPurchases().forEach(function (item, index) {
     status_color = "red";
   }
 
+  // <span
+  //   class="d-inline-block"
+  //   tabindex="0"
+  //   data-bs-toggle="popover"
+  //   data-bs-trigger="hover focus"
+  //   data-bs-content="Disabled popover"
+  // ></span>;
+
   $("tbody").append(`
     <tr class="orderRaw" data-status="${item.getStatus()}">
         <th scope="row">${PurchasNumber}</th>
         <td>${item.getId()}</td>
-        <td class='fw-bold' style="color:#183B4E">${item
-          .getBuyer()
-          .getName()}</td>
+        <td class='fw-bold' style="color:#183B4E">
+          <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover focus" data-bs-content="${item
+            .getBuyer()
+            .getName()}">
+          ${item.getBuyer().getEmail()}
+          </span>
+        </td>
         <td style="color:#27548A">${item.getProduct().getProductName()}</td>
-        <td>${item.getProduct().getSeller()}</td>
+        <td>
+        <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover focus" data-bs-content="${item
+          .getProduct()
+          .getSeller()}">
+          ${item.getProduct().getSellerEmail()}
+          </span>
+        </td>
         <td style="color:#7F669D">${item.getProduct().getPrice()}$</td>
         <td>${item.getDateOfPurchase()}</td>
         <td style="color:${status_color}">${item.getStatus()}</td>
         <td><button class="btn btn-sm btn-outline-danger deletOrder"  data-id="${item.getId()}"  ><i class="fa fa-trash"></i></button></td>
     </tr>`);
 });
+$('[data-bs-toggle="popover"]').popover();
 $("#totalOrder_number").text(totalProductNumber);
 $("#completeOrder-number").text(completedProduct);
 $("#cancelledOrder-number").text(cancelledProduct);

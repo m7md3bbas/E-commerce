@@ -42,81 +42,19 @@
 
 <body>
     <div class="p-3">
-
+<!-- 
     <header id="header" class="navbar navbar-expand-md col-12 p-2  border-bottom">
-        <h1 class="h2">Dashboard</h1>
-    </header>
+        <h1  style="text-shadow: 2px 1px 1px #878583;font-size: 38px;color: black;">Dashboard</h1>
+    </header> -->
 
     <section class="col-12" style="margin-top: 40px;">
         <div id="cards-container" class="row p-0 m-0"></div>
     </section>
 
-    
-    <!-- <section>
-        <div class="row p-0 m-0 mt-2">
-            <div class="col-12 col-md-4 mt-2 card-container">
-                <div class="card dashboard-card border-primary p-3 shadow" style="border-left: 5px solid;">
-                    <div class="card-body d-flex flex-row justify-content-between">
-                        <div>
-                            <p class="card-title text-muted bold h6">Total Orders</p>
-                            <p class="h1">0,000</p>
-                        </div>
-                        <div class="text-center fs-6">
-                            <i class="fas fa-shopping-cart fa-2x text-primary p-3 mt-3 bg-primary-subtle"
-                                style="border-radius: 4px;"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <span><i class="fas fa-arrow-up"></i> 0.0% since last month</span>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div class="col-12 col-md-4 mt-2 card-container">
-                <div class="card dashboard-card border-success p-3 shadow" style="border-left: 5px solid;">
-                    <div class="card-body d-flex flex-row justify-content-between">
-                        <div>
-                            <p class="card-title text-muted bold h6">Completed Orders</p>
-                            <p class="h1">0,000</p>
-                        </div>
-                        <div class="text-center fs-6">
-                            <i class="fas fa-check fa-2x text-success p-3 mt-3 bg-success-subtle"
-                                style="border-radius: 4px;"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <span><i class="fas fa-arrow-up"></i> 0.0% since last month</span>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-12 col-md-4 mt-2 card-container">
-                <div class="card dashboard-card border-danger p-3 shadow" style="border-left: 5px solid;">
-                    <div class="card-body d-flex flex-row justify-content-between">
-                        <div>
-                            <p class="card-title text-muted bold h6">Cancelled Orders</p>
-                            <p class="h1">0,000</p>
-                        </div>
-                        <div class="text-center fs-6">
-                            <i class="fas fa-ban fa-2x text-danger p-3 mt-3 bg-danger-subtle"
-                                style="border-radius: 4px;"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <span><i class="fas fa-arrow-up"></i> 0.0% since last month</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section> -->
 
 <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
 
-    <section class="col-12  mb-5" style="margin-top: 80px;border-radius: 10px;">
+    <section class="col-12  mb-5" style="margin-top: 50px;border-radius: 10px;">
         <h1 class="text-capitalize text-center mb-5 fa-bol text" style="color: #bd924c;text-shadow: 1px 1px 2px #e1ae5b;">Salles Graph</h1>
 
         <div class="d-md-flex flex-row justify-content-between ">
@@ -128,7 +66,7 @@
                         <div class="card-body  m-0 p-0">
                             <div class="text-center text-white mb-0 fw-bold d-flex flex-column justify-content-center "
                             style="background-color:#e1ae5b; height: 4rem;border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                                <h5><i class="fas fa-chart-bar me-2"></i>Products Graph For last seven month</h5>
+                                <h5><i class="fas fa-chart-bar me-2"></i>Purchase Graph For last seven month</h5>
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <div class="col-12"><canvas id="pieChart4" class="m-2"></canvas></div>
@@ -157,8 +95,30 @@
     </section>
 
 <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
-    <section  id="users_analyze" class="col-12 p-4  mb-5" style="margin-top: 80px;border-radius: 10px;">
-        <h1 class="text-capitalize text-center mb-5 fa-bol text" style="color: #bd924c;text-shadow: 1px 1px 2px #e1ae5b;">Customers Graph</h1>
+
+<section  id="Revenue_analyze" class="col-12 p-4  mb-2" style="border-radius: 10px;">
+        <h1 class="text-capitalize text-center mb-5 fa-bol text" style="color: #bd924c;text-shadow: 1px 1px 2px #e1ae5b;">Revenue Graph</h1>
+            <div class="col-12 p-2  d-flex flex-row justify-content-center" >
+            <div class="col-10">
+                <div class="shadow ">
+                    <div class=" col-12 shadow-sm">
+                        <div class="card-body  m-0 p-0">
+                            <div class="text-center text-white mb-0 fw-bold d-flex flex-column justify-content-center "
+                            style="background-color:#e1ae5b; height: 4rem;border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                                <h5><i class="fas fa-chart-bar me-2"></i>Revenue for last 7 months</h5>
+                            </div>
+                            <div class="d-flex flex-row justify-content-center">
+                                <div class="col-12"><canvas id="pieChart7" class="m-2"></canvas></div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            </div>
+        </section>
+<!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
+    <section  id="users_analyze" class="col-12 p-4  mb-5" style="border-radius: 10px;">
+        <h1 class="text-capitalize text-center mb-5 fa-bol text" style="color: #bd924c;text-shadow: 1px 1px 2px #e1ae5b;">Purchase Graph</h1>
         <div class="d-md-flex flex-row justify-content-evenly">
             
             <div class="col-12 col-md-4 p-2">
