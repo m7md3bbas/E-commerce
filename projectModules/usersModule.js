@@ -93,7 +93,7 @@ class User {
     return this.#type;
   }
   setType(type) {
-    if (type !== "seller" && type !== "user")
+    if (type !== "seller" && type !== "user" && type !== "admin")
       throw new Error("Type must be either 'seller' or 'user'.");
     this.#type = type;
   }

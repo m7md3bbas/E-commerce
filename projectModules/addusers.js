@@ -23,7 +23,7 @@ function addDefultUsers() {
     "Default",
     "010123456789",
     "../assets/imgs/admin/img/ped.png",
-    "seller"
+    "admin"
   );
   pushUser(
     111,
