@@ -258,10 +258,10 @@ export const getProducts = () => {
 };
 
 export const getProductById = (id) =>
-  products.find((p) => p.getId() === id) || null;
+  products.find((p) => p.getId() == id) || null;
 
 export const decreaseProductStock = (id) => {
-  const product = products.find((p) => p.getId().toString() === id.toString());
+  const product = products.find((p) => p.getId() == id);
   if (!product) return;
   let stock = parseInt(product.getStock(), 10) - 1;
   if (stock >= 0) {
@@ -271,9 +271,7 @@ export const decreaseProductStock = (id) => {
 };
 
 export const deleteProduct = (id) => {
-  const index = products.findIndex(
-    (p) => p.getId().toString() === id.toString()
-  );
+  const index = products.findIndex((p) => p.getId() == id);
   if (index !== -1) {
     const deleted = products.splice(index, 1)[0];
     console.log(products);
@@ -304,7 +302,7 @@ export const updateProduct = (
   tags,
   images
 ) => {
-  const product = products.find((p) => p.getId() === id);
+  const product = products.find((p) => p.getId() == id);
   if (product) {
     product.setProductName(productName);
     product.setDescription(description);
@@ -325,3 +323,22 @@ export const updateProduct = (
 };
 
 loadProductsFromStorage();
+////////////////////////////////////////////////////////////////////
+
+export function deletedProduct() {
+  return new Product(
+    "--",
+    "Deleted Product",
+    "Sorry, this product is deleted",
+    29,
+    "del",
+    0,
+    0,
+    [],
+    "Deleted Product",
+    "product@deleted.c",
+    new Date().toISOString(),
+    [],
+    ["default-image.jpg"]
+  );
+}

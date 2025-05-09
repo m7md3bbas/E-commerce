@@ -1,6 +1,6 @@
 const STORAGE_KEY = "purchases_storage";
-import { getUserByID } from "./usersModule.js";
-import { getProductById } from "./productModule.js";
+import { getUserByID, deletedUser } from "./usersModule.js";
+import { getProductById, deletedProduct } from "./productModule.js";
 
 class Purchase {
   #id;
@@ -152,11 +152,14 @@ export const loadPurchasesFromStorage = () => {
     const parsed = JSON.parse(purchase);
     purchases_arr = parsed.map(
       ({ id, status, buyerId, productId, dateOfPurchase }) => {
-        const buyer = getUserByID(buyerId);
-        const product = getProductById(productId);
+        let buyer = getUserByID(buyerId);
+        if (!buyer) buyer = deletedUser();
+        console.log(buyer);
+        let product = getProductById(productId);
+        if (!product) product = deletedProduct();
 
-        if (!buyer || !product)
-          throw new Error("Invalid reference in storage.");
+        // if (!buyer || !product)
+        //   throw new Error("Invalid reference in storage.");
 
         return new Purchase(id, status, buyer, product, dateOfPurchase);
       }

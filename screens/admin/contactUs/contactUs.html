@@ -1,78 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="../../../assets/libs/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"
-        defer></script>
+    <link rel="stylesheet" href="../../../assets/libs/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+      crossorigin="anonymous"
+      defer
+    ></script>
     <script src="../../../assets/libs/js/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="contactUs.js" defer></script>
 
     <style>
-        .message1:hover{
-            background-color: lightgray;
-
-        }
+      .message1:hover {
+        background-color: lightgray;
+      }
     </style>
 
-
     <script>
-        // $(function(){
-        //     $('message-container').append()
-        // })
+      // $(function(){
+      //     $('message-container').append()
+      // })
     </script>
-</head>
+  </head>
 
-
-<body>
-
-    <header id="header" class="navbar navbar-expand-md col-12 p-1 mb-4  border-bottom">
-        <h1 class="h2">Contact Us</h1>
+  <body class="p-3">
+    <header
+      id="header"
+      class="navbar navbar-expand-md col-12 p-1 mb-4 border-bottom"
+    >
+      <h1 class="h2">Contact Us</h1>
     </header>
     <section>
-        <div class=" mb-4 border-primary"><input id="searchItem" type="text" class="form-control p-3 ps-5 shadow" placeholder="Search..."   style="border: 4px solid rgb(90, 248, 238);"/>
-            <i class="fa fa-search position-absolute start-2  ms-3 text-primary" style="bottom: 2px;"></i>
-        </div>
+      <div class="mb-4 border-primary">
+        <input
+          id="searchItem"
+          type="text"
+          class="form-control p-3 ps-5 shadow"
+          placeholder="Search..."
+          style="border: 2px solid #715831"
+        />
+        <i
+          class="fa fa-search position-absolute start-2 ms-3 text-primary"
+          style="bottom: 2px"
+        ></i>
+      </div>
     </section>
+
     <section>
-        <div id="" class="col-12">
-
-
-            <div class="card col-12 d-flex flex-row p-2 mb-4 text-center align-items-center shadow" style="border: 4px solid rgb(141, 246, 173); border-radius: 6px;font-size: larger;">
-
-                <p class="col-1 fw-bolder mt-3">Read</p>
-                <p class="card-text mt-3 fw-bolder col-2">Name</p>
-                <p class="card-text mt-3 fw-bolder col-2">Email</p>
-                <p class="card-text fw-bolder mt-3 col-4">Message Contant</p>
-                <div class=" col-2 fw-bolder">Date</div>
-                <div class=" col-1 fw-bolder">Control</i></button></div>
-                
+      <div id="" class="col-12">
+        <div id="messages">
+          <div
+            class="card col-12 d-flex flex-row p-2 text-center align-items-center message1"
+            style="border: 1px solid #bd924c; border-radius: 6px"
+          >
+            <p class="col-1 mt-3">
+              <input
+                class="form-check-input message-checkbox"
+                type="checkbox"
+              />
+            </p>
+            <p class="card-text mt-3 fw-bold col-2">Mohammad Eldabaa</p>
+            <p class="card-text mt-3 fw-bold col-2">maldb0907@gmail.com</p>
+            <p class="card-text mt-3 col-4">
+              Lorem ipsum dolor sit amet consectetur ......
+            </p>
+            <div class="col-2">May 3, 2025 3:45 PM</div>
+            <div class="col-1">
+              <button
+                class="btn btn-sm btn-outline-primary me-1"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                <i class="fa-solid fa-eye"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger">
+                <i class="fa fa-trash"></i>
+              </button>
             </div>
-
-
-           <div id="messages">
-            <div class="card col-12 d-flex flex-row p-2 text-center align-items-center message1" style="border: 2px solid rgb(100, 248, 184); border-radius: 6px;">
-
-                <p class="col-1 mt-3"><input class="form-check-input message-checkbox" type="checkbox"></p>
-                <p class="card-text mt-3 fw-bold col-2">Mohammad Eldabaa</p>
-                <p class="card-text mt-3 fw-bold col-2">maldb0907@gmail.com</p>
-                <p class="card-text mt-3 col-4">Lorem ipsum dolor sit amet consectetur ......</p>
-                <div class=" col-2">May 3, 2025 3:45 PM</div>
-                <div class=" col-1"><button class="btn btn-sm btn-outline-primary me-1"><i class="fa-solid fa-eye"></i></button>
-                <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button></div>
-                
-            </div>
-           </div>
+          </div>
         </div>
-    </section>
-</body>
+      </div>
 
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          Some placeholder content for the collapse component. This panel is
+          hidden by default but revealed when the user activates the relevant
+          trigger.
+        </div>
+      </div>
+    </section>
+  </body>
 </html>

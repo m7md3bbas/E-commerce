@@ -175,6 +175,7 @@ const main = async () => {
       console.log("Final results:", results);
       const totalAdded = results.reduce((sum, r) => sum + (r.count || 0), 0);
       console.log(`Total products added: ${totalAdded}`);
+      location.reload();
     } else {
       console.log("Already have products in storage:", existingProducts.length);
     }
