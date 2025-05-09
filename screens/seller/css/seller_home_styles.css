@@ -424,11 +424,11 @@ button:hover {
     background-color: var(--black-color)
 }
 
-.form-control:focus,
+ .form-control:focus,
 .form-select:focus {
     border-color: var(--main-color);
     box-shadow: 0 0 0 .25rem #be985a81;
-}
+} 
 
 .delete-product,
 .reset-btn {
@@ -438,4 +438,10 @@ button:hover {
     color: white;
     font-weight: bold;
     background-color: rgb(219 51 69) !important;
+}
+
+.navbar-brand {
+    font-family: 'Pacifico', 'cursive';
+    color: white !important;
+    margin-right: 80px;
 }

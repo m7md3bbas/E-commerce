@@ -35,7 +35,7 @@ function updateProductCards() {
             <img class="product-image" src="${mainImage}" alt="${product.productName || 'Product Image'}">
             <div>
                 <h5 class="mt-2">${product.productName || 'No Name'}</h5>
-                <p>Price: ${product.price?.toFixed(2) || '0.00'} EGP</p>
+                <p>Price: ${product.price?.toFixed(2) || '0.00'} $</p>
                 <p>Quantity: ${product.stock || '0'}</p>
                 <button class="btn btn-sm btn-outline-primary view-details" data-index="${index}">
                     View Details
@@ -69,7 +69,7 @@ function updateProductsTable() {
             <td><img src="${mainImage}" alt="${product.productName}" style="width: 50px; height: 50px; object-fit: cover;"></td>
             <td>${product.productName || 'No Name'}</td>
             <td>${product.category || 'Uncategorized'}</td>
-            <td>${product.price?.toFixed(2) || '0.00'} EGP</td>
+            <td>${product.price?.toFixed(2) || '0.00'} $</td>
             <td>${product.stock || '0'}</td>
             <td>${product.rating || '0'}</td>
             <td>
@@ -110,6 +110,12 @@ function showPage(page) {
         setupManageProductsPage();
     } else if (page === 'home') {
         updateProductCards();
+    }
+    if (page === 'orders') {
+        displayOrders();
+    }
+    if (page === 'analytics') {
+        loadSalesAnalytics();
     }
 }
 
@@ -290,7 +296,7 @@ function filterAndSortProducts() {
                     <td><img src="${mainImage}" alt="${product.productName}" style="width: 50px; height: 50px; object-fit: cover;"></td>
                     <td>${product.productName?.en || product.productName || 'No Name'}</td>
                     <td>${product.category || 'Uncategorized'}</td>
-                    <td>${product.price?.toFixed(2) || '0.00'} EGP</td>
+                    <td>${product.price?.toFixed(2) || '0.00'} $</td>
                     <td>${product.stock || '0'}</td>
                     <td>${product.rating || '0'}</td>
                     <td>
@@ -344,7 +350,7 @@ function showProductModal(product) {
 
 
     if (modalProductName) modalProductName.textContent = product.productName || 'No Name';
-    if (modalProductPrice) modalProductPrice.textContent = (product.price?.toFixed(2) || '0.00') + " EGP";
+    if (modalProductPrice) modalProductPrice.textContent = (product.price?.toFixed(2) || '0.00') + " $";
     if (modalProductQuantity) modalProductQuantity.textContent = product.stock || '0';
     if (modalProductDescription) modalProductDescription.textContent = product.description || 'No Description';
     if (modalProductCategory) modalProductCategory.textContent = product.category || 'Uncategorized';
@@ -478,3 +484,172 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+
+// orders logic
+
+
+function displayOrders() {
+    const purchases = JSON.parse(localStorage.getItem('purchases_storage')) || [];
+    const products = JSON.parse(localStorage.getItem('products')) || [];
+    const buyers = JSON.parse(localStorage.getItem('users')) || [];
+
+    const tbody = document.getElementById('ordersTableBody');
+    tbody.innerHTML = '';
+
+    purchases.forEach((purchase, index) => {
+        const product = products.find(p => p.id == purchase.productId);
+        const buyer = buyers.find(b => b.id == purchase.buyerId);
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${purchase.id}</td>
+            <td>
+                <strong>${buyer?.name || 'Unknown'}</strong><br>
+                <small>${buyer?.phone || ''}</small>
+            </td>
+            <td>${product?.productName || 'Unknown'}</td>
+            <td>${product?.price ? product.price + ' $' : '--'}</td>
+            <td>1</td>
+            <td>${buyer?.address || 'N/A'}</td>
+            <td>${purchase.dateOfPurchase}</td>
+            <td>
+                <span class="badge ${purchase.status === 'shipped' ? 'bg-success' : 'bg-warning'}">
+                    ${purchase.status === 'shipped' ? 'Delivered' : 'Pending'}
+                </span>
+            </td>
+  <td>
+    <select class="form-select form-select-sm" onchange="updatePurchaseStatus('${purchase.id}', this.value)">
+        <option value="pending" ${purchase.status === 'pending' ? 'selected' : ''}>Pending</option>
+        <option value="shipped" ${purchase.status === 'shipped' ? 'selected' : ''}>Delivered</option>
+    </select>
+</td>
+
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function updatePurchaseStatus(orderId, newStatus) {
+    const purchases = JSON.parse(localStorage.getItem('purchases_storage')) || [];
+    const updatedPurchases = purchases.map(p => {
+        if (p.id == orderId) {
+            return { ...p, status: newStatus };
+        }
+        return p;
+    });
+    localStorage.setItem('purchases_storage', JSON.stringify(updatedPurchases));
+    displayOrders();
+}
+
+
+
+function updateOrderStatus(index, newStatus) {
+    sampleOrders[index].status = newStatus;
+    displayOrders();
+}
+
+function searchOrders() {
+    const input = document.getElementById("orderSearchInput").value.toLowerCase();
+    const rows = document.querySelectorAll("#ordersTableBody tr");
+
+    rows.forEach(row => {
+        const rowText = row.innerText.toLowerCase();
+        row.style.display = rowText.includes(input) ? "" : "none";
+    });
+}
+
+// sales analytics
+// This function should be called when the analytics page is shown
+function loadSalesAnalytics() {
+    const purchases = JSON.parse(localStorage.getItem('purchases_storage')) || [];
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const products = JSON.parse(localStorage.getItem('products')) || [];
+
+    const monthlySales = {};
+    const productSales = {};
+    const revenuePerProduct = {};
+    const addressCount = {};
+    const customerOrders = {};
+
+    let totalRevenue = 0;
+    let totalOrders = purchases.length;
+
+    purchases.forEach(purchase => {
+        const date = new Date(purchase.dateOfPurchase);
+        const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+
+        const product = products.find(p => p.id == purchase.productId);
+        const user = users.find(u => u.id == purchase.buyerId);
+
+        if (!product || !user) return;
+
+        const price = product.price;
+        const address = user.address;
+        const productName = product.productName;
+        const buyerId = user.id;
+
+        monthlySales[monthKey] = (monthlySales[monthKey] || 0) + price;
+        productSales[productName] = (productSales[productName] || 0) + 1;
+        revenuePerProduct[productName] = (revenuePerProduct[productName] || 0) + price;
+        addressCount[address] = (addressCount[address] || 0) + 1;
+        customerOrders[buyerId] = (customerOrders[buyerId] || 0) + 1;
+
+        totalRevenue += price;
+    });
+
+    // Find top stats
+    const topProduct = Object.entries(productSales).sort((a, b) => b[1] - a[1])[0];
+    const topRevenueProduct = Object.entries(revenuePerProduct).sort((a, b) => b[1] - a[1])[0];
+    const topCustomer = Object.entries(customerOrders).sort((a, b) => b[1] - a[1])[0];
+    const topAddress = Object.entries(addressCount).sort((a, b) => b[1] - a[1])[0];
+
+    // Get customer name for the top customer
+    const topCustomerName = topCustomer ? users.find(u => u.id == topCustomer[0])?.name : 'N/A';
+
+    // Update summary in HTML
+    document.getElementById('totalSales').textContent = `${totalRevenue} $`;
+    document.getElementById('topProduct').textContent = topProduct ? `${topProduct[0]} (${topProduct[1]} sales)` : 'N/A';
+    document.getElementById('topAddress').textContent = topAddress ? `${topAddress[0]} (${topAddress[1]} orders)` : 'N/A';
+
+    // Optional: Displaying the top revenue product and top customer
+    document.getElementById('topRevenueProduct').textContent = topRevenueProduct ? `${topRevenueProduct[0]} (${topRevenueProduct[1]} EGP)` : 'N/A';
+    document.getElementById('topCustomer').textContent = topCustomerName ? `${topCustomerName} (${topCustomer[1]} orders)` : 'N/A';
+
+    // Destroy the previous chart if it exists
+    if (window.salesChart && window.salesChart.destroy) {
+        window.salesChart.destroy();
+    }
+
+    // Draw Monthly Sales Chart
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    window.salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: Object.keys(monthlySales),
+            datasets: [{
+                label: 'Monthly Revenue',
+                data: Object.values(monthlySales),
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+
+
+
+// Make sure this function is triggered when switching to Analytics tab
+// Example: if you use showPage('analytics') then call loadSalesAnalytics() inside it
+

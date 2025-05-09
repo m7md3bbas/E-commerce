@@ -24,7 +24,7 @@ export function showItem() {
       modalProductName.textContent = product.getProductName() || "No Name";
     if (modalProductPrice)
       modalProductPrice.textContent =
-        (product.getPrice()?.toFixed(2) || "0.00") + " EGP";
+        (product.getPrice()?.toFixed(2) || "0.00") + " $";
     if (modalProductQuantity)
       modalProductQuantity.textContent = product.getStock() || "0";
     if (modalProductDescription)
