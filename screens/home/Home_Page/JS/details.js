@@ -11,15 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         var savedProducts = localStorage.getItem("products");
         //parse products from local storage 
         savedProducts = JSON.parse(savedProducts);
-        console.log(savedProducts);
-        console.log(typeof productId);
-        console.log(savedProducts[0]["id"]);
-        console.log(savedProducts.length);
-        // search for the product in the array of products saved in local storage by productId
         var selectedProduct = savedProducts.find(product => product.id == productId);
-        console.log("selectedProduct is ");
-        console.log(selectedProduct);
-        console.log(selectedProduct.productName);
 
 
 

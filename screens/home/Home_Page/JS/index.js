@@ -20,13 +20,13 @@ if (current_user) {
     $("#dashboard").css("display", "block");
     $("#logout").css("display", "block");
     $("#dashboard").on("click", () => {
-      window.location.replace("./../../../admin/admin.html");
+      window.location.href = "./../../admin/admin.html";
     });
   } else if (current_user.type === "seller") {
     $("#dashboard").css("display", "block");
     $("#logout").css("display", "block");
     $("#dashboard").on("click", () => {
-      window.location.replace("./../../seller/dashboard/dashboard.html");
+      window.location.href = "./../../seller/html/seller-dashboard.html";
     });
   } else if (current_user.type === "user") {
     $("#logout").css("display", "block");
