@@ -38,6 +38,8 @@ export function showItem() {
   });
 }
 function mapImagesToCarousel(images) {
+  if (images.length > 1) images.shift();
+
   const myCarousel = document.getElementById("mycarousel");
   if (!myCarousel) return;
 
@@ -61,7 +63,6 @@ function mapImagesToCarousel(images) {
 
   myCarousel.setAttribute("data-bs-interval", "1500");
 
-  images.shift();
   images.forEach((img, index) => {
     const item = document.createElement("div");
     item.className = `carousel-item ${index === 0 ? "active" : ""}`;
