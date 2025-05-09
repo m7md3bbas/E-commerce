@@ -15,7 +15,9 @@ $(document).ready(function () {
 });
 const current_user = JSON.parse(localStorage.getItem("current_user"));
 if (current_user) {
-  $("#login").css("display", "none");
+  $("#login").css("display", "none"); 
+  $("#name").css("display", "none");
+  $("#phone").css("display", "none");
   if (current_user.type === "admin") {
     $("#dashboard").css("display", "block");
     $("#logout").css("display", "block");
@@ -35,6 +37,7 @@ if (current_user) {
 } else {
   $("#logout").css("display", "none");
   $("#dashboard").css("display", "none");
+
   $("#cart").on("click", () => {
     window.location.href = "./../../auth/login.html";
   });
@@ -45,6 +48,9 @@ function logout() {
   localStorage.removeItem("current_user");
   window.location.replace("./../../auth/login.html");
 }
+
+
+
 
 document.querySelector('.cartHome').addEventListener('click', function () {
   window.location.href = '../Cart/cart.html'
@@ -173,53 +179,53 @@ document.addEventListener("click", function (e) {
       quantity: 1,
     };
 
-             
+
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     console.log(cart);
-    
-    var realProduct = getProductById(productId);  
+
+    var realProduct = getProductById(productId);
 
     const existingProduct = cart.find((item) => item.id === productId);
 
     if (existingProduct) {
-         if (existingProduct.quantity < realProduct.getStock()) {
-                    existingProduct.quantity += 1;
-                    showToast('Product added to cart')
-                    console.log('Product added to cart');
-                    
-   
-           } else {
-                  alert("Stock limit reached.");
-          return;
-        }
+      if (existingProduct.quantity < realProduct.getStock()) {
+        existingProduct.quantity += 1;
+        showToast('Product added to cart')
+        console.log('Product added to cart');
+
+
+      } else {
+        alert("Stock limit reached.");
+        return;
+      }
 
     } else {
-  console.log(productId);
-  console.log(realProduct);
-  
+      console.log(productId);
+      console.log(realProduct);
 
-  if (realProduct.getStock() > 0) {
-    const newProduct = {
-      id: productId,
-      img: img.src,
-      name: productItem,
-      category,
-      price,
-      quantity: 1,
-    };
-    cart.push(newProduct);
-    showToast('Product added to cart')
 
-    console.log('Product added to cart');
-    
-  } else {
-    alert("Stock is empty.");
-    return;
-  }
-}
- localStorage.setItem("cart", JSON.stringify(cart));
- console.log(JSON.parse(localStorage.getItem('cart')));
- 
+      if (realProduct.getStock() > 0) {
+        const newProduct = {
+          id: productId,
+          img: img.src,
+          name: productItem,
+          category,
+          price,
+          quantity: 1,
+        };
+        cart.push(newProduct);
+        showToast('Product added to cart')
+
+        console.log('Product added to cart');
+
+      } else {
+        alert("Stock is empty.");
+        return;
+      }
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    console.log(JSON.parse(localStorage.getItem('cart')));
+
   }
 });
 
