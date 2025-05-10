@@ -1,10 +1,7 @@
-import { pushUser, getUsers } from "../../../projectModules/usersModule.js";
+import { getUsers } from "../../../projectModules/usersModule.js";
 import {
   getProducts,
   getProductById,
-  getProductsBySellerName,
-  getProductsBySellerEmail,
-  decreaseProductStock,
 } from "../../../projectModules/productModule.js";
 import { getAllPurchases } from "../../../projectModules/purchases.js";
 
@@ -22,8 +19,6 @@ const getLast7Months = () => {
   return months.reverse();
 };
 let months = getLast7Months();
-
-// console.log(getLast7Months());
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 let products = getProducts();
@@ -52,8 +47,6 @@ let other_age = 0;
 let totalRevenue = 0;
 
 users.forEach(function (item) {
-  // console.log(item.getGender());
-
   if (item.getType() === "user") {
     customers++;
     if (item.getGender() === "male") male++;
@@ -67,12 +60,9 @@ users.forEach(function (item) {
     else if (listen === "Friend") social_friend++;
     else socila_other++;
 
-    // let age = item.getAge();
-
     const today = new Date();
     const birthDate = new Date(item.getDateOfBirth());
     let age = today.getFullYear() - birthDate.getFullYear();
-    // console.log(age);
 
     if (age >= 12 && age <= 18) age1++;
     else if (age > 18 && age <= 30) age2++;
@@ -133,7 +123,6 @@ allPurchases.forEach(function (item) {
   }
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// console.log(await getProducts());
 
 let arr = [
   {
@@ -163,7 +152,6 @@ let arr = [
 ];
 
 arr.forEach((item) => {
-  // console.log(item.cardName);
   $("#cards-container").append(`
         <div class="col-12 col-md-6 col-lg-3 mt-2">
                 <div class="card dashboard-card  border p-4 shadow  text-${item.color}" style="color:#715831">
@@ -213,7 +201,15 @@ const data2 = {
         social_telegram,
         socila_other,
       ],
-      backgroundColor: ["blue", "pink", "green", "black", "orange", "purple"],
+      backgroundColor: [
+        "rgb(54, 162, 235)",
+        "rgb(255, 159, 64)",
+        "rgb(75, 192, 192)",
+        "rgb(255, 99, 132)",
+        "rgb(255, 205, 86)",
+        "rgb(153, 102, 255)",
+        "rgb(201, 203, 207)",
+      ],
       hoverOffset: 6,
     },
   ],

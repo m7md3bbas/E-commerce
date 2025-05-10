@@ -154,7 +154,6 @@ export const loadPurchasesFromStorage = () => {
       ({ id, status, buyerId, productId, dateOfPurchase }) => {
         let buyer = getUserByID(buyerId);
         if (!buyer) buyer = deletedUser();
-        console.log(buyer);
         let product = getProductById(productId);
         if (!product) product = deletedProduct();
 
