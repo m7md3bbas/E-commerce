@@ -445,3 +445,9 @@ button:hover {
     color: white !important;
     margin-right: 80px;
 }
+
+
+
+/* .table>:not(caption)>*>*{
+    background-color: var(--main-color);
+} */
