@@ -13,6 +13,7 @@ filteredProducts.forEach((product) => {
     const productCard = document.createElement("div");
     productCard.classList.add("col-xl-3", "col-lg-4", "col-sm-6", "col-6");
     productCard.innerHTML = `
+     <a href="./datails.html?productId=${product.id}" class="text-decoration-none text-dark">
             <div class="card cursor-pointer">
             <img src="${product.images[0]
         }" alt="${product.productName}" width="100%" height="300px" class="details" data-id="${product.id}">
