@@ -96,6 +96,8 @@ form.addEventListener("submit", function (e) {
    });
 
     localStorage.removeItem('cart')
+    localStorage.removeItem('totalCartPrice')
+    
 
   });
 
@@ -168,18 +170,22 @@ form.addEventListener("submit", function (e) {
       
        
        console.log(cartItems);
+
        cartItems.forEach((item)=>{
 
          console.log(item);
          const product=getProductById(item.id)
   
-         const purchaseId = `order-${Date.now()}`;
-         console.log(purchaseId);
-         
+         const purchaseId = `order-${String(Date.now()).slice(-5)}`;
         
-         
-         let data=  pushPurchase(purchaseId,'pending',buyer,product)
-        console.log(data);
+         console.log(purchaseId);
+          for (let i = 0; i < item.quantity; i++) {
+            console.log('hi');
+            
+            let data=  pushPurchase(purchaseId,'pending',buyer,product)
+           
+            
+          }
 
        })
           

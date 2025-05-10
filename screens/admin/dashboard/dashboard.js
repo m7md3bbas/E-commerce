@@ -91,6 +91,7 @@ allPurchases.forEach(function (item) {
 
   totalRevenue += parseInt(item.getProduct().getPrice());
   let address = item.getBuyer().getAddress().toLowerCase();
+  
   if (address === "garbia") garbia++;
   if (address === "behera") behera++;
   if (address === "monofia") monofia++;

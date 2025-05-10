@@ -1,10 +1,6 @@
 import { getProductById, getProducts } from "../../../projectModules/productModule.js";
 
 
-    
-
-
-
 // MARK: cartProducts 
 window.addEventListener('load', function () {
   const container = document.querySelector('.addProduct');
@@ -25,6 +21,11 @@ window.addEventListener('load', function () {
   cartItems.forEach(item => {
  
     
+    console.log(Number(parseFloat(item.price.split('$')[0]).toFixed(3)));
+    console.log((Number(item.price.split('$')[0]) * item.quantity).toFixed(3));
+    console.log(Number((Number(item.price.split('$')[0]) * item.quantity).toFixed(3)));
+
+    
     
     const card = document.createElement('div');
     card.classList.add('col-md-4', 'col-lg-3');
@@ -35,7 +36,7 @@ window.addEventListener('load', function () {
           <h5 class="main-color">${item.category}</h5>
           <p>${item.name}</p>
           <h6>Price: <span class="text-secondary price">${Number(item.price.split('$')[0])} $</span></h6>
-          <h6>Total Price: <span class="text-secondary total-price">${Number(item.price.split('$')[0]) * item.quantity} $</span></h6>
+          <h6>Total Price: <span class="text-secondary total-price">${Number((Number(item.price.split('$')[0]).toFixed(3) * item.quantity.toFixed(3)).toFixed(4))} $</span></h6>
           <hr>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
@@ -63,6 +64,8 @@ function initProduct(productElement, itemData) {
   const totalPriceSpan = productElement.querySelector('.total-price');
   const closeBtn = productElement.querySelector('.close-btn');
 
+
+  
   let quantity = itemData.quantity;
   const unitPrice = Number(itemData.price.split('$')[0]);
   

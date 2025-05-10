@@ -1,16 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
   padding: 0;
   margin: 0;
-  font-family: "Chilanka", cursive;
+   font-family: "Roboto", sans-serif;
+
  
 }
-
+a {
+    text-decoration: none;
+    color: black;
+}
 :root {
   --main-font: "Dancing Script", cursive;
   --secondary-font: "Cormorant Garamond", serif;
 }
 h1 {
-  font-family: "Chilanka", cursive;
+    font-family: "Roboto", sans-serif;
+
   color: var(--main-color);
    position: relative;
 }
