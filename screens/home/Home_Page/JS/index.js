@@ -1,5 +1,8 @@
-import { getProductById, getProducts } from "../../../../projectModules/productModule.js";
+import { getProductById, getProducts ,decreaseProductStock} from "../../../../projectModules/productModule.js";
 
+
+
+// MARK: Categories
 $(document).ready(function () {
 
   $("#owl-demo").owlCarousel({
@@ -14,6 +17,7 @@ $(document).ready(function () {
 
 });
 
+// MARK: Switch between login logout
 const current_user = JSON.parse(localStorage.getItem("current_user"));
 if (current_user) {
   $("#login").css("display", "none");
@@ -43,7 +47,7 @@ if (current_user) {
     window.location.href = "./../../auth/login.html";
   });
 }
-
+// MARK:Logout
 $("#logout").on("click", logout);
 function logout() {
   localStorage.removeItem("current_user");
@@ -53,6 +57,10 @@ function logout() {
 
 
 
+
+
+
+// MARK: Show cart
 document.querySelector('.cartHome').addEventListener('click', function () {
   window.location.href = '../Cart/cart.html'
 })
@@ -111,7 +119,7 @@ document;
 // });
 
 /***************************************************************** */
-
+// MARK: Display Products
 document.addEventListener("DOMContentLoaded", () => {
   const catalogContainer = document.querySelector(".cards");
   const products = getProducts(); // الحصول على المنتجات
@@ -160,6 +168,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
+/////MARK: addToCart
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("addToCart")) {
 
@@ -171,40 +181,45 @@ document.addEventListener("click", function (e) {
     const productItem = card.querySelector("#productItem").textContent;
     const price = card.querySelector("#price").textContent;
 
-    const product = {
-      id: productId,
-      img: img.src,
-      name: productItem,
-      category,
-      price,
-      quantity: 1,
-    };
+    // const product = {
+    //   id: productId,
+    //   img: img.src,
+    //   name: productItem,
+    //   category,
+    //   price,
+    //   quantity: 1,
+    // };
 
-
+      
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     console.log(cart);
 
     var realProduct = getProductById(productId);
 
     const existingProduct = cart.find((item) => item.id === productId);
+    const stockLabel = card.querySelector(".stock-label span");
+
 
     if (existingProduct) {
       if (existingProduct.quantity < realProduct.getStock()) {
         existingProduct.quantity += 1;
         showToast('Product added to cart')
-        console.log('Product added to cart');
-
+        console.log(price);
+        
+         decreaseProductStock(productId)
+       if (stockLabel) {
+         stockLabel.textContent = realProduct.getStock();
+         console.log( stockLabel.textContent);
+         
+         }
 
       } else {
-        alert("Stock limit reached.");
+        showToast("Stock limited reached.",'danger');
         return;
       }
 
     } else {
-      console.log(productId);
-      console.log(realProduct);
-
-
+    
       if (realProduct.getStock() > 0) {
         const newProduct = {
           id: productId,
@@ -214,13 +229,20 @@ document.addEventListener("click", function (e) {
           price,
           quantity: 1,
         };
+        
         cart.push(newProduct);
+        decreaseProductStock(productId)
+        if (stockLabel) {
+              stockLabel.textContent = realProduct.getStock();
+         console.log( stockLabel.textContent);
+
+        }
         showToast('Product added to cart')
 
         console.log('Product added to cart');
 
       } else {
-        alert("Stock is empty.");
+        showToast("Stock limited reached.",'danger');
         return;
       }
     }
@@ -231,7 +253,7 @@ document.addEventListener("click", function (e) {
 });
 
 ////////////////////////////////////////////////////////
-//search bar
+//MARK:search bar
 const searchIcon = document.querySelector(".fa-magnifying-glass");
 const searchContainer = document.getElementById("search-container");
 const searchInput = document.getElementById("search-input");
@@ -350,6 +372,9 @@ const categoriesHTML = categories.map((category) => `
   </div>
 `).join('');
 
+
+
+// MARK:Display Category
 
 document.getElementById('owl-demo').innerHTML = categoriesHTML;
 // end of filter categories

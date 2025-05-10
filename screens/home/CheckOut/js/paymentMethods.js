@@ -1,5 +1,33 @@
-  
-  
+  // MARK: Toast
+
+function showToast(message, type = "success", duration = 2000) {
+  const toast = document.createElement("div");
+  toast.className = `alert alert-${type} toast-message shadow`;
+  toast.textContent = message;
+  toast.style.cssText = `
+    min-width: 200px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  `;
+
+  const container = document.getElementById("toastContainer");
+  container.appendChild(toast);
+
+  // Fade in
+  setTimeout(() => {
+    toast.style.opacity = "1";
+  }, 200);
+
+  // Fade out & remove
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    setTimeout(() => {
+      toast.remove();
+    }, 200);
+  }, duration);
+}
+  //MARk: Thankyou
   const backBtn = document.querySelector('#backToHome');
   if (backBtn) {
     backBtn.addEventListener('click', function() {
@@ -7,7 +35,8 @@
     });
   }
 
- // Submit payment method selection
+
+ //MARK: Submit payment method selection
 
  this.document.getElementById('submitPayment').addEventListener('click',function(){
     submitPayment()
@@ -23,8 +52,10 @@
       cardDetails.style.display = 'block';
     } else {
       cardDetails.style.display = 'none';
-      alert("Cash on Delivery Selected , Wish see you again .....");
-      window.location.href='./thankYou.html'
+      showToast("Cash on Delivery Selected , Wish see you again .....");
+      setTimeout(()=>{
+        window.location.href='./thankYou.html';
+      },3000)
     }
   }
   
@@ -91,15 +122,18 @@
     }
   
     if (isValid) {
-      // alert("Thanks, Wish see you again .....");
-       window.location.href='./thankYou.html';
+      showToast('Your Order will arrived soon...')
+      setTimeout(()=>{
+        window.location.href='./thankYou.html';
+      },3000)
     }
   }
 
 
 
 
-// Add space after every 4 digits in card number
+// MARK: Add space
+//  after every 4 digits in card number
 const cardNumberInput = document.getElementById('cardNumber');
 if (cardNumberInput) {
   cardNumberInput.addEventListener('input', function (e) {

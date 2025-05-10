@@ -1,4 +1,11 @@
-import { getProductById } from "../../../projectModules/productModule.js";
+import { getProductById, getProducts } from "../../../projectModules/productModule.js";
+
+
+    
+
+
+
+// MARK: cartProducts 
 window.addEventListener('load', function () {
   const container = document.querySelector('.addProduct');
   let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
@@ -131,12 +138,10 @@ function updateCartTotal() {
 window.addEventListener('load', updateCartTotal);
 
 
-
+// MARK: clearCart
 const clearCartBtn = document.getElementById('clearCart');
 if (clearCartBtn) {
   clearCartBtn.addEventListener('click', () => {
-
-
    const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
     confirmButton: "btn btn-success mx-2",
@@ -154,10 +159,28 @@ swalWithBootstrapButtons.fire({
   reverseButtons: true
 }).then((result) => {
   if (result.isConfirmed) {
+    
+  
+    const products = JSON.parse(localStorage.getItem('cart'));
+    const allProducts = JSON.parse(localStorage.getItem('products')); 
 
-     localStorage.removeItem('cart');
+    products.forEach((product) => {
+             const itemIndex = allProducts.findIndex(p => p.id === product.id);
+             if (itemIndex !== -1) {
+             allProducts[itemIndex].stock += product.quantity; 
+   }
+
+   });
+
+    localStorage.setItem("products", JSON.stringify(allProducts));
+    
+    localStorage.removeItem('cart');
     document.querySelector('.addProduct').innerHTML = `<p class="alert alert-warning text-center">No Products in Your Cart</p>`;
     updateCartTotal();
+
+
+
+  
 
     swalWithBootstrapButtons.fire({
       title: "Deleted!",
@@ -183,12 +206,16 @@ swalWithBootstrapButtons.fire({
   });
 }
 
+
+// MARK: checkOut
 document.querySelector('.checkOut').addEventListener('click', function() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  
+  
   if (cart.length > 0) {
     window.location.href = './../CheckOut/checkOut.html'; 
   } else {
-    alert('Your cart is empty!');
+    showToast('Your cart is empty!','danger');
   }
 });
 

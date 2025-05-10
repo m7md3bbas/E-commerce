@@ -3,7 +3,36 @@ import { getUserByEmail } from './../../../../projectModules/usersModule.js';
 import { pushPurchase } from './../../../../projectModules/purchases.js';
 import { getProductById } from '../../../../projectModules/productModule.js';
 
-// Address Validation Function
+// MARK: Toast
+
+function showToast(message, type = "success", duration = 2000) {
+  const toast = document.createElement("div");
+  toast.className = `alert alert-${type} toast-message shadow`;
+  toast.textContent = message;
+  toast.style.cssText = `
+    min-width: 200px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  `;
+
+  const container = document.getElementById("toastContainer");
+  container.appendChild(toast);
+
+  // Fade in
+  setTimeout(() => {
+    toast.style.opacity = "1";
+  }, 200);
+
+  // Fade out & remove
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    setTimeout(() => {
+      toast.remove();
+    }, 200);
+  }, duration);
+}
+//MARK: formValid
 window.addEventListener('DOMContentLoaded', function () {
 
   console.log('DOM Loaded');
@@ -43,13 +72,34 @@ window.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  form.addEventListener("submit", function (e) {
+  // MARK: SubmitForm
+form.addEventListener("submit", function (e) {
     console.log('Form Submitted');
     e.preventDefault();
+
     addressValidation()
+     const products = JSON.parse(localStorage.getItem('cart'));
+     console.log(products);
+     
+    const allProducts = JSON.parse(localStorage.getItem('products')); 
+
+    products.forEach((product) => {
+             const itemIndex = allProducts.findIndex(p => p.id === product.id);
+             if (itemIndex !== -1) {
+             allProducts[itemIndex].stock -= product.quantity;
+             
+              
+    }
+    localStorage.setItem("products", JSON.stringify(allProducts));
+
+
+   });
+
     localStorage.removeItem('cart')
+
   });
 
+  // MARK: AddValidation
   function addressValidation() {
    
       let isValid = true;
@@ -133,18 +183,17 @@ window.addEventListener('DOMContentLoaded', function () {
 
        })
           
-        form.reset();
-      
-        alert("Form submitted successfully!");
-        window.location.href = './paymentMethod.html';
+       
+       showToast("Form submitted successfully!");
+       setTimeout(()=>{
+         window.location.href = './paymentMethod.html';
+         form.reset();
+        },500)
+
   
       }
    
   }
-  
-  
-  
-  
-  
+   
 });
  

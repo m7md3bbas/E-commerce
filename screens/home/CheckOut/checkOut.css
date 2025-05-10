@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 :root{
     --main-color:#be985a;
     --main-background:#f4f1ec;
 
 }
 *{
-  font-family: "Chilanka", cursive;
+
+  font-family: "Roboto", sans-serif;
   color:var(--main-color);
 
 }
@@ -34,9 +36,8 @@
 }
 h1 {
     position: relative;
-    font-family: "Chilanka", cursive;
-    text-shadow: 10px 10px 10px var(--main-color);
-  }
+    font-family: "Roboto", sans-serif;
+}
 h1::after{
       content: '';
       position: absolute;

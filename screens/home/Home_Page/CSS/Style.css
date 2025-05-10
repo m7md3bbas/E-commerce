@@ -335,10 +335,6 @@ button:hover {
     cursor: pointer;
 }
 
-
-
-
-
 .search-item {
     display: flex;
     align-items: center;
@@ -361,6 +357,9 @@ button:hover {
 
 
 /****************************************/
+/* 
+MARK: Details 
+*/
 .image-thumbnails img {
     border: 2px solid transparent;
     transition: border 0.3s;
@@ -368,4 +367,8 @@ button:hover {
 
 .image-thumbnails img:hover {
     border: 2px solid #be985a;
+}
+
+.cartHome:hover{
+    color: #be985a;
 }
