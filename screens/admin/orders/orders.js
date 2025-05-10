@@ -20,6 +20,10 @@ allPurchases.forEach(function (item, index) {
     status_color = "red";
   }
 
+  let sellerMail = item.getProduct().getSellerEmail();
+  let customerMail = item.getBuyer().getEmail();
+  if (sellerMail == "product@deleted.c") sellerMail = "Deleted Account";
+  if (customerMail == "deleted@account.c") customerMail = "Deleted Account";
   $("tbody").append(`
     <tr class="orderRaw" data-status="${item.getStatus()}">
         <th scope="row">${PurchasNumber}</th>
@@ -28,7 +32,7 @@ allPurchases.forEach(function (item, index) {
           <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover focus" data-bs-content="${item
             .getBuyer()
             .getName()}">
-          ${item.getBuyer().getEmail()}
+          ${customerMail}
           </span>
         </td>
         <td style="color:#27548A">${item.getProduct().getProductName()}</td>
@@ -36,7 +40,7 @@ allPurchases.forEach(function (item, index) {
         <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover focus" data-bs-content="${item
           .getProduct()
           .getSeller()}">
-          ${item.getProduct().getSellerEmail()}
+          ${sellerMail}
           </span>
         </td>
         <td style="color:#7F669D">${item.getProduct().getPrice()}$</td>
