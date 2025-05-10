@@ -17,11 +17,6 @@ const API_ENDPOINTS = [
     "user47@gmail.com",
   ],
   [
-    "https://dummyjson.com/products/category/mens-shirts",
-    "Hammam Khaled",
-    "user48@gmail.com",
-  ],
-  [
     "https://dummyjson.com/products/category/womens-dresses",
     "Magdy Sami",
     "user49@gmail.com",

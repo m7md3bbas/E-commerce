@@ -7,7 +7,8 @@ import {
 let totalProductNumber = getAllPurchases().length;
 let completedProduct = 0;
 let cancelledProduct = 0;
-getAllPurchases().forEach(function (item, index) {
+let allPurchases = getAllPurchases().reverse();
+allPurchases.forEach(function (item, index) {
   let status_color = "orange";
   let PurchasNumber = index + 1;
   if (item.getStatus() === "completed") {
