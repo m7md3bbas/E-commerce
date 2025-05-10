@@ -15,7 +15,7 @@ $(document).ready(function () {
 });
 const current_user = JSON.parse(localStorage.getItem("current_user"));
 if (current_user) {
-  $("#login").css("display", "none"); 
+  $("#login").css("display", "none");
   $("#name").css("display", "none");
   $("#phone").css("display", "none");
   if (current_user.type === "admin") {
@@ -317,3 +317,49 @@ function renderResults(results) {
     searchResults.appendChild(div);
   });
 }
+
+
+// Filter Categories logic 
+
+// filter local storage
+const categories = Array.from(new Set(getProducts().map((product) => product.getCategory())));
+// static assets images paths 
+const categoryImagesPath = {
+  "tops": "../../../assets/imgs/Home/top1.jpg",
+  // "furniture": "  ../../../assets/imgs/Home/furniture.jpg",
+  "other": "../../../assets/imgs/Home/other_products.jpg",
+  // "clothing": "../../../assets/imgs/Home/clothing.jpg",
+  "tops": "../../../assets/imgs/Home/top1.jpg",
+  "mens-shirts": "../../../assets/imgs/Home/man T-shirt1.jpg",
+  "womens-dresses": "../../../assets/imgs/Home/Images/dress.jpg",
+  "womens-jewellery": "../../../assets/imgs/Home/woman-Jewellery1.jpg",
+  "sports-accessories": "../../../assets/imgs/Home/sport.jpg",
+  "womens-bags": " ../../../assets/imgs/Home/bag.avif",
+  "womens-shoes": "../../../assets/imgs/Home/woman shoes.jpg",
+  "womens-watches": "../../../assets/imgs/Home/woman Watch.avif",
+  "fragrances": "../../../assets/imgs/Home/skin-care.jpg",
+  "mens-shoes": "../../../assets/imgs/Home/man shoes.jpg",
+  "mens-watches": "../../../assets/imgs/Home/man watch.avif",
+};
+// map categories to owl carousel and assign it to owl=demo and handle a defult image if key not found 
+const categoriesHTML = categories.map((category) => `
+  <div class="item">
+    <img src="${categoryImagesPath[category] || "../../../assets/imgs/Home/other_products.jpg"}" alt="" width="100%">
+    <p class="fs-4">${category}</p>
+  </div>
+`).join('');
+
+
+document.getElementById('owl-demo').innerHTML = categoriesHTML;
+// end of filter categories
+// handle click on category 
+const categoryItems = document.querySelectorAll('.item');
+
+categoryItems.forEach((item) => {
+  item.addEventListener('click', () => {
+    const category = item.querySelector('p').textContent;
+    // Navigate to categories page 
+    window.location.href = `./categories.html?category=${category}`;
+
+  });
+});
