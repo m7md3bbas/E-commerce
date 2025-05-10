@@ -27,7 +27,7 @@ window.addEventListener('load', function () {
         <div class="card-body">
           <h5 class="main-color">${item.category}</h5>
           <p>${item.name}</p>
-          <h6>Price: <span class="text-secondary price">${Number(item.price.split('$')[0])} </span></h6>
+          <h6>Price: <span class="text-secondary price">${Number(item.price.split('$')[0])} $</span></h6>
           <h6>Total Price: <span class="text-secondary total-price">${Number(item.price.split('$')[0]) * item.quantity} $</span></h6>
           <hr>
           <div class="d-flex justify-content-between align-items-center">
@@ -135,9 +135,51 @@ window.addEventListener('load', updateCartTotal);
 const clearCartBtn = document.getElementById('clearCart');
 if (clearCartBtn) {
   clearCartBtn.addEventListener('click', () => {
-    localStorage.removeItem('cart');
+
+
+   const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: "btn btn-success mx-2",
+    cancelButton: "btn btn-danger"
+  },
+  buttonsStyling: false
+});
+swalWithBootstrapButtons.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonText: "Yes, delete it!",
+  cancelButtonText: "No, cancel!",
+  reverseButtons: true
+}).then((result) => {
+  if (result.isConfirmed) {
+
+     localStorage.removeItem('cart');
     document.querySelector('.addProduct').innerHTML = `<p class="alert alert-warning text-center">No Products in Your Cart</p>`;
     updateCartTotal();
+
+    swalWithBootstrapButtons.fire({
+      title: "Deleted!",
+      text: "Your cart has been cleared.",
+      icon: "success"
+    });
+  } else if (
+    /* Read more about handling dismissals below */
+    result.dismiss === Swal.DismissReason.cancel
+  ) {
+    swalWithBootstrapButtons.fire({
+      title: "Cancelled",
+      text: "Your imaginary file is safe :)",
+      icon: "error"
+    });
+  }
+});
+
+
+
+
+   
   });
 }
 

@@ -15,9 +15,9 @@ window.addEventListener('DOMContentLoaded', function () {
   if (totalCartPrice) {
     const storedTotalPrice = JSON.parse(localStorage.getItem('totalCartPrice'));
     if (storedTotalPrice) {
-      totalCartPrice.textContent = `${storedTotalPrice} EGP`;
+      totalCartPrice.textContent = `${storedTotalPrice} $`;
     } else {
-      totalCartPrice.textContent = '0 EGP'
+      totalCartPrice.textContent = '0 $'
     }
   }
 
@@ -47,6 +47,7 @@ window.addEventListener('DOMContentLoaded', function () {
     console.log('Form Submitted');
     e.preventDefault();
     addressValidation()
+    localStorage.removeItem('cart')
   });
 
   function addressValidation() {

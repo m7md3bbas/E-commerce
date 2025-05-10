@@ -4,9 +4,7 @@
   font-family: "Chilanka", cursive;
  
 }
-body {
-  background-color: #f8f9fa;
-}
+
 :root {
   --main-font: "Dancing Script", cursive;
   --secondary-font: "Cormorant Garamond", serif;
@@ -42,7 +40,6 @@ h1:hover::after{
 }
 .card{
   transition: all 0.5s;
-  box-shadow: 10px 10px 10px #eacfa4;
 }
 .card:hover{
   transform: scale(1.02);

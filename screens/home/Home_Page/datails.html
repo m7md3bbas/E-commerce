@@ -20,9 +20,8 @@
 <body>
 
     <div class="container">
-        <div class="row my-3">
+        <div class="row my-3 details">
             <div class="breadcrumb">
-                <!-- الترويسة -->
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="./../Home_Page/index.html"
                             class="text-decoration-none text-black">Home</a></li>
@@ -31,7 +30,6 @@
             </div>
 
             <div class="detail d-flex flex-wrap justify-content-between">
-                <!-- صورة المنتج -->
                 <div class="image col-xl-4 col-lg-4 col-md-5 col-10 position-relative">
                     <img src="" width="100%" class="product-image">
                     <div class="icondetail position-absolute d-flex flex-column top-0 end-0">
@@ -50,12 +48,10 @@
                         </div>
                        
                       </div> -->
-                    <!-- تحت الصورة الكبيرة مباشرة -->
                     <div class="image-thumbnails d-flex gap-2 mt-3 flex-wrap"></div>
 
                 </div>
 
-                <!-- تفاصيل المنتج -->
                 <div class="info col-xl-6 col-lg-6 col-md-6 col-12">
                     <p class="h3 product-name">Logo T-Shirt Green</p>
                     <div class="rate d-flex flex-wrap justify-content-between">
@@ -93,20 +89,18 @@
 
 
                     <div class="button mt-4">
-                        <button class="text-white">Add To Cart</button>
-                        <button class="text-white"> Checkout Now</button>
+                        <button class="text-white addToCart" >Add To Cart</button>
+                      
                     </div>
                 </div>
             </div>
 
-            <!-- قسم المنتجات ذات الصلة -->
 
 
             <div class="related-products mt-5 ">
                 <p class="h2 mb-3">Related Product</p>
                 <div class="cards row g-4 ">
 
-                    <!-- يجب ملء هذه المنتجات بناءً على بياناتك (مثلاً، يمكن استعراض المنتجات الأخرى بناءً على التصنيف أو المعايير الأخرى) -->
                 </div>
             </div>
         </div>
@@ -116,6 +110,9 @@
         <p class="text-center">Copy Right 2018 <span style="color: #be985a;"> ©</span> By Daniels All Rights Reserved
         </p>
     </footer>
+
+  <div id="toastContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+
 
     <script src="../Home_Page/JS/bootstrap.bundle.min.js"></script>
     <script type="module" src="../Home_Page/JS/details.js"></script>

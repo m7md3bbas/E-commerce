@@ -13,6 +13,7 @@ $(document).ready(function () {
   });
 
 });
+
 const current_user = JSON.parse(localStorage.getItem("current_user"));
 if (current_user) {
   $("#login").css("display", "none");
