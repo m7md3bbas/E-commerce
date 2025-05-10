@@ -1,7 +1,6 @@
-
-import { getUserByEmail } from './../../../../projectModules/usersModule.js';
-import { pushPurchase } from './../../../../projectModules/purchases.js';
-import { getProductById } from '../../../../projectModules/productModule.js';
+import { getUserByEmail } from "./../../../../projectModules/usersModule.js";
+import { pushPurchase } from "./../../../../projectModules/purchases.js";
+import { getProductById } from "../../../../projectModules/productModule.js";
 
 // MARK: Toast
 
@@ -33,30 +32,28 @@ function showToast(message, type = "success", duration = 2000) {
   }, duration);
 }
 //MARK: formValid
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM Loaded");
+  const form = document.getElementById("checkoutForm");
 
-  console.log('DOM Loaded');
-  const form = document.getElementById('checkoutForm');
- 
-  
-  const totalCartPrice = document.querySelector('.totalCartPrice');
-  
+  const totalCartPrice = document.querySelector(".totalCartPrice");
+
   if (totalCartPrice) {
-    const storedTotalPrice = JSON.parse(localStorage.getItem('totalCartPrice'));
+    const storedTotalPrice = JSON.parse(localStorage.getItem("totalCartPrice"));
     if (storedTotalPrice) {
       totalCartPrice.textContent = `${storedTotalPrice} $`;
     } else {
-      totalCartPrice.textContent = '0 $'
+      totalCartPrice.textContent = "0 $";
     }
   }
 
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];  
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
   console.log(cart);
-  
-  const viewProduct = document.querySelector('.viewProduct');
-  
+
+  const viewProduct = document.querySelector(".viewProduct");
+
   if (viewProduct && cart.length > 0) {
-    cart.forEach(item => {
+    cart.forEach((item) => {
       viewProduct.innerHTML += `
         <div class="col-4">
           <div class='border border-2 main-border text-center mb-3'>
@@ -68,138 +65,120 @@ window.addEventListener('DOMContentLoaded', function () {
     });
   } else {
     if (viewProduct) {
-      viewProduct.innerHTML = '<p>No products in your cart.</p>';
+      viewProduct.innerHTML = "<p>No products in your cart.</p>";
     }
   }
 
   // MARK: SubmitForm
-form.addEventListener("submit", function (e) {
-    console.log('Form Submitted');
+  form.addEventListener("submit", function (e) {
+    console.log("Form Submitted");
     e.preventDefault();
 
-    addressValidation()
-     const products = JSON.parse(localStorage.getItem('cart'));
-     console.log(products);
-     
-    const allProducts = JSON.parse(localStorage.getItem('products')); 
+    addressValidation();
+    const products = JSON.parse(localStorage.getItem("cart"));
+    console.log(products);
+
+    const allProducts = JSON.parse(localStorage.getItem("products"));
 
     products.forEach((product) => {
-             const itemIndex = allProducts.findIndex(p => p.id === product.id);
-             if (itemIndex !== -1) {
-             allProducts[itemIndex].stock -= product.quantity;
-             
-              
-    }
-    localStorage.setItem("products", JSON.stringify(allProducts));
+      const itemIndex = allProducts.findIndex((p) => p.id === product.id);
+      if (itemIndex !== -1) {
+        allProducts[itemIndex].stock -= product.quantity;
+      }
+      localStorage.setItem("products", JSON.stringify(allProducts));
+    });
 
-
-   });
-
-    localStorage.removeItem('cart')
-    localStorage.removeItem('totalCartPrice')
-    
-
+    localStorage.removeItem("cart");
+    localStorage.removeItem("totalCartPrice");
   });
 
   // MARK: AddValidation
   function addressValidation() {
-   
-      let isValid = true;
-  
-      // Get form values
-      const nameInput = document.getElementById("name");
-      const streetInput = document.getElementById("streetAddress");
-      const apartmentInput = document.getElementById("apartment");
-      const cityInput = document.getElementById("city");
-      const phoneInput = document.getElementById("phone");
-  
-      const nameErrorMsg = nameInput.nextElementSibling.nextElementSibling;
-      const streetErrorMsg = streetInput.nextElementSibling.nextElementSibling;
-      const apartmentErrorMsg = apartmentInput.nextElementSibling.nextElementSibling;
-      const cityErrorMsg = cityInput.nextElementSibling.nextElementSibling;
-      const phoneErrorMsg = phoneInput.nextElementSibling.nextElementSibling;
-  
-      // Shipping Validation
-      if (cityInput.value.trim() === '') {
-        cityErrorMsg.textContent = 'City is required.';
-        isValid = false;
-      } else {
-        cityErrorMsg.textContent = '';
-      }
-      
-      if (!nameInput.value.trim()) {
-        nameErrorMsg.textContent = "Name is required.";
-        isValid = false;
-      } else {
-        nameErrorMsg.textContent = '';
-      }
-  
-      if (!streetInput.value.trim()) {
-        streetErrorMsg.textContent = "Street address is required.";
-        isValid = false;
-      } else {
-        streetErrorMsg.textContent = '';
-      }
-  
-      if (!apartmentInput.value.trim() || isNaN(apartmentInput.value.trim())) {
-        apartmentErrorMsg.textContent = "Enter a valid apartment/floor number.";
-        isValid = false;
-      } else {
-        apartmentErrorMsg.textContent = '';
-      }
-  
-     
-  
-      let regex = /^01[0125][0-9]{8}$/;
-      if (phoneInput.value.trim() === '') {
-        phoneErrorMsg.textContent = 'Phone number is required.';
-        isValid = false;
-      } else if (!(regex.test(phoneInput.value.trim()))) {
-        phoneErrorMsg.textContent = 'Please enter a valid phone number.';
-        isValid = false;
-      } else {
-        phoneErrorMsg.textContent = '';
-      }
-  
-      if (isValid) {
-       const UserEmail=JSON.parse(localStorage.getItem('current_user'))
-       
-       const buyer=getUserByEmail(UserEmail.email)
+    let isValid = true;
 
-       const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-      
-       
-       console.log(cartItems);
+    // Get form values
+    const nameInput = document.getElementById("name");
+    const streetInput = document.getElementById("streetAddress");
+    const apartmentInput = document.getElementById("apartment");
+    const cityInput = document.getElementById("city");
+    const phoneInput = document.getElementById("phone");
 
-       cartItems.forEach((item)=>{
+    const nameErrorMsg = nameInput.nextElementSibling.nextElementSibling;
+    const streetErrorMsg = streetInput.nextElementSibling.nextElementSibling;
+    const apartmentErrorMsg =
+      apartmentInput.nextElementSibling.nextElementSibling;
+    const cityErrorMsg = cityInput.nextElementSibling.nextElementSibling;
+    const phoneErrorMsg = phoneInput.nextElementSibling.nextElementSibling;
 
-         console.log(item);
-         const product=getProductById(item.id)
-  
-         const purchaseId = `order-${String(Date.now()).slice(-5)}`;
-        
-         console.log(purchaseId);
-          for (let i = 0; i < item.quantity; i++) {
-            console.log('hi');
-            
-            let data=  pushPurchase(purchaseId,'pending',buyer,product)
-           
-            
-          }
+    // Shipping Validation
+    if (cityInput.value.trim() === "") {
+      cityErrorMsg.textContent = "City is required.";
+      isValid = false;
+    } else {
+      cityErrorMsg.textContent = "";
+    }
 
-       })
-          
-       
-       showToast("Form submitted successfully!");
-       setTimeout(()=>{
-         window.location.href = './paymentMethod.html';
-         form.reset();
-        },500)
+    if (!nameInput.value.trim()) {
+      nameErrorMsg.textContent = "Name is required.";
+      isValid = false;
+    } else {
+      nameErrorMsg.textContent = "";
+    }
 
-  
-      }
-   
+    if (!streetInput.value.trim()) {
+      streetErrorMsg.textContent = "Street address is required.";
+      isValid = false;
+    } else {
+      streetErrorMsg.textContent = "";
+    }
+
+    if (!apartmentInput.value.trim() || isNaN(apartmentInput.value.trim())) {
+      apartmentErrorMsg.textContent = "Enter a valid apartment/floor number.";
+      isValid = false;
+    } else {
+      apartmentErrorMsg.textContent = "";
+    }
+
+    let regex = /^01[0125][0-9]{8}$/;
+    if (phoneInput.value.trim() === "") {
+      phoneErrorMsg.textContent = "Phone number is required.";
+      isValid = false;
+    } else if (!regex.test(phoneInput.value.trim())) {
+      phoneErrorMsg.textContent = "Please enter a valid phone number.";
+      isValid = false;
+    } else {
+      phoneErrorMsg.textContent = "";
+    }
+
+    if (isValid) {
+      const UserEmail = JSON.parse(localStorage.getItem("current_user"));
+
+      const buyer = getUserByEmail(UserEmail.email);
+
+      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+      console.log(cartItems);
+
+      cartItems.forEach((item, index) => {
+        console.log(item);
+        const product = getProductById(item.id);
+
+        //  console.log(purchaseId);
+        for (let i = 0; i < item.quantity; i++) {
+          console.log("hi");
+          const purchaseId = `order-${
+            String(Date.now()).slice(-3) + index + i
+          }`;
+
+          let data = pushPurchase(purchaseId, "pending", buyer, product);
+        }
+      });
+
+      showToast("Form submitted successfully!");
+      setTimeout(() => {
+        window.location.href = "./paymentMethod.html";
+        form.reset();
+      }, 500);
+    }
   }
-   
 });
- 
