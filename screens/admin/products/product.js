@@ -15,7 +15,6 @@ let products = getProducts();
 let nonactive = 0;
 
 products.forEach(function (item, index) {
-  // console.log("apend run");
   if (item.getStock() === 0) nonactive++;
 
   let itemNumber = index + 1;
@@ -43,7 +42,6 @@ document.getElementById("APh1").innerText = products.length - nonactive;
 document.getElementById("OOSh1").innerText = nonactive;
 
 $("#ProductSearch").on("keyup", function () {
-  // $("#ProductStockInp").val("");
   let value = $(this).val().toLowerCase();
   $(".productRow ").each(function (val) {
     if ($(this).text().toLowerCase().indexOf(value) != -1) {

@@ -1,0 +1,58 @@
+:root {
+  --main-color: #be985a;
+}
+#sidebarMenu {
+  height: 100vh;
+  background-color: #343a40;
+  position: relative;
+  z-index: 1;
+}
+
+.nav-item {
+  margin: 6px;
+}
+
+.nav-link:hover {
+  background-color: var(--main-color);
+  border-radius: 5px;
+  transform: scale(1.1);
+  transition: 0.2s;
+  color: white;
+}
+
+.nav-link.active {
+  color: #fff;
+  background-color: var(--main-color);
+  border-radius: 5px;
+}
+
+.nav-link {
+  color: var(--main-color);
+}
+
+#contain {
+  margin: 0px;
+  padding: 0px;
+  height: 92vh;
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  width: 100%;
+}
+
+@media (max-width: 767.98px) {
+  #contain {
+    height: 100vh;
+  }
+
+  #Tbtn {
+    position: fixed;
+    top: 5px;
+    right: 10px;
+    z-index: 1;
+  }
+
+  #search {
+    margin: 5px;
+  }
+}

@@ -6,8 +6,6 @@ export function showItem() {
     const product = getProductById(productId);
     console.log(getProductById(productId).getProductName());
 
-    // product = $(this).data('id')
-    // const productImages = product.getImages();
     const modalProductName = document.getElementById("modalProductName");
     const modalProductPrice = document.getElementById("modalProductPrice");
     const modalProductQuantity = document.getElementById(
@@ -34,7 +32,6 @@ export function showItem() {
       modalProductCategory.textContent =
         product.getCategory() || "Uncategorized";
     mapImagesToCarousel(product.getImages());
-    // new bootstrap.Modal(document.getElementById("productModal")).show();
   });
 }
 function mapImagesToCarousel(images) {

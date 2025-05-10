@@ -99,19 +99,3 @@ export const deleteMessage = (id) => {
   }
   return null;
 };
-
-// pushMessage(
-//   1,
-//   "Mohammad Eldabaa",
-//   "01012345678",
-//   "How are youfajslkdjflakjdfl adsfjlkjfa fad ;ldkafjlkad fafd jfda;lfa d;d?",
-//   "2024-05-09T12:00:00Z"
-// );
-// console.log("adding........");
-// pushMessage(
-//   2,
-//   "Mohammad Ali",
-//   "01087654321",
-//   "Let's go! ajflajl; fd lajf ;dalk alfdj a;lkfdf af",
-//   new Date().toISOString()
-// );

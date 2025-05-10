@@ -3,22 +3,7 @@ import {
   getAllPurchases,
   deletePurchase,
 } from "../../../projectModules/purchases.js";
-import {
-  getProducts,
-  getProductById,
-} from "../../../projectModules/productModule.js";
-import {
-  getUsers,
-  getUserByID,
-  deleteLastUser,
-  getUserByEmail,
-} from "../../../projectModules/usersModule.js";
 
-// pushPurchase("123", "pending", getUsers()[1], getProducts()[5]);
-// pushPurchase("124", "completed", getUsers()[2], getProducts()[6]);
-// pushPurchase("125", "completed", getUsers()[3], getProducts()[7]);
-// pushPurchase("126", "cancelled", getUsers()[4], getProducts()[22]);
-// pushPurchase("127", "cancelled", getUsers()[5], getProducts()[4]);
 let totalProductNumber = getAllPurchases().length;
 let completedProduct = 0;
 let cancelledProduct = 0;
@@ -33,14 +18,6 @@ getAllPurchases().forEach(function (item, index) {
     cancelledProduct++;
     status_color = "red";
   }
-
-  // <span
-  //   class="d-inline-block"
-  //   tabindex="0"
-  //   data-bs-toggle="popover"
-  //   data-bs-trigger="hover focus"
-  //   data-bs-content="Disabled popover"
-  // ></span>;
 
   $("tbody").append(`
     <tr class="orderRaw" data-status="${item.getStatus()}">

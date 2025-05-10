@@ -1,0 +1,19 @@
+.message1:hover {
+  background-color: rgb(229, 225, 225);
+}
+.check-message {
+}
+.check-message:hover {
+  transform: scale(1.5);
+  transition: 0.3s;
+  background-color: #bd924c !important;
+}
+.check-message:checked {
+  transform: scale(1.5);
+  transition: 0.3s;
+  background-color: #bd924c !important;
+  border: 1px solid #bd924c;
+}
+.check-message {
+  transform: scale(1.2);
+}
