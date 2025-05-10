@@ -17,7 +17,7 @@
     <script src="../js/seller_home_logic.js"></script>
 
     <div class="sidebar">
-        <p class="navbar-brand fs-2 text-center">Rewaq</p>
+        <p class="navbar-brand fs-4 text-center">Seller Panel</p>
         <!-- <h5 class="text-center" id="sellerPanel">Seller Panel</h5> -->
         <a href="#" class="active" id="homeLink" onclick="showPage('home')">Home</a>
         <a href="#add-product" id="addProductLink" onclick="showPage('addProduct')">Add Product</a>
@@ -56,15 +56,18 @@
                 <div class="col-md-3">
                     <select class="form-select" id="categoryFilter">
                         <option value="">All Categories</option>
-                        <option value="electronics">Electronics</option>
-                        <option value="clothing">Clothing</option>
+                        <option value="tops">tops</option>
+                        <option value="mens-shirts">mens-shirts</option>
+                        <option value="womens-dresses">womens-dresses</option>
+                        <option value="womens-jewellery">womens-jewellery</option>
+                        <option value="sports-accessories">sports-accessories</option>
+                        <option value="womens-bags">womens-bags</option>
+                        <option value="womens-shoes">womens-shoes</option>
+                        <option value="womens-watches">womens-watches</option>
+                        <option value="fragrances">fragrances</option>
+                        <option value="mens-shoes">mens-shoes</option>
+                        <option value="mens-watches">mens-watches</option>
                         <option value="furniture">Furniture</option>
-                        <option value="books">Books</option>
-                        <option value="toys">Toys</option>
-                        <option value="sports">Sports</option>
-                        <option value="automotive">Automotive</option>
-                        <option value="household">Household</option>
-                        <option value="accessories">Accessories</option>
                         <option value="other">Other</option>
                     </select>
                 </div>
@@ -152,7 +155,7 @@
         <div id="analytics" class="page-content">
             <h4>Sales Analytics</h4>
             <div class="row mb-3">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="card text-white bg-success mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Total Sales</h5>
@@ -160,7 +163,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="card text-white bg-primary mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Top Product</h5>
@@ -168,7 +171,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="card text-white bg-warning mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Most Frequent Address</h5>
@@ -176,7 +179,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="card text-white bg-info mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Top Revenue Product</h5>
@@ -184,10 +187,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="card text-white bg-danger mb-3">
                         <div class="card-body">
-                            <h5 class="card-title">Top Customer</h5>
+                            <h5 class="card-title">Top Customer </h5>
                             <p class="card-text" id="topCustomer">N/A</p>
                         </div>
                     </div>
@@ -199,10 +202,6 @@
                 <canvas id="salesChart" height="100"></canvas>
             </div>
         </div>
-
-
-
-
         <div id="account" class="page-content">
             <h4>Account Settings</h4>
             <p>Here you can edit your account settings.</p>

@@ -17,17 +17,19 @@ $(document).ready(function () {
 const current_user = JSON.parse(localStorage.getItem("current_user"));
 if (current_user) {
   $("#login").css("display", "none");
+  $("#name").css("display", "none");
+  $("#phone").css("display", "none");
   if (current_user.type === "admin") {
     $("#dashboard").css("display", "block");
     $("#logout").css("display", "block");
     $("#dashboard").on("click", () => {
-      window.location.replace("./../../../admin/admin.html");
+      window.location.href = "./../../admin/admin.html";
     });
   } else if (current_user.type === "seller") {
     $("#dashboard").css("display", "block");
     $("#logout").css("display", "block");
     $("#dashboard").on("click", () => {
-      window.location.replace("./../../seller/dashboard/dashboard.html");
+      window.location.href = "./../../seller/html/seller-dashboard.html";
     });
   } else if (current_user.type === "user") {
     $("#logout").css("display", "block");
@@ -36,6 +38,7 @@ if (current_user) {
 } else {
   $("#logout").css("display", "none");
   $("#dashboard").css("display", "none");
+
   $("#cart").on("click", () => {
     window.location.href = "./../../auth/login.html";
   });
@@ -46,6 +49,9 @@ function logout() {
   localStorage.removeItem("current_user");
   window.location.replace("./../../auth/login.html");
 }
+
+
+
 
 document.querySelector('.cartHome').addEventListener('click', function () {
   window.location.href = '../Cart/cart.html'
@@ -174,53 +180,53 @@ document.addEventListener("click", function (e) {
       quantity: 1,
     };
 
-             
+
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     console.log(cart);
-    
-    var realProduct = getProductById(productId);  
+
+    var realProduct = getProductById(productId);
 
     const existingProduct = cart.find((item) => item.id === productId);
 
     if (existingProduct) {
-         if (existingProduct.quantity < realProduct.getStock()) {
-                    existingProduct.quantity += 1;
-                    showToast('Product added to cart')
-                    console.log('Product added to cart');
-                    
-   
-           } else {
-                  alert("Stock limit reached.");
-          return;
-        }
+      if (existingProduct.quantity < realProduct.getStock()) {
+        existingProduct.quantity += 1;
+        showToast('Product added to cart')
+        console.log('Product added to cart');
+
+
+      } else {
+        alert("Stock limit reached.");
+        return;
+      }
 
     } else {
-  console.log(productId);
-  console.log(realProduct);
-  
+      console.log(productId);
+      console.log(realProduct);
 
-  if (realProduct.getStock() > 0) {
-    const newProduct = {
-      id: productId,
-      img: img.src,
-      name: productItem,
-      category,
-      price,
-      quantity: 1,
-    };
-    cart.push(newProduct);
-    showToast('Product added to cart')
 
-    console.log('Product added to cart');
-    
-  } else {
-    alert("Stock is empty.");
-    return;
-  }
-}
- localStorage.setItem("cart", JSON.stringify(cart));
- console.log(JSON.parse(localStorage.getItem('cart')));
- 
+      if (realProduct.getStock() > 0) {
+        const newProduct = {
+          id: productId,
+          img: img.src,
+          name: productItem,
+          category,
+          price,
+          quantity: 1,
+        };
+        cart.push(newProduct);
+        showToast('Product added to cart')
+
+        console.log('Product added to cart');
+
+      } else {
+        alert("Stock is empty.");
+        return;
+      }
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    console.log(JSON.parse(localStorage.getItem('cart')));
+
   }
 });
 
@@ -312,3 +318,49 @@ function renderResults(results) {
     searchResults.appendChild(div);
   });
 }
+
+
+// Filter Categories logic 
+
+// filter local storage
+const categories = Array.from(new Set(getProducts().map((product) => product.getCategory())));
+// static assets images paths 
+const categoryImagesPath = {
+  "tops": "../../../assets/imgs/Home/top1.jpg",
+  // "furniture": "  ../../../assets/imgs/Home/furniture.jpg",
+  "other": "../../../assets/imgs/Home/other_products.jpg",
+  // "clothing": "../../../assets/imgs/Home/clothing.jpg",
+  "tops": "../../../assets/imgs/Home/top1.jpg",
+  "mens-shirts": "../../../assets/imgs/Home/man T-shirt1.jpg",
+  "womens-dresses": "../../../assets/imgs/Home/Images/dress.jpg",
+  "womens-jewellery": "../../../assets/imgs/Home/woman-Jewellery1.jpg",
+  "sports-accessories": "../../../assets/imgs/Home/sport.jpg",
+  "womens-bags": " ../../../assets/imgs/Home/bag.avif",
+  "womens-shoes": "../../../assets/imgs/Home/woman shoes.jpg",
+  "womens-watches": "../../../assets/imgs/Home/woman Watch.avif",
+  "fragrances": "../../../assets/imgs/Home/skin-care.jpg",
+  "mens-shoes": "../../../assets/imgs/Home/man shoes.jpg",
+  "mens-watches": "../../../assets/imgs/Home/man watch.avif",
+};
+// map categories to owl carousel and assign it to owl=demo and handle a defult image if key not found 
+const categoriesHTML = categories.map((category) => `
+  <div class="item">
+    <img src="${categoryImagesPath[category] || "../../../assets/imgs/Home/other_products.jpg"}" alt="" width="100%">
+    <p class="fs-4">${category}</p>
+  </div>
+`).join('');
+
+
+document.getElementById('owl-demo').innerHTML = categoriesHTML;
+// end of filter categories
+// handle click on category 
+const categoryItems = document.querySelectorAll('.item');
+
+categoryItems.forEach((item) => {
+  item.addEventListener('click', () => {
+    const category = item.querySelector('p').textContent;
+    // Navigate to categories page 
+    window.location.href = `./categories.html?category=${category}`;
+
+  });
+});

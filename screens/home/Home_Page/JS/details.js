@@ -22,6 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("selectedProduct is ");
     console.log(selectedProduct);
     console.log(selectedProduct.productName);
+    if (productId) {
+        // استعراض المنتج بناءً على الـ productId
+        //read products from local storage
+        var savedProducts = localStorage.getItem("products");
+        //parse products from local storage 
+        savedProducts = JSON.parse(savedProducts);
+        var selectedProduct = savedProducts.find(product => product.id == productId);
 
     if (selectedProduct) {
       // select product-name from details page
