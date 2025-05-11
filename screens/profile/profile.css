@@ -1,0 +1,118 @@
+:root {
+    --primary-color: #be985a;
+    --primary-light: #f8f3e6;
+    --primary-dark: #8a6d3b;
+}
+
+body {
+    background-color: var(--primary-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-container {
+    flex: 1;
+    padding: 0;
+}
+
+.profile-card {
+    height: 100%;
+    border-radius: 0;
+    border: none;
+}
+
+.profile-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 3rem;
+    color: var(--primary-color);
+    border: 3px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-body {
+    padding: 2rem;
+    background-color: white;
+}
+
+.form-label {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+.form-control, .form-select {
+    border: 1px solid #dee2e6;
+    padding: 0.5rem 0.75rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(190, 152, 90, 0.25);
+}
+
+.form-control:read-only, .form-select:disabled {
+    background-color: #f8f9fa;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    padding: 0.5rem 1.5rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+@media (min-width: 768px) {
+    .profile-container {
+        display: flex;
+    }
+
+    .profile-sidebar {
+        flex: 0 0 300px;
+        background-color: var(--primary-color);
+        color: white;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .profile-content {
+        flex: 1;
+        padding: 2rem;
+        background-color: white;
+    }
+
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        font-size: 4rem;
+    }
+}
