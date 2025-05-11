@@ -1,10 +1,5 @@
-import { getProductById, getProducts } from "../../../projectModules/productModule.js";
-import { decreaseProductStock } from './../../../projectModules/productModule.js';
-import {
-  getProductById,
-  getProducts,
-  decreaseProductStock,
-} from "../../../projectModules/productModule.js";
+import { getProductById, getProducts,decreaseProductStock } from "../../../projectModules/productModule.js";
+
 
 // MARK: cartProducts
 window.addEventListener("load", function () {
@@ -88,6 +83,7 @@ function initProduct(productElement, itemData) {
 
     updateCartTotal();
   }
+
  // MARK: minus 
 
   minusBtn.addEventListener("click", () => {
@@ -116,40 +112,36 @@ function initProduct(productElement, itemData) {
   // MARK: plus 
   plusBtn.addEventListener('click', () => {
 
-    decreaseProductStock(itemData.id)
-    if(quantity < getProductById(itemData.id).getStock()){
+  //   if(quantity < getProductById(itemData.id).getStock()){
 
-  plusBtn.addEventListener("click", () => {
-    console.log(itemData);
-    console.log(getProductById(itemData.id).getStock());
-    console.log(quantity);
+  // plusBtn.addEventListener("click", () => {
+  //   console.log(itemData);
+  //   console.log(getProductById(itemData.id).getStock());
+  //   console.log(quantity);
 
     if (quantity < getProductById(itemData.id).getStock()) {
       quantity++;
+     decreaseProductStock(itemData.id)
+
       updateTotal();
     } else {
       alert("Stock is empty");
     }
   });
 // MARK: clearItem
-  closeBtn.addEventListener('click', () => {
 
-    let stock=getProductById(itemData.id).getStock();
+  closeBtn.addEventListener("click", () => {
+     let stock=getProductById(itemData.id).getStock();
 
-    console.log(getProductById(itemData.id).getStock());
     getProductById(itemData.id).setStock(stock+itemData.quantity);
-    console.log(getProductById(itemData.id).getStock());
 
-       const allProducts = JSON.parse(localStorage.getItem('products')); 
+      const allProducts = JSON.parse(localStorage.getItem('products')); 
       let product= allProducts.filter(p => p.id === itemData.id)
      
       product[0].stock=getProductById(itemData.id).getStock()
       console.log(  product[0].stock);
       localStorage.setItem("products", JSON.stringify(allProducts));
 
-
-
-  closeBtn.addEventListener("click", () => {
     const id = itemData.id;
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     cart = cart.filter((item) => item.id !== id);
@@ -164,10 +156,11 @@ function initProduct(productElement, itemData) {
         ".addProduct"
       ).innerHTML = `<p class="alert alert-warning text-center">No Products in Your Cart</p>`;
     }
+
+    updateTotal();
   });
 
-  updateTotal();
-})
+}
 
 function updateCartTotal() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -295,4 +288,4 @@ document.addEventListener("click", function (e) {
     updateCartTotal();
   }
 
-})
+})  
