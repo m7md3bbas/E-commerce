@@ -5,11 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentUser = JSON.parse(localStorage.getItem("current_user"));
     if (!currentUser) {
         console.error("No user logged in");
-        window.location.href = "/login.html";
+        window.location.href = "./../auth/login.html";
         return;
     }
 
-    // DOM Elements
     const form = document.getElementById("profileForm");
     const nameInput = document.getElementById("fullName");
     const emailInput = document.getElementById("email");
@@ -61,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebarElements.picture.src = profilePics[gender] || profilePics.default;
     }
 
-    // Toggle edit mode
     function toggleEditMode(enable) {
         const editableElements = [nameInput, phoneInput, addressInput, birthDate, genderSelect];
         editableElements.forEach(el => {
@@ -81,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Form submission handler
     async function handleSubmit(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -92,11 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // Show loading state
             buttons.save.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Saving...';
             buttons.save.disabled = true;
 
-            // Prepare updated user data
             const updatedUser = {
                 ...currentUser,
                 name: nameInput.value,
@@ -106,17 +101,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 gender: genderSelect.value
             };
 
-            // Update user in database
             const success = await updateUser(updatedUser);
             if (!success) throw new Error("Update failed");
 
-            // Update local storage and UI
             localStorage.setItem("currentUser", JSON.stringify(updatedUser));
             Object.assign(currentUser, updatedUser);
             initializeForm();
             toggleEditMode(false);
-            
-            // Show success feedback
             showAlert("Profile updated successfully!", "success");
         } catch (error) {
             console.error("Update error:", error);
@@ -145,8 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => alert.remove(), 150);
         }, 3000);
     }
-
-    // Initialize the page
     initializeForm();
     form.addEventListener('submit', handleSubmit);
     buttons.edit.addEventListener('click', () => toggleEditMode(true));

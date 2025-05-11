@@ -46,6 +46,7 @@ if (current_user) {
   $("#dashboard").css("display", "none");
   $("#sendBtn").css("display", "none");
   $("#textArea").css("display", "none");
+  $("#profile").css("display", "none");
 
   $("#cart").on("click", () => {
     window.location.href = "./../../auth/login.html";
@@ -162,7 +163,13 @@ document.addEventListener("click", function (e) {
 
     const existingProduct = cart.find((item) => item.id === productId);
     const stockLabel = card.querySelector(".stock-label span");
+   
+let user =JSON.parse(localStorage.getItem("current_user")) ;
+console.log(user);
 
+   if(!user)  return showToast('Login First , please', 'danger')
+  
+    
     if (existingProduct) {
       if (realProduct.getStock() != 0) {
         existingProduct.quantity += 1;
@@ -200,7 +207,9 @@ document.addEventListener("click", function (e) {
       }
     }
     localStorage.setItem("cart", JSON.stringify(cart));
-  }
+ 
+
+}
 });
 
 ////////////////////////////////////////////////////////

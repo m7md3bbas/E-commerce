@@ -11,8 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const confirmPasswordInput = document.getElementById("floatingConfirmPassword");
     const signupBtn = document.querySelector("button[type='submit']");
     const isSellerInput = document.getElementById("sellerCheck");
-
-    // Password toggle functionality
     const showPassword = document.getElementById("showPasswordCheck");
 
     showPassword.addEventListener("change", () => {
@@ -40,13 +38,11 @@ document.addEventListener("DOMContentLoaded", function () {
             emailInput.classList.remove('is-invalid');
         }
 
-        // Bootstrap validation
+     
         if (!signupForm.checkValidity()) {
             signupForm.classList.add('was-validated');
             return;
         }
-
-        // Disable button and show loading state
         signupBtn.disabled = true;
         signupBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...`;
 
@@ -85,8 +81,6 @@ document.addEventListener("DOMContentLoaded", function () {
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-
-            // Optional: reset form
             signupForm.reset();
             signupForm.classList.remove('was-validated');
 
