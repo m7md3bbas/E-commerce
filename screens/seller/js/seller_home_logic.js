@@ -1,7 +1,7 @@
 const $ = selector => document.querySelector(selector);
 const defaultImage = "https://placehold.co/600x400?text=No+Image";
 
-// وظائف إدارة التخزين
+// load products
 function loadProducts() {
     const products = localStorage.getItem("products");
     if (products) {
@@ -48,7 +48,7 @@ function updateProductCards() {
     if (filteredProductsBySeller) {
         filteredProductsBySeller.forEach((product, index) => {
             const productImages = product.images || [defaultImage];
-            const mainImage = productImages[0] || defaultImage;
+            const mainImage = productImages[1] || defaultImage;
 
             const productCard = document.createElement("div");
             productCard.className = "product-card position-relative border rounded p-3 m-2 shadow-sm";
@@ -399,7 +399,8 @@ function showNotification(message, type) {
 }
 
 function showProductModal(product) {
-    const productImages = product.images || [defaultImage];
+    // Exclude first image
+    const productImages = product.images?.slice(1) || [defaultImage];
     const modalProductName = document.getElementById("modalProductName");
     const modalProductPrice = document.getElementById("modalProductPrice");
     const modalProductQuantity = document.getElementById("modalProductQuantity");
