@@ -1,6 +1,9 @@
 import { getUserByEmail } from "./../../../../projectModules/usersModule.js";
 import { pushPurchase } from "./../../../../projectModules/purchases.js";
-import { getProductById } from "../../../../projectModules/productModule.js";
+import {
+  getProductById,
+  decreaseProductStock,
+} from "../../../../projectModules/productModule.js";
 
 // MARK: Toast
 
@@ -82,8 +85,11 @@ window.addEventListener("DOMContentLoaded", function () {
 
     products.forEach((product) => {
       const itemIndex = allProducts.findIndex((p) => p.id === product.id);
-      if (itemIndex !== -1) {
-        allProducts[itemIndex].stock -= product.quantity;
+      // if (itemIndex !== -1) {
+      //   allProducts[itemIndex].stock -= product.quantity;
+      // }
+      for (let i = 0; i < product.quantity; i++) {
+        decreaseProductStock(itemIndex);
       }
       localStorage.setItem("products", JSON.stringify(allProducts));
     });

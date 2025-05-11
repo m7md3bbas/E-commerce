@@ -4,8 +4,8 @@ import {
   decreaseProductStock,
 } from "../../../../projectModules/productModule.js";
 import {
-  pushMessage,
   getAllMessages,
+  pushMessage,
 } from "../../../../projectModules/contactus.js";
 
 // MARK: Categories
@@ -23,8 +23,8 @@ $(document).ready(function () {
 const current_user = JSON.parse(localStorage.getItem("current_user"));
 if (current_user) {
   $("#login").css("display", "none");
-  // $("#name").css("display", "none");
-  // $("#phone").css("display", "none");
+  $("#name").css("display", "none");
+  $("#phone").css("display", "none");
   if (current_user.type === "admin") {
     $("#dashboard").css("display", "block");
     $("#logout").css("display", "block");
@@ -44,8 +44,6 @@ if (current_user) {
 } else {
   $("#logout").css("display", "none");
   $("#dashboard").css("display", "none");
-  $("#textArea").css("display", "none");
-  $("#sendBtn").css("display", "none");
 
   $("#cart").on("click", () => {
     window.location.href = "./../../auth/login.html";
@@ -382,8 +380,6 @@ categoryItems.forEach((item) => {
     window.location.href = `./categories.html?category=${category}`;
   });
 });
-
-//// Send contact us message to admin page
 
 $("#sendBtn").click(function () {
   let messageID = 0;
