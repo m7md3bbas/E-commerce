@@ -61,7 +61,7 @@ class Purchase {
   }
   setDateOfPurchase(date) {
     if (date) this.#date_of_purchase = date;
-    else this.#date_of_purchase = new Date().toISOString().split("T")[0];
+    else this.#date_of_purchase = new Date().toLocaleString();
   }
   getDateOfPurchase() {
     return this.#date_of_purchase;

@@ -18,4 +18,6 @@ $("#SignOut").on("click", logout);
 function logout() {
   localStorage.removeItem("current_user");
   window.location.replace("../auth/login.html");
-}
+ 
+};
+

@@ -75,9 +75,9 @@
           <li class="nav-item p-2" id="cart">
             <i class="fa-solid fa-cart-shopping  cartHome cursor-pointer"></i>
           </li>
-          <li class="nav-item p-2">
+          <!-- <li class="nav-item p-2">
             <i class="fa-regular fa-heart "></i>
-          </li>
+          </li> -->
 
           <li class="nav-item" id="login">
             <a class="nav-link fw-medium " href="./../../auth/login.html">SIGN IN</a>
@@ -109,7 +109,7 @@
 
   <section id="Categories" class="container Categories mt-5">
     <h2 class="text-center mb-4">Categories</h2>
-    <div class="row  justify-content-center align-items-center">
+    <div class="row  justify-content-center align-items-center cursor-pointer">
       <div id="owl-demo" class="owl-carousel owl-theme text-center">
 
         <div class="item">
@@ -224,14 +224,20 @@
       </div>
 
       <div class=" Form row g-3 mt-5">
-        <div class="col-6" id="name">
+        <!-- <div class="col-6" id="name">
           <input type="text" class="form-control" placeholder="Your Name" aria-label="First name">
         </div>
         <div class="col-6" id="phone">
           <input type="tel" class="form-control" placeholder="Telephone Num" aria-label="Last name">
+        </div> -->
+        <div class="col-12 mb-1" id="message">
+          <textarea id="textArea" class="form-control" placeholder="Message" aria-label="Last name"></textarea>
         </div>
-        <div class="col-12 mb-5" id="message">
-          <textarea class="form-control" placeholder="Message" aria-label="Last name"></textarea>
+
+        <div class="col-12 d-flex flex-row justify-content-end mb-5" id="send">
+          <div class="col-1">
+            <button id="sendBtn" type="button" aria-label="sendBtn">Send</button>
+          </div>
         </div>
 
       </div>
