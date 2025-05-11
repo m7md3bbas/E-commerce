@@ -90,7 +90,8 @@ allPurchases.forEach(function (item) {
   const monthName = date.toLocaleString("default", { month: "long" });
 
   totalRevenue += parseInt(item.getProduct().getPrice());
-  let address = item.getBuyer().getAddress().toLowerCase();
+  let address = item.getBuyer().getAddress();
+  if (address) address = address.toLowerCase();
 
   if (address === "garbia") garbia++;
   else if (address === "behera") behera++;

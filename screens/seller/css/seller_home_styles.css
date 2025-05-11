@@ -451,3 +451,13 @@ button:hover {
 /* .table>:not(caption)>*>*{
     background-color: var(--main-color);
 } */
+
+.btn-outline-primary{
+    color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+.btn-outline-primary:hover{
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}

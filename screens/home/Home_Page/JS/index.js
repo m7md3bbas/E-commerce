@@ -23,8 +23,8 @@ $(document).ready(function () {
 const current_user = JSON.parse(localStorage.getItem("current_user"));
 if (current_user) {
   $("#login").css("display", "none");
-  // $("#name").css("display", "none");
-  // $("#phone").css("display", "none");
+  $("#name").css("display", "none");
+  $("#phone").css("display", "none");
   if (current_user.type === "admin") {
     $("#dashboard").css("display", "block");
     $("#logout").css("display", "block");
@@ -44,8 +44,6 @@ if (current_user) {
 } else {
   $("#logout").css("display", "none");
   $("#dashboard").css("display", "none");
-  $("#textArea").css("display", "none");
-  $("#sendBtn").css("display", "none");
 
   $("#cart").on("click", () => {
     window.location.href = "./../../auth/login.html";
@@ -161,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
   catalogContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("details")) {
       const productId = e.target.dataset.id;
-      window.location.href = `./datails.html?productId=${productId}`; // إضافة معرّف المنتج للرابط
+      window.location.href = `./datails.html?productId=${productId}`;
     }
   });
 });
@@ -187,23 +185,28 @@ document.addEventListener("click", function (e) {
     // };
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    console.log(cart);
+
 
     var realProduct = getProductById(productId);
 
     const existingProduct = cart.find((item) => item.id === productId);
     const stockLabel = card.querySelector(".stock-label span");
+    // console.log(realProduct.getStock());
+    // console.log(existingProduct);
+
+    // console.log(existingProduct.quantity);
+
+
 
     if (existingProduct) {
-      if (existingProduct.quantity < realProduct.getStock()) {
+      if (realProduct.getStock() != 0) {
+
         existingProduct.quantity += 1;
         showToast("Product added to cart");
-        console.log(price);
 
         decreaseProductStock(productId);
         if (stockLabel) {
           stockLabel.textContent = realProduct.getStock();
-          console.log(stockLabel.textContent);
         }
       } else {
         showToast("Stock limited reached.", "danger");
@@ -228,14 +231,12 @@ document.addEventListener("click", function (e) {
         }
         showToast("Product added to cart");
 
-        console.log("Product added to cart");
       } else {
         showToast("Stock limited reached.", "danger");
         return;
       }
     }
     localStorage.setItem("cart", JSON.stringify(cart));
-    console.log(JSON.parse(localStorage.getItem("cart")));
   }
 });
 
@@ -381,8 +382,6 @@ categoryItems.forEach((item) => {
   });
 });
 
-//// Send contact us message to admin page
-
 $("#sendBtn").click(function () {
   let messageID = 0;
   let message = getAllMessages()[getAllMessages().length - 1];
@@ -393,5 +392,10 @@ $("#sendBtn").click(function () {
   pushMessage(messageID, current_user.name, current_user.phone, message2);
 
   $("#textArea").val("");
-  alert("Message sent successfuly");
+
+  Swal.fire({
+    title: "Message sent successfully",
+    icon: "success",
+    draggable: true,
+  });
 });

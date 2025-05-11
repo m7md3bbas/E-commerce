@@ -52,6 +52,7 @@ function showToast(message, type = "success", duration = 2000) {
       cardDetails.style.display = 'block';
     } else {
       cardDetails.style.display = 'none';
+      
       showToast("Cash on Delivery Selected , Wish see you again .....");
       setTimeout(()=>{
         window.location.href='./thankYou.html';
@@ -122,6 +123,7 @@ function showToast(message, type = "success", duration = 2000) {
     }
   
     if (isValid) {
+    
       showToast('Your Order will arrived soon...')
       setTimeout(()=>{
         window.location.href='./thankYou.html';

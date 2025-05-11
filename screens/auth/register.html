@@ -17,38 +17,52 @@
     <div class="container-fluid blur-wrapper ">
         <div class="row">
             <div class="col-md-7 d-flex align-items-center justify-content-center" id="leftDiv">
-                <form class="form-signup w-75 " id="signupForm">
+                <form class="form-signup w-75 needs-validation" id="signupForm" novalidate>
                     <h2 class="mb-4">Sign Up Now</h2>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingName" placeholder="Yourname">
-                        <label for="floatingEmail">Name</label>
+                        <input type="text" class="form-control" id="floatingName" placeholder="Yourname" required>
+                        <label for="floatingName">Name</label>
+                        <div class="invalid-feedback">
+                            Please provide your name.
+                        </div>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+                        <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" required>
                         <label for="floatingEmail">Email</label>
+                        <div class="invalid-feedback">
+                            Please provide a valid email address.
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-12 col-md-6 mb-3 mb-md-0 position-relative">
                             <div class="form-floating">
                                 <input type="password" class="form-control" id="floatingPassword"
-                                    placeholder="Password">
+                                    placeholder="Password" required minlength="6">
                                 <label for="floatingPassword">Password</label>
-                                <span class="password-toggle" data-target="password"><i
-                                        class="fa-solid fs-5 fa-eye-slash"></i></span>
+                                <div class="invalid-feedback">
+                                    Password must be at least 6 characters.
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-md-6 position-relative">
                             <div class="form-floating">
                                 <input type="password" class="form-control" id="floatingConfirmPassword"
-                                    placeholder="Confirm Password">
+                                    placeholder="Confirm Password" required>
                                 <label for="floatingConfirmPassword">Confirm Password</label>
-                                <span class="password-toggle" data-target="password"><i
-                                        class="fa-solid fs-5 fa-eye-slash"></i></span>
+                                <div class="invalid-feedback">
+                                    Passwords must match.
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="showPasswordCheck">
+                            <label class="form-check-label" for="showPasswordCheck">
+                                Show Password
+                            </label>
+                        </div>
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="sellerCheck">
                             <label class="form-check-label" for="sellerCheck">
@@ -60,7 +74,7 @@
                         <p class="text-secondary">Already have an account ? <a class="text-secondary "
                                 href="./login.html">Login</a></p>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 ">Sign Up</button>
+                    <button type="submit" class="btn btn-primary w-100">Sign Up</button>
                 </form>
             </div>
             <div class="col-md-5 d-none d-md-flex" id="rightDiv">

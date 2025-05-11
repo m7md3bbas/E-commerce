@@ -1,6 +1,9 @@
 import { getUserByEmail } from "./../../../../projectModules/usersModule.js";
 import { pushPurchase } from "./../../../../projectModules/purchases.js";
-import { getProductById } from "../../../../projectModules/productModule.js";
+import {
+  getProductById,
+  decreaseProductStock,
+} from "../../../../projectModules/productModule.js";
 
 // MARK: Toast
 
@@ -31,6 +34,7 @@ function showToast(message, type = "success", duration = 2000) {
     }, 200);
   }, duration);
 }
+
 //MARK: formValid
 window.addEventListener("DOMContentLoaded", function () {
   console.log("DOM Loaded");
@@ -68,29 +72,19 @@ window.addEventListener("DOMContentLoaded", function () {
       viewProduct.innerHTML = "<p>No products in your cart.</p>";
     }
   }
-
+})
   // MARK: SubmitForm
-  form.addEventListener("submit", function (e) {
+ document.getElementById("checkoutForm").addEventListener("submit", function (e) {
     console.log("Form Submitted");
     e.preventDefault();
 
-    addressValidation();
-    const products = JSON.parse(localStorage.getItem("cart"));
-    console.log(products);
-
-    const allProducts = JSON.parse(localStorage.getItem("products"));
-
-    products.forEach((product) => {
-      const itemIndex = allProducts.findIndex((p) => p.id === product.id);
-      if (itemIndex !== -1) {
-        allProducts[itemIndex].stock -= product.quantity;
-      }
-      localStorage.setItem("products", JSON.stringify(allProducts));
-    });
+     addressValidation();
 
     localStorage.removeItem("cart");
     localStorage.removeItem("totalCartPrice");
-  });
+   });
+
+ 
 
   // MARK: AddValidation
   function addressValidation() {
@@ -181,4 +175,7 @@ window.addEventListener("DOMContentLoaded", function () {
       }, 500);
     }
   }
-});
+   
+
+ 
+

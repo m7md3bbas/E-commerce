@@ -22,21 +22,33 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-7 d-flex align-items-center justify-content-center" id="leftDiv">
-                <form class="w-75">
+                <form class="w-75 needs-validation" novalidate>
                     <h2 class="mb-2">Login Here</h2>
                     <p class="mb-4">Welcome Back !!!</p>
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" required>
                         <label for="floatingEmail">Email address</label>
+                        <div class="invalid-feedback">
+                            Please provide a valid email address.
+                        </div>
                     </div>
                     <div class="form-floating mb-4 position-relative">
                         <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
                         <label for="floatingPassword">Password</label>
-                        <span class="password-toggle" data-target="password"><i
-                                class="fa-solid fs-5 fa-eye-slash"></i></span>
+                        <div class="invalid-feedback">
+                            Please provide your password.
+                        </div>
                     </div>
                     <div class="mb-3 text-end">
                         <a href="./forgetpassword.html" class="text-secondary text-decoration-none">Forgot Password?</a>
+                    </div>
+                    <div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="showPasswordCheck">
+                            <label class="form-check-label" for="showPasswordCheck">
+                                Show Password
+                            </label>
+                        </div>
                     </div>
                     <div>
                         <p class="text-secondary">Don't have an account ? <a class="text-secondary "
