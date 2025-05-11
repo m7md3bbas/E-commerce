@@ -44,6 +44,8 @@ if (current_user) {
 } else {
   $("#logout").css("display", "none");
   $("#dashboard").css("display", "none");
+  $("#sendBtn").css("display", "none");
+  $("#textArea").css("display", "none");
 
   $("#cart").on("click", () => {
     window.location.href = "./../../auth/login.html";
@@ -380,13 +382,13 @@ categoryItems.forEach((item) => {
 });
 
 $("#sendBtn").click(function () {
-  let messageID = 0;
-  let message = getAllMessages()[getAllMessages().length - 1];
-  if (!message) messageID = 1;
-  else messageID = message.id + 1;
-
   let message2 = $("#textArea").val();
   if (message2) {
+    let messageID = 0;
+    let message = getAllMessages()[getAllMessages().length - 1];
+    if (!message) messageID = 1;
+    else messageID = message.id + 1;
+
     pushMessage(messageID, current_user.name, current_user.phone, message2);
 
     $("#textArea").val("");
