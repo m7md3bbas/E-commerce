@@ -1,4 +1,5 @@
 import { getProductById, getProducts } from "../../../projectModules/productModule.js";
+import { decreaseProductStock } from './../../../projectModules/productModule.js';
 
 
 // MARK: cartProducts 
@@ -55,7 +56,7 @@ window.addEventListener('load', function () {
 
   updateCartTotal();
 });
-
+// MARK: initial 
 function initProduct(productElement, itemData) {
   const minusBtn = productElement.querySelector('.decrease');
   const plusBtn = productElement.querySelector('.increase');
@@ -64,7 +65,8 @@ function initProduct(productElement, itemData) {
   const totalPriceSpan = productElement.querySelector('.total-price');
   const closeBtn = productElement.querySelector('.close-btn');
 
-
+ console.log(itemData.id);
+ 
   
   let quantity = itemData.quantity;
   const unitPrice = Number(itemData.price.split('$')[0]);
@@ -84,22 +86,35 @@ function initProduct(productElement, itemData) {
 
     updateCartTotal();
   }
-
-  
+ // MARK: minus 
   
   minusBtn.addEventListener('click', () => {
     if (quantity > 1) {
+      console.log();
+      let stock=getProductById(itemData.id).getStock()
+      console.log(stock);
+      
       quantity--;
+
+      getProductById(itemData.id).setStock(stock+1);
+      console.log(getProductById(itemData.id).getStock());
+
+       const allProducts = JSON.parse(localStorage.getItem('products')); 
+      let product= allProducts.filter(p => p.id === itemData.id)
+     
+      product[0].stock=getProductById(itemData.id).getStock()
+      console.log(  product[0].stock);
+      localStorage.setItem("products", JSON.stringify(allProducts));
+      
+  
+      
       updateTotal();
     }
   });
-
+  // MARK: plus 
   plusBtn.addEventListener('click', () => {
-    console.log(itemData);
-    console.log(getProductById(itemData.id).getStock());
-    console.log(quantity);
-    
-    
+
+    decreaseProductStock(itemData.id)
     if(quantity < getProductById(itemData.id).getStock()){
       quantity++;
       updateTotal();
@@ -109,8 +124,23 @@ function initProduct(productElement, itemData) {
 
 
   });
-
+// MARK: clearItem
   closeBtn.addEventListener('click', () => {
+
+    let stock=getProductById(itemData.id).getStock();
+
+    console.log(getProductById(itemData.id).getStock());
+    getProductById(itemData.id).setStock(stock+itemData.quantity);
+    console.log(getProductById(itemData.id).getStock());
+
+       const allProducts = JSON.parse(localStorage.getItem('products')); 
+      let product= allProducts.filter(p => p.id === itemData.id)
+     
+      product[0].stock=getProductById(itemData.id).getStock()
+      console.log(  product[0].stock);
+      localStorage.setItem("products", JSON.stringify(allProducts));
+
+
     const id = itemData.id;
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart = cart.filter(item => item.id !== id);
@@ -208,7 +238,35 @@ swalWithBootstrapButtons.fire({
    
   });
 }
+// MARK: Toast
 
+function showToast(message, type = "success", duration = 2000) {
+  const toast = document.createElement("div");
+  toast.className = `alert alert-${type} toast-message shadow`;
+  toast.textContent = message;
+  toast.style.cssText = `
+    min-width: 200px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  `;
+
+  const container = document.getElementById("toastContainer");
+  container.appendChild(toast);
+
+  // Fade in
+  setTimeout(() => {
+    toast.style.opacity = "1";
+  }, 200);
+
+  // Fade out & remove
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    setTimeout(() => {
+      toast.remove();
+    }, 200);
+  }, duration);
+}
 
 // MARK: checkOut
 document.querySelector('.checkOut').addEventListener('click', function() {

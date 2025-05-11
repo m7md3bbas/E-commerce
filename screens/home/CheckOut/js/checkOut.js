@@ -78,19 +78,19 @@ form.addEventListener("submit", function (e) {
     e.preventDefault();
 
     addressValidation()
-     const products = JSON.parse(localStorage.getItem('cart'));
-     console.log(products);
+    //  const products = JSON.parse(localStorage.getItem('cart'));
+    //  console.log(products);
      
-    const allProducts = JSON.parse(localStorage.getItem('products')); 
+    // const allProducts = JSON.parse(localStorage.getItem('products')); 
 
-    products.forEach((product) => {
-             const itemIndex = allProducts.findIndex(p => p.id === product.id);
-             if (itemIndex !== -1) {
-             allProducts[itemIndex].stock -= product.quantity;
+    // products.forEach((product) => {
+    //          const itemIndex = allProducts.findIndex(p => p.id === product.id);
+    //          if (itemIndex !== -1) {
+    //          allProducts[itemIndex].stock -= product.quantity;
              
               
-    }
-    localStorage.setItem("products", JSON.stringify(allProducts));
+    // }
+    // localStorage.setItem("products", JSON.stringify(allProducts));
 
 
    });
@@ -201,5 +201,5 @@ form.addEventListener("submit", function (e) {
    
   }
    
-});
+;
  
