@@ -1,12 +1,12 @@
 import {
-  getProductById,
-  getProducts,
-  decreaseProductStock,
-} from "../../../../projectModules/productModule.js";
-import {
   getAllMessages,
   pushMessage,
 } from "../../../../projectModules/contactus.js";
+import {
+  decreaseProductStock,
+  getProductById,
+  getProducts,
+} from "../../../../projectModules/productModule.js";
 
 // MARK: Categories
 $(document).ready(function () {
