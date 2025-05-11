@@ -8,30 +8,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const verifyBackupCodeBtn = document.getElementById("verifyBackupCode");
     const updatePasswordBtn = document.getElementById("updatePassword");
     const continueBtn = document.querySelector("button[type='submit']");
+    const backupCodeForm = document.getElementById("backupCodeForm");
+    const newPasswordForm = document.getElementById("newPasswordForm");
 
-    // Add this function to handle password visibility toggling
-    function togglePasswordVisibility(fieldId) {
-        const input = document.getElementById(fieldId);
-        const icon = input.nextElementSibling.querySelector('i');
+    const showPassword = document.getElementById("showPasswordCheck");
 
-        if (input.type === "password") {
-            input.type = "text";
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
+    showPassword.addEventListener("change", () => {
+        if (showPassword.checked) {
+            document.getElementById("newPassword").type = "text";
+            document.getElementById("confirmNewPassword").type = "text";
         } else {
-            input.type = "password";
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
+            document.getElementById("newPassword").type = "password";
+            document.getElementById("confirmNewPassword").type = "password";
         }
-    }
-
-    // Remove the existing toggleIcons code and replace it with this:
-    document.querySelectorAll('.password-toggle').forEach(icon => {
-        icon.addEventListener('click', function (e) {
-            e.preventDefault();
-            const fieldId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
-            togglePasswordVisibility(fieldId);
-        });
     });
 
     let currentUser = null;
@@ -46,14 +35,13 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         e.stopPropagation();
 
-        const email = emailInput.value.trim();
-
-        // Basic email validation
-        if (!email || !email.includes("@")) {
-            emailInput.setCustomValidity("Please enter a valid email address");
-            emailInput.reportValidity();
+        // Bootstrap validation
+        if (!forgotPasswordForm.checkValidity()) {
+            forgotPasswordForm.classList.add('was-validated');
             return;
         }
+
+        const email = emailInput.value.trim();
 
         // Show loading state
         continueBtn.disabled = true;
@@ -70,16 +58,19 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!user) {
                 emailAttempts++;
                 if (emailAttempts >= MAX_ATTEMPTS) {
-                    alert("Too many attempts. Please try again later.");
-                    window.location.href = "./login.html";
+                    showToast('Too many attempts. Please try again later.', 'error');
+                    setTimeout(() => {
+                        window.location.href = "./login.html";
+                    }, 2000);
                     return;
                 }
-                emailInput.setCustomValidity("Email not found in our system");
-                emailInput.reportValidity();
+                emailInput.classList.add('is-invalid');
+                const invalidFeedback = emailInput.nextElementSibling;
+                invalidFeedback.textContent = "Email not found in our system";
                 return;
             }
 
-            emailInput.setCustomValidity("");
+            emailInput.classList.remove('is-invalid');
             currentUser = user;
             backupCodeModal.show();
         }, 1000);
@@ -87,13 +78,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function verifyBackupCode() {
         const backupCodeInput = document.getElementById("backupCode");
-        const code = backupCodeInput.value.trim();
-
-        if (!code) {
-            backupCodeInput.setCustomValidity("Please enter your backup code");
-            backupCodeInput.reportValidity();
+        
+        // Bootstrap validation
+        backupCodeForm.classList.add('was-validated');
+        if (!backupCodeForm.checkValidity()) {
             return;
         }
+
+        const code = backupCodeInput.value.trim();
 
         // Show loading state
         verifyBackupCodeBtn.disabled = true;
@@ -102,8 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // Simulate verification delay
         setTimeout(() => {
             if (code !== currentUser.getBackupCode()) {
-                backupCodeInput.setCustomValidity("Invalid backup code");
-                backupCodeInput.reportValidity();
+                backupCodeInput.classList.add('is-invalid');
+                backupCodeInput.nextElementSibling.textContent = "Invalid backup code";
 
                 // Reset button state
                 verifyBackupCodeBtn.disabled = false;
@@ -111,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            backupCodeInput.setCustomValidity("");
+            backupCodeInput.classList.remove('is-invalid');
             backupCodeModal.hide();
             newPasswordModal.show();
 
@@ -122,18 +114,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updatePassword() {
-        const newPasswordForm = document.getElementById("newPasswordForm");
         const newPassword = document.getElementById("newPassword").value;
         const confirmNewPassword = document.getElementById("confirmNewPassword").value;
 
+        // Bootstrap validation
+        newPasswordForm.classList.add('was-validated');
         if (!newPasswordForm.checkValidity()) {
-            newPasswordForm.classList.add("was-validated");
             return;
         }
 
         if (newPassword !== confirmNewPassword) {
-            document.getElementById("confirmNewPassword").setCustomValidity("Passwords must match");
-            document.getElementById("confirmNewPassword").reportValidity();
+            const confirmInput = document.getElementById("confirmNewPassword");
+            confirmInput.classList.add('is-invalid');
+            confirmInput.nextElementSibling.textContent = "Passwords must match";
             return;
         }
 
@@ -151,22 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 newPasswordModal.hide();
-
-                const toastHTML = `
-                <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1060; width: 100%; max-width: 500px;">
-                    <div class="toast show align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-                        <div class="d-flex">
-                            <div class="toast-body d-flex align-items-center" style="color: #155724; background-color: #d4edda; border-left: 4px solid #28a745; padding: 1rem;">
-                                <i class="fas fa-check-circle me-2" style="color: #28a745;"></i>
-                                Password updated successfully! Redirecting to login...
-                            </div>
-                            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-                document.body.insertAdjacentHTML('beforeend', toastHTML);
+                showToast('Password updated successfully! Redirecting to login...', 'success');
 
                 // Redirect after delay
                 setTimeout(() => {
@@ -180,32 +158,39 @@ document.addEventListener("DOMContentLoaded", () => {
             // Reset button state
             updatePasswordBtn.disabled = false;
             updatePasswordBtn.innerHTML = 'Update Password';
-
-            // Show error toast
-            const toastHTML = `
-<div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1060; width: 100%; max-width: 500px;">
-    <div class="toast show align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-        <div class="d-flex">
-            <div class="toast-body d-flex align-items-center" style="color: #721c24; background-color: #f8d7da; border-left: 4px solid #dc3545; padding: 1rem;">
-                <i class="fas fa-exclamation-circle me-2" style="color: #dc3545;"></i>
-                ${error.message || "Failed to update password. Please try again."}
-            </div>
-            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
-</div>
-`;
-
-            document.body.insertAdjacentHTML('beforeend', toastHTML);
-
-            // Auto-remove after 5 seconds
-            setTimeout(() => {
-                const toast = document.querySelector('.toast.show');
-                if (toast) {
-                    toast.classList.remove('show');
-                    setTimeout(() => toast.remove(), 300);
-                }
-            }, 5000);
+            showToast(error.message || "Failed to update password. Please try again.", 'error');
         }
+    }
+
+    function showToast(message, type = 'success') {
+        const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+        const bgColor = type === 'success' ? 'd4edda' : 'f8d7da';
+        const borderColor = type === 'success' ? '28a745' : 'dc3545';
+        const textColor = type === 'success' ? '155724' : '721c24';
+
+        const toastHTML = `
+            <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1060; width: 100%; max-width: 500px;">
+                <div class="toast show align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                    <div class="d-flex">
+                        <div class="toast-body d-flex align-items-center" style="color: #${textColor}; background-color: #${bgColor}; border-left: 4px solid #${borderColor}; padding: 1rem;">
+                            <i class="fas ${icon} me-2" style="color: #${borderColor};"></i>
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.insertAdjacentHTML('beforeend', toastHTML);
+
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            const toast = document.querySelector('.toast.show');
+            if (toast) {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }
+        }, 5000);
     }
 });

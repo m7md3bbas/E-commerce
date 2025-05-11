@@ -13,50 +13,36 @@ document.addEventListener("DOMContentLoaded", function () {
     const isSellerInput = document.getElementById("sellerCheck");
 
     // Password toggle functionality
-    const toggleIcons = document.querySelectorAll(".password-toggle");
-    toggleIcons.forEach(icon => {
-        icon.addEventListener("click", () => {
-            const targetId = icon.closest('.form-floating').querySelector('input').id;
-            const input = document.getElementById(targetId);
-            const iconElement = icon.querySelector('i');
+    const showPassword = document.getElementById("showPasswordCheck");
 
-            if (input.type === "password") {
-                input.type = "text";
-                iconElement.classList.remove("fa-eye-slash");
-                iconElement.classList.add("fa-eye");
-            } else {
-                input.type = "password";
-                iconElement.classList.remove("fa-eye");
-                iconElement.classList.add("fa-eye-slash");
-            }
-        });
+    showPassword.addEventListener("change", () => {
+        if (showPassword.checked) {
+            passwordInput.type = "text";
+            confirmPasswordInput.type = "text";
+        } else {
+            passwordInput.type = "password";
+            confirmPasswordInput.type = "password";
+        }
     });
 
-
+  
     signupForm.addEventListener("submit", function (e) {
         e.preventDefault();
-
-        // Form validation
-        if (!signupForm.checkValidity()) {
-            signupForm.classList.add("was-validated");
-            return;
-        }
-
-        // Email validation
-        if (!emailInput.value.includes("@")) {
-            alert("Please enter a valid email address.");
-            return;
-        }
-
-        // Password match validation
-        if (passwordInput.value !== confirmPasswordInput.value) {
-            alert("Passwords do not match.");
-            return;
-        }
+        e.stopPropagation();
 
         // Check if email already exists
         if (getUsers().some(user => user.getEmail() === emailInput.value)) {
-            alert("Email already exists.");
+            emailInput.setCustomValidity("Email already exists");
+            emailInput.classList.add('is-invalid');
+            return;
+        } else {
+            emailInput.setCustomValidity("");
+            emailInput.classList.remove('is-invalid');
+        }
+
+        // Bootstrap validation
+        if (!signupForm.checkValidity()) {
+            signupForm.classList.add('was-validated');
             return;
         }
 
@@ -64,35 +50,29 @@ document.addEventListener("DOMContentLoaded", function () {
         signupBtn.disabled = true;
         signupBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...`;
 
-        // Simulate API call delay
         setTimeout(() => {
             const users = getUsers();
             const id = users.length + 1;
 
-            // Create new user (default type is "user")
             pushUser(
                 id,
                 nameInput.value,
                 emailInput.value,
                 passwordInput.value,
-                null,  // phone
-                null,  // address
-                null,  // profileImage
-                null,  // paymentMethod
-                null,  // favorites
-                null,  // cart
-                null,  // orders
-                isSellerInput.checked ? "seller" : "user", // type
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                isSellerInput.checked ? "seller" : "user"
             );
 
-            // Get the newly created user and their backup code
             const newUser = getUsers().find(user => user.getId() === id);
             const backupCode = newUser.getBackupCode();
 
-            // Show backup code to user
             alert(`Your backup code is: ${backupCode}\n\nPlease save this code somewhere safe. It will not be shown again.`);
 
-            // Create downloadable backup code file
             const blob = new Blob(
                 [`Your backup code is: ${backupCode}\n\nKeep this code safe. It can be used to recover your account.`],
                 { type: "text/plain" }
@@ -106,11 +86,13 @@ document.addEventListener("DOMContentLoaded", function () {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
 
-            // Redirect after successful registration
+            // Optional: reset form
+            signupForm.reset();
+            signupForm.classList.remove('was-validated');
+
             setTimeout(() => {
                 window.location.href = "./login.html";
             }, 1500);
-
         }, 2000);
     });
 });

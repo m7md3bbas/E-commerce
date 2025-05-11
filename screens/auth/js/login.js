@@ -7,33 +7,24 @@ document.addEventListener("DOMContentLoaded", function () {
     const loginBtn = document.querySelector("button[type='submit']");
     const toggleIcons = document.querySelectorAll(".password-toggle");
 
-
-
-
     // Password toggle functionality
-    toggleIcons.forEach(icon => {
-        icon.addEventListener("click", () => {
-            const input = icon.closest('.form-floating').querySelector('input');
-            const iconElement = icon.querySelector('i');
+    const showPassword = document.getElementById("showPasswordCheck");
 
-            if (input.type === "password") {
-                input.type = "text";
-                iconElement.classList.remove("fa-eye-slash");
-                iconElement.classList.add("fa-eye");
-            } else {
-                input.type = "password";
-                iconElement.classList.remove("fa-eye");
-                iconElement.classList.add("fa-eye-slash");
-            }
-        });
+    showPassword.addEventListener("change", () => {
+        if (showPassword.checked) {
+            passwordInput.type = "text";
+        } else {
+            passwordInput.type = "password";
+        }
     });
 
     loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
+        e.stopPropagation();
 
-        // Form validation
+        // Bootstrap validation
         if (!loginForm.checkValidity()) {
-            loginForm.classList.add("was-validated");
+            loginForm.classList.add('was-validated');
             return;
         }
 
@@ -64,18 +55,31 @@ document.addEventListener("DOMContentLoaded", function () {
             const currentUser = user;
 
             localStorage.setItem("current_user", JSON.stringify(currentUser));
+
             // Reset button state
             loginBtn.disabled = false;
             loginBtn.innerHTML = "Login";
 
             if (!user) {
-                alert("Invalid email or password.");
+                // Show error message as Bootstrap validation
+                emailInput.classList.add('is-invalid');
+                passwordInput.classList.add('is-invalid');
+                const invalidFeedback = document.createElement('div');
+                invalidFeedback.className = 'invalid-feedback d-block text-center mt-2';
+                invalidFeedback.textContent = 'Invalid email or password.';
+
+                // Remove any existing error message
+                const existingError = loginForm.querySelector('.invalid-feedback.d-block');
+                if (existingError) {
+                    existingError.remove();
+                }
+
+                // Insert the error message after the login button
+                loginBtn.insertAdjacentElement('afterend', invalidFeedback);
                 return;
             }
 
-
             window.location.replace("./../home/Home_Page/index.html");
-
 
         }, 1500);
     });
