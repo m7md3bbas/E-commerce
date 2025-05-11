@@ -392,13 +392,13 @@ $("#sendBtn").click(function () {
     $("#textArea").val("");
 
     Swal.fire({
-      html: "<h1>Message sent successfully</h1>",
+      html: "<h3>Message sent successfully</h3>",
       icon: "success",
       draggable: true,
     });
   } else {
     Swal.fire({
-      html: "<h1>Enter valid message!</h1>",
+      html: "<h3>Enter valid message!</h3>",
     });
   }
 });
