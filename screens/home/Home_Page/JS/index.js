@@ -1,18 +1,12 @@
-<<<<<<< HEAD
-import { decreaseProductStock, getProductById, getProducts } from "../../../../projectModules/productModule.js";
-
-
-=======
 import {
+  getAllMessages,
+  pushMessage,
+} from "../../../../projectModules/contactus.js";
+import {
+  decreaseProductStock,
   getProductById,
   getProducts,
-  decreaseProductStock,
 } from "../../../../projectModules/productModule.js";
-import {
-  pushMessage,
-  getAllMessages,
-} from "../../../../projectModules/contactus.js";
->>>>>>> 705ecd828913bb43446762e97cc712247c8c5dde
 
 // MARK: Categories
 $(document).ready(function () {
