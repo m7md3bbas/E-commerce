@@ -18,7 +18,6 @@ a {
 h1 {
     font-family: "Roboto", sans-serif;
 
-  color: var(--main-color);
    position: relative;
 }
 h1::after{
@@ -29,7 +28,7 @@ h1::after{
     transform: translateX(-50%);
     width: 5%;
     height: 3px;
-    background-color:var(--main-color);
+    background-color:black;
     cursor: pointer;
     transition: width 1s ;
 }

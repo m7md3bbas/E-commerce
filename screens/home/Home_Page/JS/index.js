@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
   catalogContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("details")) {
       const productId = e.target.dataset.id;
-      window.location.href = `./datails.html?productId=${productId}`; // إضافة معرّف المنتج للرابط
+      window.location.href = `./datails.html?productId=${productId}`; 
     }
   });
 });
@@ -186,23 +186,28 @@ document.addEventListener("click", function (e) {
     // };
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    console.log(cart);
+    
 
     var realProduct = getProductById(productId);
 
     const existingProduct = cart.find((item) => item.id === productId);
     const stockLabel = card.querySelector(".stock-label span");
+    // console.log(realProduct.getStock());
+    // console.log(existingProduct);
+    
+    // console.log(existingProduct.quantity);
+    
+    
 
     if (existingProduct) {
-      if (existingProduct.quantity < realProduct.getStock()) {
+      if (realProduct.getStock() !=0) {
+     
         existingProduct.quantity += 1;
         showToast("Product added to cart");
-        console.log(price);
 
         decreaseProductStock(productId);
         if (stockLabel) {
           stockLabel.textContent = realProduct.getStock();
-          console.log(stockLabel.textContent);
         }
       } else {
         showToast("Stock limited reached.", "danger");
@@ -227,14 +232,12 @@ document.addEventListener("click", function (e) {
         }
         showToast("Product added to cart");
 
-        console.log("Product added to cart");
       } else {
         showToast("Stock limited reached.", "danger");
         return;
       }
     }
     localStorage.setItem("cart", JSON.stringify(cart));
-    console.log(JSON.parse(localStorage.getItem("cart")));
   }
 });
 

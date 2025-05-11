@@ -34,6 +34,7 @@ function showToast(message, type = "success", duration = 2000) {
     }, 200);
   }, duration);
 }
+
 //MARK: formValid
 window.addEventListener("DOMContentLoaded", function () {
   console.log("DOM Loaded");
