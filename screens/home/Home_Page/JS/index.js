@@ -1,28 +1,30 @@
-import { getProductById, getProducts ,decreaseProductStock} from "../../../../projectModules/productModule.js";
-
-
+import {
+  getProductById,
+  getProducts,
+  decreaseProductStock,
+} from "../../../../projectModules/productModule.js";
+import {
+  pushMessage,
+  getAllMessages,
+} from "../../../../projectModules/contactus.js";
 
 // MARK: Categories
 $(document).ready(function () {
-
   $("#owl-demo").owlCarousel({
-
     autoPlay: 500, //Set AutoPlay to 3 seconds
 
     items: 4,
     itemsDesktop: [1199, 3],
-    itemsDesktopSmall: [979, 3]
-
+    itemsDesktopSmall: [979, 3],
   });
-
 });
 
 // MARK: Switch between login logout
 const current_user = JSON.parse(localStorage.getItem("current_user"));
 if (current_user) {
   $("#login").css("display", "none");
-  $("#name").css("display", "none");
-  $("#phone").css("display", "none");
+  // $("#name").css("display", "none");
+  // $("#phone").css("display", "none");
   if (current_user.type === "admin") {
     $("#dashboard").css("display", "block");
     $("#logout").css("display", "block");
@@ -42,6 +44,8 @@ if (current_user) {
 } else {
   $("#logout").css("display", "none");
   $("#dashboard").css("display", "none");
+  $("#textArea").css("display", "none");
+  $("#sendBtn").css("display", "none");
 
   $("#cart").on("click", () => {
     window.location.href = "./../../auth/login.html";
@@ -54,16 +58,10 @@ function logout() {
   window.location.replace("./../../auth/login.html");
 }
 
-
-
-
-
-
-
 // MARK: Show cart
-document.querySelector('.cartHome').addEventListener('click', function () {
-  window.location.href = '../Cart/cart.html'
-})
+document.querySelector(".cartHome").addEventListener("click", function () {
+  window.location.href = "../Cart/cart.html";
+});
 
 function showToast(message, type = "success", duration = 1000) {
   const toast = document.createElement("div");
@@ -130,8 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     productCard.innerHTML = `
       <div class="card cursor-pointer">
-        <img src="${product.getImages()[0]
-      }" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
+        <img src="${
+          product.getImages()[0]
+        }" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
         <div class="links">
           <ul>
             <li><a><i class="fa-solid fa-cart-shopping addToCart" data-id="${product.getId()}"></i></a></li>
@@ -168,11 +167,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 /////MARK: addToCart
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("addToCart")) {
-
     const button = e.target;
     const card = button.closest(".card");
     const img = card.querySelector("img");
@@ -190,7 +187,6 @@ document.addEventListener("click", function (e) {
     //   quantity: 1,
     // };
 
-      
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     console.log(cart);
 
@@ -199,27 +195,22 @@ document.addEventListener("click", function (e) {
     const existingProduct = cart.find((item) => item.id === productId);
     const stockLabel = card.querySelector(".stock-label span");
 
-
     if (existingProduct) {
       if (existingProduct.quantity < realProduct.getStock()) {
         existingProduct.quantity += 1;
-        showToast('Product added to cart')
+        showToast("Product added to cart");
         console.log(price);
-        
-         decreaseProductStock(productId)
-       if (stockLabel) {
-         stockLabel.textContent = realProduct.getStock();
-         console.log( stockLabel.textContent);
-         
-         }
 
+        decreaseProductStock(productId);
+        if (stockLabel) {
+          stockLabel.textContent = realProduct.getStock();
+          console.log(stockLabel.textContent);
+        }
       } else {
-        showToast("Stock limited reached.",'danger');
+        showToast("Stock limited reached.", "danger");
         return;
       }
-
     } else {
-    
       if (realProduct.getStock() > 0) {
         const newProduct = {
           id: productId,
@@ -229,26 +220,23 @@ document.addEventListener("click", function (e) {
           price,
           quantity: 1,
         };
-        
+
         cart.push(newProduct);
-        decreaseProductStock(productId)
+        decreaseProductStock(productId);
         if (stockLabel) {
-              stockLabel.textContent = realProduct.getStock();
-         console.log( stockLabel.textContent);
-
+          stockLabel.textContent = realProduct.getStock();
+          console.log(stockLabel.textContent);
         }
-        showToast('Product added to cart')
+        showToast("Product added to cart");
 
-        console.log('Product added to cart');
-
+        console.log("Product added to cart");
       } else {
-        showToast("Stock limited reached.",'danger');
+        showToast("Stock limited reached.", "danger");
         return;
       }
     }
     localStorage.setItem("cart", JSON.stringify(cart));
-    console.log(JSON.parse(localStorage.getItem('cart')));
-
+    console.log(JSON.parse(localStorage.getItem("cart")));
   }
 });
 
@@ -341,18 +329,19 @@ function renderResults(results) {
   });
 }
 
-
-// Filter Categories logic 
+// Filter Categories logic
 
 // filter local storage
-const categories = Array.from(new Set(getProducts().map((product) => product.getCategory())));
-// static assets images paths 
+const categories = Array.from(
+  new Set(getProducts().map((product) => product.getCategory()))
+);
+// static assets images paths
 const categoryImagesPath = {
-  "tops": "../../../assets/imgs/Home/top1.jpg",
+  tops: "../../../assets/imgs/Home/top1.jpg",
   // "furniture": "  ../../../assets/imgs/Home/furniture.jpg",
-  "other": "../../../assets/imgs/Home/other_products.jpg",
+  other: "../../../assets/imgs/Home/other_products.jpg",
   // "clothing": "../../../assets/imgs/Home/clothing.jpg",
-  "tops": "../../../assets/imgs/Home/top1.jpg",
+  tops: "../../../assets/imgs/Home/top1.jpg",
   "mens-shirts": "../../../assets/imgs/Home/man T-shirt1.jpg",
   "womens-dresses": "../../../assets/imgs/Home/Images/dress.jpg",
   "womens-jewellery": "../../../assets/imgs/Home/woman-Jewellery1.jpg",
@@ -360,32 +349,51 @@ const categoryImagesPath = {
   "womens-bags": " ../../../assets/imgs/Home/bag.avif",
   "womens-shoes": "../../../assets/imgs/Home/woman shoes.jpg",
   "womens-watches": "../../../assets/imgs/Home/woman Watch.avif",
-  "fragrances": "../../../assets/imgs/Home/skin-care.jpg",
+  fragrances: "../../../assets/imgs/Home/skin-care.jpg",
   "mens-shoes": "../../../assets/imgs/Home/man shoes.jpg",
   "mens-watches": "../../../assets/imgs/Home/man watch.avif",
 };
-// map categories to owl carousel and assign it to owl=demo and handle a defult image if key not found 
-const categoriesHTML = categories.map((category) => `
+// map categories to owl carousel and assign it to owl=demo and handle a defult image if key not found
+const categoriesHTML = categories
+  .map(
+    (category) => `
   <div class="item">
-    <img src="${categoryImagesPath[category] || "../../../assets/imgs/Home/other_products.jpg"}" alt="" width="100%">
+    <img src="${
+      categoryImagesPath[category] ||
+      "../../../assets/imgs/Home/other_products.jpg"
+    }" alt="" width="100%">
     <p class="fs-4">${category}</p>
   </div>
-`).join('');
-
-
+`
+  )
+  .join("");
 
 // MARK:Display Category
 
-document.getElementById('owl-demo').innerHTML = categoriesHTML;
+document.getElementById("owl-demo").innerHTML = categoriesHTML;
 // end of filter categories
-// handle click on category 
-const categoryItems = document.querySelectorAll('.item');
+// handle click on category
+const categoryItems = document.querySelectorAll(".item");
 
 categoryItems.forEach((item) => {
-  item.addEventListener('click', () => {
-    const category = item.querySelector('p').textContent;
-    // Navigate to categories page 
+  item.addEventListener("click", () => {
+    const category = item.querySelector("p").textContent;
+    // Navigate to categories page
     window.location.href = `./categories.html?category=${category}`;
-
   });
+});
+
+//// Send contact us message to admin page
+
+$("#sendBtn").click(function () {
+  let messageID = 0;
+  let message = getAllMessages()[getAllMessages().length - 1];
+  if (!message) messageID = 1;
+  else messageID = message.id + 1;
+
+  let message2 = $("#textArea").val();
+  pushMessage(messageID, current_user.name, current_user.phone, message2);
+
+  $("#textArea").val("");
+  alert("Message sent successfuly");
 });

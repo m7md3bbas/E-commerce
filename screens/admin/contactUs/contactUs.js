@@ -3,7 +3,6 @@ import {
   deleteMessage,
 } from "../../../projectModules/contactus.js";
 
-console.log(getAllMessages());
 let messages = getAllMessages();
 
 messages.forEach((item, index) => {
@@ -15,14 +14,16 @@ messages.forEach((item, index) => {
             <p class="col-1 mt-3">
                 <input class="form-check-input message-checkbox check-message"  type="checkbox"/>
             </p>
-            <p class="card-text mt-3 fw-bold col-2">Mohammad Eldabaa</p>
-            <p class="card-text mt-3 col-4">${item.message.substring(
+            <p class="card-text mt-3 fw-bold col col-lg-2">${item.name}</p>
+            <p class="card-text mt-3 col-lg-4 d-none d-lg-block">${item.message.substring(
               0,
-              50
+              30
             )}....</p>
-            <p class="card-text mt-3 fw-bold col-2">${item.phone}</p>
-            <div class="col-2">${messDate.toLocaleString()}</div>
-            <div class="col-1">
+            <p class="card-text mt-3 fw-bold col-2 d-none d-md-block">${
+              item.phone
+            }</p>
+            <div class="col-2 d-none d-lg-block">${messDate.toLocaleString()}</div>
+            <div class="col col-lg-1">
             <button
                 class="btn btn-sm btn-outline-warning me-1"
                 data-bs-toggle="collapse"
@@ -52,7 +53,7 @@ $(".del-icon").click(function () {
   if (result) {
     let mess = $(this).data("id");
     deleteMessage(mess);
-    alert("User deleted successfully");
+    alert("Message deleted successfully");
     location.reload();
   }
 });

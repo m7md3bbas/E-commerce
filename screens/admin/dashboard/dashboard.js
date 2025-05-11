@@ -91,12 +91,12 @@ allPurchases.forEach(function (item) {
 
   totalRevenue += parseInt(item.getProduct().getPrice());
   let address = item.getBuyer().getAddress().toLowerCase();
-  
+
   if (address === "garbia") garbia++;
-  if (address === "behera") behera++;
-  if (address === "monofia") monofia++;
-  if (address === "sharqia") sharpia++;
-  if (address === "kfr elshekh") kfrElshekh++;
+  else if (address === "behera") behera++;
+  else if (address === "monofia") monofia++;
+  else if (address === "sharqia") sharpia++;
+  else if (address === "kfr elshekh") kfrElshekh++;
   else other_govern++;
 
   let price = parseInt(item.getProduct().getPrice());

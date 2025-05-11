@@ -8,6 +8,16 @@ let totalProductNumber = getAllPurchases().length;
 let completedProduct = 0;
 let cancelledProduct = 0;
 let allPurchases = getAllPurchases();
+
+if (allPurchases.length > 0 && allPurchases[0].getId()) {
+  let purchaseId = allPurchases[0].getId();
+  console.log("done");
+  if (!purchaseId.includes("order")) {
+    console.log("done2");
+    allPurchases.reverse();
+  }
+}
+
 allPurchases.forEach(function (item, index) {
   let status_color = "orange";
   let PurchasNumber = index + 1;
@@ -90,7 +100,7 @@ $(document).on("click", ".deletOrder", function () {
   if (result) {
     let orderId = $(this).data("id");
     deletePurchase(orderId);
-    alert("User deleted successfully");
+    alert("Order deleted successfully");
     location.reload();
   }
 });
