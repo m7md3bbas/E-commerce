@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+import { decreaseProductStock, getProductById, getProducts } from "../../../../projectModules/productModule.js";
+
+
+=======
 import {
   getProductById,
   getProducts,
@@ -7,6 +12,7 @@ import {
   getAllMessages,
   pushMessage,
 } from "../../../../projectModules/contactus.js";
+>>>>>>> 705ecd828913bb43446762e97cc712247c8c5dde
 
 // MARK: Categories
 $(document).ready(function () {
@@ -126,9 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     productCard.innerHTML = `
       <div class="card cursor-pointer">
-        <img src="${
-          product.getImages()[0]
-        }" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
+        <img src="${product.getImages()[0]
+      }" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
         <div class="links">
           <ul>
             <li><a><i class="fa-solid fa-cart-shopping addToCart" data-id="${product.getId()}"></i></a></li>
@@ -356,10 +361,9 @@ const categoriesHTML = categories
   .map(
     (category) => `
   <div class="item">
-    <img src="${
-      categoryImagesPath[category] ||
+    <img src="${categoryImagesPath[category] ||
       "../../../assets/imgs/Home/other_products.jpg"
-    }" alt="" width="100%">
+      }" alt="" width="100%">
     <p class="fs-4">${category}</p>
   </div>
 `
