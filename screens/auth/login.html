@@ -1,68 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script type="module" src="../../projectModules/addusers.js"></script>
     <script type="module" src="../../projectModules/addproducts.js"></script>
 
     <link rel="stylesheet" href="../../assets/libs/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../assets/libs/css/hover-min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/login.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-7 d-flex align-items-center justify-content-center" id="leftDiv">
-                <form class="w-75 needs-validation" novalidate>
-                    <h2 class="mb-2">Login Here</h2>
-                    <p class="mb-4">Welcome Back !!!</p>
-                    <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" required>
-                        <label for="floatingEmail">Email address</label>
-                        <div class="invalid-feedback">
-                            Please provide a valid email address.
-                        </div>
-                    </div>
-                    <div class="form-floating mb-4 position-relative">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
-                        <label for="floatingPassword">Password</label>
-                        <div class="invalid-feedback">
-                            Please provide your password.
-                        </div>
-                    </div>
-                    <div class="mb-3 text-end">
-                        <a href="./forgetpassword.html" class="text-secondary text-decoration-none">Forgot Password?</a>
-                    </div>
-                    <div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="showPasswordCheck">
-                            <label class="form-check-label" for="showPasswordCheck">
-                                Show Password
-                            </label>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="text-secondary">Don't have an account ? <a class="text-secondary "
-                                href="./register.html">Sign Up</a></p>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
-                </form>
+      <div class="row">
+        <div
+          class="col-md-7 d-flex align-items-center justify-content-center"
+          id="leftDiv"
+        >
+          <form class="w-75 needs-validation" novalidate>
+            <h2 class="mb-2">Login Here</h2>
+            <p class="mb-4">Welcome Back !!!</p>
+            <div class="form-floating mb-3">
+              <input
+                type="email"
+                class="form-control"
+                id="floatingEmail"
+                placeholder="name@example.com"
+                required
+              />
+              <label for="floatingEmail">Email address</label>
+              <div class="invalid-feedback">
+                Please provide a valid email address.
+              </div>
             </div>
-            <div class="col-md-5 d-none d-md-flex" id="rightDiv">
-                <img src="./../../assets/imgs/Auth/Group 2014.png" alt="Login illustration">
+            <div class="form-floating mb-4 position-relative">
+              <input
+                type="password"
+                class="form-control"
+                id="floatingPassword"
+                placeholder="Password"
+                required
+              />
+              <label for="floatingPassword">Password</label>
+              <div class="invalid-feedback">Please provide your password.</div>
             </div>
+            <div class="mb-3 text-end">
+              <a
+                href="./forgetpassword.html"
+                class="text-secondary text-decoration-none"
+                >Forgot Password?</a
+              >
+            </div>
+            <div>
+              <div class="form-check mb-3">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="showPasswordCheck"
+                />
+                <label class="form-check-label" for="showPasswordCheck">
+                  Show Password
+                </label>
+              </div>
+            </div>
+            <div>
+              <p class="text-secondary">
+                Don't have an account ?
+                <a class="text-secondary" href="./register.html">Sign Up</a>
+              </p>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+          </form>
         </div>
+        <div class="col-md-5 d-none d-md-flex" id="rightDiv">
+          <img
+            src="./../../assets/imgs/Auth/Group 2014.png"
+            alt="Login illustration"
+          />
+        </div>
+      </div>
     </div>
     <script type="module" src="js/login.js"></script>
-</body>
-
+  </body>
 </html>
