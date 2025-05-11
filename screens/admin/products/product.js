@@ -98,7 +98,7 @@ $(document).on("click", ".deletePro", function () {
     let productId = $(this).data("id");
     // console.log(userId);
     deleteProduct(productId);
-    alert("User deleted successfully");
+    alert("Product deleted successfully");
     location.reload();
   }
 });

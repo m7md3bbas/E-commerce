@@ -7,7 +7,17 @@ import {
 let totalProductNumber = getAllPurchases().length;
 let completedProduct = 0;
 let cancelledProduct = 0;
-let allPurchases = getAllPurchases().reverse();
+let allPurchases = getAllPurchases();
+
+if (allPurchases.length > 0 && allPurchases[0].getId()) {
+  let purchaseId = allPurchases[0].getId();
+  console.log("done");
+  if (!purchaseId.includes("order")) {
+    console.log("done2");
+    allPurchases.reverse();
+  }
+}
+
 allPurchases.forEach(function (item, index) {
   let status_color = "orange";
   let PurchasNumber = index + 1;
@@ -20,6 +30,10 @@ allPurchases.forEach(function (item, index) {
     status_color = "red";
   }
 
+  let sellerMail = item.getProduct().getSellerEmail();
+  let customerMail = item.getBuyer().getEmail();
+  if (sellerMail == "product@deleted.c") sellerMail = "Deleted Account";
+  if (customerMail == "deleted@account.c") customerMail = "Deleted Account";
   $("tbody").append(`
     <tr class="orderRaw" data-status="${item.getStatus()}">
         <th scope="row">${PurchasNumber}</th>
@@ -28,7 +42,7 @@ allPurchases.forEach(function (item, index) {
           <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover focus" data-bs-content="${item
             .getBuyer()
             .getName()}">
-          ${item.getBuyer().getEmail()}
+          ${customerMail}
           </span>
         </td>
         <td style="color:#27548A">${item.getProduct().getProductName()}</td>
@@ -36,7 +50,7 @@ allPurchases.forEach(function (item, index) {
         <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover focus" data-bs-content="${item
           .getProduct()
           .getSeller()}">
-          ${item.getProduct().getSellerEmail()}
+          ${sellerMail}
           </span>
         </td>
         <td style="color:#7F669D">${item.getProduct().getPrice()}$</td>
@@ -86,7 +100,7 @@ $(document).on("click", ".deletOrder", function () {
   if (result) {
     let orderId = $(this).data("id");
     deletePurchase(orderId);
-    alert("User deleted successfully");
+    alert("Order deleted successfully");
     location.reload();
   }
 });

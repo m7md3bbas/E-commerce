@@ -218,6 +218,9 @@
             const reviews = [];
             const tags = [];
             const createdTime = "2025-05-08T17:15:28.048Z";
+            const sellerEmail = JSON.parse(localStorage.getItem("current_user")).email;
+            const sellerName = JSON.parse(localStorage.getItem("current_user")).name;
+
             // === Validation ===
             if (!name) return showNotification('Please enter a product name.', "error");
             if (!category) return showNotification('Please enter a product category.', "error");
@@ -251,6 +254,7 @@
             }
 
             function saveProduct() {
+
                 const allImages = [...imageUrls, ...uploadedImages];
                 let products = JSON.parse(localStorage.getItem("products")) || [];
 
@@ -265,8 +269,8 @@
                     rating: rate,
                     reviews,
                     tags: [],
-                    seller: 'seller@test',
-                    sellerEmail: 'test@test.com',
+                    seller: sellerName,
+                    sellerEmail: sellerEmail,
                     createdTime: "2025-05-08T17:15:28.048Z"
 
                 };
