@@ -66,12 +66,12 @@ h1:hover::after{
   background-color: var(--main-color);
 }
 .btn-main{
-  border:2px solid var(--main-color);
-  color:var(--main-color);
+    color:#fff;
+    background-color:var(--main-color);
 }  
 .btn-main:hover{
-  background-color: var(--main-color);
-  color:#fff;
+    background-color: black;
+    color:#fff;
 } 
 
 .background-main{

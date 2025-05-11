@@ -28,17 +28,18 @@ a {
     background-color: var(--main-color);
 }
 .btn-main{
-    border:2px solid var(--main-color);
-    color:var(--main-color);
+    color:#fff;
+    background-color:var(--main-color);
 }  
 .btn-main:hover{
-    background-color: var(--main-color);
+    background-color: black;
     color:#fff;
 } 
 .cursor-pointer{
     cursor: pointer;
 }
 h1 {
+    color:black;
     position: relative;
     font-family: "Roboto", sans-serif;
 }
@@ -50,7 +51,7 @@ h1::after{
       transform: translateX(-50%);
       width: 5%;
       height: 3px;
-      background-color:var(--main-color);
+      background-color:black;
       transition: width 1s ;
 
 }

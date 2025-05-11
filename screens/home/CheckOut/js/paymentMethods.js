@@ -38,7 +38,7 @@ function showToast(message, type = "success", duration = 2000) {
 
  //MARK: Submit payment method selection
 
- this.document.getElementById('submitPayment').addEventListener('click',function(){
+ document.getElementById('submitPayment').addEventListener('click',function(){
     submitPayment()
   })
   function submitPayment() {

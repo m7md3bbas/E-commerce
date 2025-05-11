@@ -75,7 +75,6 @@ window.addEventListener("DOMContentLoaded", function () {
 })
   // MARK: SubmitForm
  document.getElementById("checkoutForm").addEventListener("submit", function (e) {
-    console.log("Form Submitted");
     e.preventDefault();
 
      addressValidation();
@@ -151,18 +150,13 @@ window.addEventListener("DOMContentLoaded", function () {
 
       const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
-      console.log(cartItems);
 
       cartItems.forEach((item, index) => {
-        console.log(item);
         const product = getProductById(item.id);
 
-        //  console.log(purchaseId);
         for (let i = 0; i < item.quantity; i++) {
           console.log("hi");
-          const purchaseId = `order-${
-            String(Date.now()).slice(-3) + index + i
-          }`;
+          const purchaseId = `or-${String(Date.now()).slice(-3) + index + i }`;
 
           let data = pushPurchase(purchaseId, "pending", buyer, product);
         }

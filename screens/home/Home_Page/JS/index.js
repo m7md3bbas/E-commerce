@@ -91,36 +91,13 @@ function showToast(message, type = "success", duration = 1000) {
   }, duration);
 }
 
-document;
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   const sections = document.querySelectorAll("section");
-//   const navLinks = document.querySelectorAll(".nav-link");
-
-//   const observerOptions = {
-//     root: null, // يراقب ضمن نافذة العرض
-//     threshold: 0.5, // يظهر عندما يكون 50% من العنصر مرئيًا
-//   };
-
-//   const observer = new IntersectionObserver((entries) => {
-//     entries.forEach((entry) => {
-//       if (entry.isIntersecting) {
-//         navLinks.forEach((link) => link.classList.remove("active"));
-//         document
-//           .querySelector(`.nav-link[href="#${entry.target.id}"]`)
-//           .classList.add("active");
-//       }
-//     });
-//   }, observerOptions);
-
-//   sections.forEach((section) => observer.observe(section));
-// });
 
 /***************************************************************** */
 // MARK: Display Products
 document.addEventListener("DOMContentLoaded", () => {
   const catalogContainer = document.querySelector(".cards");
-  const products = getProducts(); // الحصول على المنتجات
+  const products = getProducts(); 
 
   products.forEach((product) => {
     const productCard = document.createElement("div");
@@ -178,14 +155,6 @@ document.addEventListener("click", function (e) {
     const productItem = card.querySelector("#productItem").textContent;
     const price = card.querySelector("#price").textContent;
 
-    // const product = {
-    //   id: productId,
-    //   img: img.src,
-    //   name: productItem,
-    //   category,
-    //   price,
-    //   quantity: 1,
-    // };
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -193,10 +162,6 @@ document.addEventListener("click", function (e) {
 
     const existingProduct = cart.find((item) => item.id === productId);
     const stockLabel = card.querySelector(".stock-label span");
-    // console.log(realProduct.getStock());
-    // console.log(existingProduct);
-
-    // console.log(existingProduct.quantity);
 
     if (existingProduct) {
       if (realProduct.getStock() != 0) {

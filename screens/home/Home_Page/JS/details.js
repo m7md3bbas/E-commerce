@@ -57,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const productImages = selectedProduct.images;
       const thumbnailsContainer = document.querySelector(".image-thumbnails");
       thumbnailsContainer.innerHTML = "";
-      // التحكم في عرض المقاسات بناءً على التصنيف
       const sizeSection = document.getElementById("sizes-container");
       const sizesNumberSection = document.getElementById(
         "sizes-numbers-container"
@@ -66,15 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const clothingCategories = ["tops", "mens-shirts", "womens-dresses"];
       const shoesCategories = ["womens-shoes", "mens-shoes"];
 
-      // إخفاء الاتنين في البداية
       sizeSection.style.display = "none";
       sizesNumberSection.style.display = "none";
 
-      // لو ملابس ➜ عرض المقاسات
       if (clothingCategories.includes(selectedProduct.category)) {
         sizeSection.style.display = "block";
       }
-      // لو أحذية ➜ عرض مقاسات بالأرقام
       else if (shoesCategories.includes(selectedProduct.category)) {
         sizesNumberSection.style.display = "block";
       }
@@ -114,8 +110,8 @@ function generateRatingStars(rating) {
   for (let i = 0; i < Math.floor(rating); i++) {
     stars += "★";
   }
-  if (rating % 1 !== 0) {
-    stars += "☆"; // لإضافة نجمة غير مكتملة إذا كان التقييم عشري
+  if (rating % 1 !== 0) {ري
+    stars += "☆"; 
   }
   return stars;
 }
@@ -131,7 +127,7 @@ function displayRelatedProducts(category, currentProductId) {
   );
 
   const relatedContainer = document.querySelector(".related-products .cards");
-  relatedContainer.innerHTML = ""; // لتفريغ المنتجات السابقة
+  relatedContainer.innerHTML = ""; 
 
   if (related.length === 0) {
     relatedContainer.innerHTML = "<p>No related products found.</p>";
