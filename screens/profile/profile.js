@@ -1,8 +1,8 @@
 import { updateUser } from "../../projectModules/usersModule.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Get current user from localStorage
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    
+    const currentUser = JSON.parse(localStorage.getItem("current_user"));
     if (!currentUser) {
         console.error("No user logged in");
         window.location.href = "/login.html";
