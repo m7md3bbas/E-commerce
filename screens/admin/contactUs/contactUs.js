@@ -20,7 +20,7 @@ messages.forEach((item, index) => {
               30
             )}....</p>
             <p class="card-text mt-3 fw-bold col-2 d-none d-md-block">${
-              item.phone
+              item.phone || "01012345679"
             }</p>
             <div class="col-2 d-none d-lg-block">${messDate.toLocaleString()}</div>
             <div class="col col-lg-1">
@@ -48,14 +48,20 @@ messages.forEach((item, index) => {
 });
 
 $(".del-icon").click(function () {
-  let result = confirm("Are you sure?");
+  checkDelete().then((confirmed) => {
+    if (confirmed) {
+      let mess = $(this).data("id");
+      deleteMessage(mess);
+    }
+  });
 
-  if (result) {
-    let mess = $(this).data("id");
-    deleteMessage(mess);
-    alert("Message deleted successfully");
-    location.reload();
-  }
+  // let result = confirm("Are you sure?");
+
+  // if (result) {
+
+  //   alert("Message deleted successfully");
+  //   location.reload();
+  // }
 });
 
 $("#searchItem").on("keyup", function () {
@@ -68,3 +74,31 @@ $("#searchItem").on("keyup", function () {
     }
   });
 });
+
+//////////////////////////////////////////////////////////////////////
+
+function checkDelete() {
+  return Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Deleted!",
+        text: "Your file has been deleted.",
+        icon: "success",
+      }).then(() => {
+        location.reload();
+      });
+      // console.log("response");
+      return true;
+    } else {
+      return false;
+    }
+  });
+}

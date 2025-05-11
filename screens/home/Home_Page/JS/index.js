@@ -394,5 +394,10 @@ $("#sendBtn").click(function () {
   pushMessage(messageID, current_user.name, current_user.phone, message2);
 
   $("#textArea").val("");
-  alert("Message sent successfuly");
+
+  Swal.fire({
+    title: "Message sent successfully",
+    icon: "success",
+    draggable: true,
+  });
 });

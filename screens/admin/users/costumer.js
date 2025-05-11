@@ -189,7 +189,10 @@ document.getElementById("userForm").addEventListener("submit", function (e) {
     );
     modal.hide();
     this.reset();
-    location.reload();
+    setTimeout(function () {
+      location.reload();
+    }, 1500);
+    alertSuccess();
   } catch (e) {
     alert(e);
   }
@@ -198,15 +201,14 @@ document.getElementById("userForm").addEventListener("submit", function (e) {
 /////remove - customer//////////////////////////////////////////////////////////////////////////////////////////////////
 
 $(document).on("click", ".remove-btn", function () {
-  let result = confirm("Are you sure?");
-
-  if (result) {
-    let userId = $(this).data("id");
-    // console.log(userId);
-    deleteUser(userId);
-    alert("User deleted successfully");
-    location.reload();
-  }
+  checkDelete().then((confirmed) => {
+    if (confirmed) {
+      console.log(confirmed);
+      let userId = $(this).data("id");
+      // console.log(userId);
+      deleteUser(userId);
+    }
+  });
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -253,7 +255,10 @@ document.getElementById("sellerForm").addEventListener("submit", function (e) {
     );
     modal.hide();
     this.reset();
-    location.reload();
+    setTimeout(function () {
+      location.reload();
+    }, 1500);
+    alertSuccess();
   } catch (e) {
     alert(e);
   }
@@ -310,7 +315,10 @@ $("#updateChangebtn").click(function (e) {
     );
     modal.hide();
     // this.reset();
-    location.reload();
+    setTimeout(function () {
+      location.reload();
+    }, 1500);
+    alertSuccess();
   } catch (e) {
     alert(e);
   }
@@ -366,7 +374,10 @@ $("#update-user-btn").click(function (e) {
     );
 
     modal.hide();
-    location.reload();
+    setTimeout(function () {
+      location.reload();
+    }, 1500);
+    alertSuccess();
   } catch (e) {
     alert(e);
   }
@@ -397,3 +408,41 @@ $("#mainAddsellerbtn").click(function () {
     $("#updateChangebtn").addClass("d-none");
   }
 });
+
+/////////////////////////////////////////////////////////////
+
+function alertSuccess() {
+  Swal.fire({
+    position: "top-end",
+    icon: "success",
+    title: "Your work has been saved",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+
+function checkDelete() {
+  return Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Deleted!",
+        text: "Your file has been deleted.",
+        icon: "success",
+      }).then(() => {
+        location.reload();
+      });
+      // console.log("response");
+      return true;
+    } else {
+      return false;
+    }
+  });
+}

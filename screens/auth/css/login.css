@@ -33,7 +33,6 @@ button {
 }
 
 input {
-
     border: none !important;
     border-bottom: 1px solid var(--primary-color) !important;
 }
@@ -52,12 +51,9 @@ img {
 }
 
 .form-control:focus {
-    /* box-shadow: none !important; */
     box-shadow: 0 0 0 0.25rem #be985a3b !important;
     border: 1px solid var(--primary-color) !important;
 }
-
-
 
 .blur-wrapper {
     position: relative;
@@ -84,4 +80,26 @@ img {
 
 .position-relative {
     position: relative;
+}
+
+.form-check-input:focus {
+    border-color: #be985a !important;
+    box-shadow: 0 0 0 0.2rem rgba(190, 152, 90, 0.25) !important;
+}
+
+/* Bootstrap validation styles */
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.was-validated .form-control:valid,
+.form-control.is-valid {
+    border-color: #198754 !important;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 0.25rem;
 }
