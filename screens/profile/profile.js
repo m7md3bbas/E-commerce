@@ -1,7 +1,7 @@
 import { updateUser } from "../../projectModules/usersModule.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     const currentUser = JSON.parse(localStorage.getItem("current_user"));
     if (!currentUser) {
         console.error("No user logged in");
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addressInput = document.getElementById("address");
     const birthDate = document.getElementById("dob");
     const genderSelect = document.getElementById("gender");
-    
+
     const sidebarElements = {
         name: document.getElementById("sidebarName"),
         email: document.getElementById("sidebarEmail"),
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             female: "../../assets/imgs/profile/female.jpg",
             default: "../../assets/imgs/profile/default.jpg"
         };
-        sidebarElements.picture.src = profilePics[gender] || profilePics.default;
+        // sidebarElements.picture.src = profilePics[gender] || profilePics.default;
     }
 
     function toggleEditMode(enable) {
@@ -127,10 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
             ${message}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `;
-        
+
         const container = document.querySelector('.profile-body');
         container.insertBefore(alert, container.firstChild);
-        
+
         setTimeout(() => {
             alert.classList.remove('show');
             setTimeout(() => alert.remove(), 150);
