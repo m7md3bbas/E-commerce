@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
   catalogContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("details")) {
       const productId = e.target.dataset.id;
-      window.location.href = `./datails.html?productId=${productId}`; 
+      window.location.href = `./datails.html?productId=${productId}`;
     }
   });
 });
@@ -186,7 +186,6 @@ document.addEventListener("click", function (e) {
     // };
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    
 
     var realProduct = getProductById(productId);
 
@@ -194,14 +193,11 @@ document.addEventListener("click", function (e) {
     const stockLabel = card.querySelector(".stock-label span");
     // console.log(realProduct.getStock());
     // console.log(existingProduct);
-    
+
     // console.log(existingProduct.quantity);
-    
-    
 
     if (existingProduct) {
-      if (realProduct.getStock() !=0) {
-     
+      if (realProduct.getStock() != 0) {
         existingProduct.quantity += 1;
         showToast("Product added to cart");
 
@@ -231,7 +227,6 @@ document.addEventListener("click", function (e) {
           console.log(stockLabel.textContent);
         }
         showToast("Product added to cart");
-
       } else {
         showToast("Stock limited reached.", "danger");
         return;
@@ -391,13 +386,19 @@ $("#sendBtn").click(function () {
   else messageID = message.id + 1;
 
   let message2 = $("#textArea").val();
-  pushMessage(messageID, current_user.name, current_user.phone, message2);
+  if (message2) {
+    pushMessage(messageID, current_user.name, current_user.phone, message2);
 
-  $("#textArea").val("");
+    $("#textArea").val("");
 
-  Swal.fire({
-    title: "Message sent successfully",
-    icon: "success",
-    draggable: true,
-  });
+    Swal.fire({
+      html: "<h1>Message sent successfully</h1>",
+      icon: "success",
+      draggable: true,
+    });
+  } else {
+    Swal.fire({
+      html: "<h1>Enter valid message!</h1>",
+    });
+  }
 });
