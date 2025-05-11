@@ -97,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 backupCodeInput.classList.add('is-invalid');
                 backupCodeInput.nextElementSibling.textContent = "Invalid backup code";
 
-                // Reset button state
                 verifyBackupCodeBtn.disabled = false;
                 verifyBackupCodeBtn.innerHTML = 'Verify';
                 return;
@@ -107,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
             backupCodeModal.hide();
             newPasswordModal.show();
 
-            // Reset button state
             verifyBackupCodeBtn.disabled = false;
             verifyBackupCodeBtn.innerHTML = 'Verify';
         }, 800);
@@ -117,7 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const newPassword = document.getElementById("newPassword").value;
         const confirmNewPassword = document.getElementById("confirmNewPassword").value;
 
-        // Bootstrap validation
         newPasswordForm.classList.add('was-validated');
         if (!newPasswordForm.checkValidity()) {
             return;
@@ -130,12 +127,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Show loading state
         updatePasswordBtn.disabled = true;
         updatePasswordBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Updating...';
 
         try {
-            // Simulate update delay
             setTimeout(() => {
                 const updatedUser = updateUserPassword(currentUser.getId(), newPassword);
 
@@ -146,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 newPasswordModal.hide();
                 showToast('Password updated successfully! Redirecting to login...', 'success');
 
-                // Redirect after delay
                 setTimeout(() => {
                     window.location.href = "./login.html";
                 }, 2000);

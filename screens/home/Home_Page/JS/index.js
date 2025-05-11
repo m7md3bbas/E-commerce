@@ -46,6 +46,7 @@ if (current_user) {
   $("#dashboard").css("display", "none");
   $("#sendBtn").css("display", "none");
   $("#textArea").css("display", "none");
+  $("#profile").css("display", "none");
 
   $("#cart").on("click", () => {
     window.location.href = "./../../auth/login.html";
