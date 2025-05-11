@@ -4,11 +4,25 @@ const defaultImage = "https://placehold.co/600x400?text=No+Image";
 // وظائف إدارة التخزين
 function loadProducts() {
     const products = localStorage.getItem("products");
+    if (products) {
+        displaySellerName();
+    }
 
     try {
         return products ? JSON.parse(products) : [];
+
     } catch (e) {
         return [];
+    }
+}
+// display seller Name
+function displaySellerName() {
+    const sellerName = JSON.parse(localStorage.getItem("current_user")).name;
+    // target profile_icon and display seller name
+    const sellerNameElement = document.getElementById("profile_icon");
+    if (sellerNameElement) {
+        sellerNameElement.title = sellerName;
+
     }
 }
 
@@ -16,22 +30,30 @@ function saveProducts(products) {
     localStorage.setItem("products", JSON.stringify(products));
 }
 
-// وظائف عرض المنتجات
 function updateProductCards() {
     const productList = document.getElementById("product-list");
     if (!productList) return;
 
     productList.innerHTML = "";
     const products = loadProducts();
+    // filter products by seller email
 
-    products.forEach((product, index) => {
-        const productImages = product.images || [defaultImage];
-        const mainImage = productImages[0] || defaultImage;
+    // read seller email from local storage "currentUser"
+    const sellerEmail = JSON.parse(localStorage.getItem("current_user")).email;
+    const filteredProductsBySeller = products.filter(product => product.sellerEmail === sellerEmail);
+    console.log(filteredProductsBySeller);
+    console.log(sellerEmail);
 
-        const productCard = document.createElement("div");
-        productCard.className = "product-card position-relative border rounded p-3 m-2 shadow-sm";
 
-        productCard.innerHTML = `
+    if (filteredProductsBySeller) {
+        filteredProductsBySeller.forEach((product, index) => {
+            const productImages = product.images || [defaultImage];
+            const mainImage = productImages[0] || defaultImage;
+
+            const productCard = document.createElement("div");
+            productCard.className = "product-card position-relative border rounded p-3 m-2 shadow-sm";
+
+            productCard.innerHTML = `
             <img class="product-image" src="${mainImage}" alt="${product.productName || 'Product Image'}">
             <div>
                 <h5 class="mt-2">${product.productName || 'No Name'}</h5>
@@ -42,15 +64,25 @@ function updateProductCards() {
                 </button>
             </div>
         `;
-        productList.appendChild(productCard);
-    });
-
-    document.querySelectorAll(".view-details").forEach(button => {
-        button.addEventListener("click", function () {
-            const product = loadProducts()[this.dataset.index];
-            showProductModal(product);
+            productList.appendChild(productCard);
         });
-    });
+
+        document.querySelectorAll(".view-details").forEach(button => {
+            button.addEventListener("click", function () {
+                const index = this.getAttribute("data-index");
+                const product = filteredProductsBySeller[index];
+                showProductModal(product);
+            });
+        });
+    }
+    else {
+        const productCard = document.createElement("div");
+        productCard.className = "product-card position-relative border rounded p-3 m-2 shadow-sm";
+        productCard.innerHTML = `
+            <h5 class="mt-2">No Products Found</h5>
+        `;
+        productList.appendChild(productCard);
+    }
 }
 
 function updateProductsTable() {
@@ -59,8 +91,13 @@ function updateProductsTable() {
 
     tbody.innerHTML = "";
     const products = loadProducts();
+    // filter products by seller email
+    // read seller email from local storage "currentUser"
+    const sellerEmail = JSON.parse(localStorage.getItem("current_user")).email;
+    const filteredProductsBySeller = products.filter(product => product.sellerEmail === sellerEmail);
 
-    products.forEach(product => {
+
+    filteredProductsBySeller.forEach(product => {
         const mainImage = product.images?.[0] || defaultImage;
 
         const row = document.createElement('tr');
@@ -73,8 +110,8 @@ function updateProductsTable() {
             <td>${product.stock || '0'}</td>
             <td>${product.rating || '0'}</td>
             <td>
-                <button class=" btn-sm   edit-product" data-id="${product.id}">Edit</button>
-                <button class=" btn-sm    delete-product" data-id="${product.id}" id="deleteProductBtn">Delete</button>
+                <button class=" btn-sm  edit-product" data-id="${product.id}">Edit</button>
+                <button class=" btn-sm  delete-product" data-id="${product.id}" id="deleteProductBtn">Delete</button>
             </td>
         `;
         tbody.appendChild(row);
@@ -89,7 +126,6 @@ function updateProductsTable() {
     });
 }
 
-// وظائف التنقل بين الصفحات
 function showPage(page) {
     document.querySelectorAll('.page-content').forEach(content => {
         content.classList.remove('active');
@@ -144,15 +180,18 @@ function showEditModal(productId) {
             <label for="editProductCategory" class="form-label">Category</label>
             <select class="form-select" id="editProductCategory">
                 <option value="uncategorized" ${product.category === 'uncategorized' ? 'selected' : ''}>Uncategorized</option>
-                <option value="clothing" ${product.category === 'clothing' ? 'selected' : ''}>Clothing</option>
-                <option value="electronics" ${product.category === 'electronics' ? 'selected' : ''}>Electronics</option>
-                <option value="accessories" ${product.category === 'accessories' ? 'selected' : ''}>Accessories</option>
-                <option value="books" ${product.category === 'books' ? 'selected' : ''}>Books</option>
-                <option value="toys" ${product.category === 'toys' ? 'selected' : ''}>Toys</option>
+                <option value="tops" ${product.category === 'tops' ? 'selected' : ''}>tops</option>
+                <option value="mens-shirts" ${product.category === 'mens-shirts' ? 'selected' : ''}>mens-shirts</option>
+                <option value="womens-dresses" ${product.category === 'womens-dresses' ? 'selected' : ''}>womens-dresses</option>
+                <option value="womens-jewellery" ${product.category === 'womens-jewellery' ? 'selected' : ''}>womens-jewellery</option>
+                <option value="sports-accessories" ${product.category === 'sports-accessories' ? 'selected' : ''}>sports-accessories</option>
+                <option value="womens-bags" ${product.category === 'womens-bags' ? 'selected' : ''}>womens-bags</option>
+                <option value="womens-shoes" ${product.category === 'womens-shoes' ? 'selected' : ''}>womens-shoes</option>
+                <option value="womens-watches" ${product.category === 'womens-watches' ? 'selected' : ''}>womens-watches</option>
+                <option value="fragrances" ${product.category === 'fragrances' ? 'selected' : ''}>fragrances</option>
+                <option value="mens-shoes" ${product.category === 'mens-shoes' ? 'selected' : ''}>mens-shoes</option>
+                <option value="mens-watches" ${product.category === 'mens-watches' ? 'selected' : ''}>mens-watches</option>
                 <option value="furniture" ${product.category === 'furniture' ? 'selected' : ''}>Furniture</option>
-                <option value="sports" ${product.category === 'sports' ? 'selected' : ''}>Sports</option>
-                <option value="automotive" ${product.category === 'automotive' ? 'selected' : ''}>Automotive</option>
-                <option value="household" ${product.category === 'household' ? 'selected' : ''}>Household</option>
                 <option value="other" ${product.category === 'other' ? 'selected' : ''}>Other</option>
 
             </select>
@@ -216,25 +255,45 @@ function saveEditedProduct() {
 }
 
 function deleteProduct(productId) {
-    if (!confirm('Are you sure you want to delete this product?')) return;
-
     const products = loadProducts();
-    // تحويل productId إلى رقم للمقارنة الصحيحة
     productId = parseInt(productId);
-    const updatedProducts = products.filter(p => parseInt(p.id) !== productId);
 
-    // إعادة تعيين IDs للمنتجات المتبقية
-    updatedProducts.forEach((product, index) => {
-        product.id = index + 1;
+    const product = products.find(p => parseInt(p.id) === productId);
+    if (!product) return;
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: `Do you really want to delete "${product.productName}"? This action cannot be undone.`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const updatedProducts = products.filter(p => parseInt(p.id) !== productId);
+
+            // إعادة تعيين IDs للمنتجات المتبقية
+            updatedProducts.forEach((product, index) => {
+                product.id = index + 1;
+            });
+
+            saveProducts(updatedProducts);
+            updateProductsTable();
+            updateProductCards();
+
+            Swal.fire({
+                title: "Deleted!",
+                text: `"${product.productName}" has been deleted successfully.`,
+                icon: "success",
+                timer: 1500,
+                showConfirmButton: false
+            });
+        }
     });
-
-    saveProducts(updatedProducts);
-    updateProductsTable();
-    updateProductCards();
-    showNotification('Product deleted successfully!', 'success');
 }
 
-// وظائف الفلترة والبحث
+
 function filterAndSortProducts() {
     const searchTerm = document.getElementById('productSearch')?.value.toLowerCase() || '';
     const categoryFilter = document.getElementById('categoryFilter')?.value || '';
@@ -328,7 +387,6 @@ function resetFilters() {
     updateProductsTable();
 }
 
-// وظائف مساعدة
 function showNotification(message, type) {
     const notification = document.createElement("div");
     notification.className = `notification ${type}`;
@@ -427,7 +485,6 @@ function searchProducts() {
     }
 }
 
-// تهيئة صفحة إدارة المنتجات
 function setupManageProductsPage() {
     const productSearch = document.getElementById('productSearch');
     const categoryFilter = document.getElementById('categoryFilter');
@@ -442,7 +499,6 @@ function setupManageProductsPage() {
     if (saveProductChanges) saveProductChanges.addEventListener('click', saveEditedProduct);
 }
 
-// تهيئة الصفحة عند التحميل
 document.addEventListener("DOMContentLoaded", () => {
     if (!localStorage.getItem("products")) {
         saveProducts([
@@ -493,11 +549,20 @@ function displayOrders() {
     const purchases = JSON.parse(localStorage.getItem('purchases_storage')) || [];
     const products = JSON.parse(localStorage.getItem('products')) || [];
     const buyers = JSON.parse(localStorage.getItem('users')) || [];
+    const currentUser = JSON.parse(localStorage.getItem('current_user')) || {};
 
     const tbody = document.getElementById('ordersTableBody');
     tbody.innerHTML = '';
 
-    purchases.forEach((purchase, index) => {
+    // فلترة منتجات البائع الحالي
+    const sellerProductsIds = products
+        .filter(p => p.sellerEmail === currentUser.email)
+        .map(p => p.id);
+
+    // فلترة الطلبات الخاصة بمنتجات البائع
+    const sellerPurchases = purchases.filter(p => sellerProductsIds.includes(p.productId));
+
+    sellerPurchases.forEach((purchase, index) => {
         const product = products.find(p => p.id == purchase.productId);
         const buyer = buyers.find(b => b.id == purchase.buyerId);
 
@@ -518,17 +583,17 @@ function displayOrders() {
                     ${purchase.status === 'shipped' ? 'Delivered' : 'Pending'}
                 </span>
             </td>
-  <td>
-    <select class="form-select form-select-sm" onchange="updatePurchaseStatus('${purchase.id}', this.value)">
-        <option value="pending" ${purchase.status === 'pending' ? 'selected' : ''}>Pending</option>
-        <option value="shipped" ${purchase.status === 'shipped' ? 'selected' : ''}>Delivered</option>
-    </select>
-</td>
-
+            <td>
+                <select class="form-select form-select-sm" onchange="updatePurchaseStatus('${purchase.id}', this.value)">
+                    <option value="pending" ${purchase.status === 'pending' ? 'selected' : ''}>Pending</option>
+                    <option value="shipped" ${purchase.status === 'shipped' ? 'selected' : ''}>Delivered</option>
+                </select>
+            </td>
         `;
         tbody.appendChild(row);
     });
 }
+
 
 function updatePurchaseStatus(orderId, newStatus) {
     const purchases = JSON.parse(localStorage.getItem('purchases_storage')) || [];
@@ -562,9 +627,26 @@ function searchOrders() {
 // sales analytics
 // This function should be called when the analytics page is shown
 function loadSalesAnalytics() {
-    const purchases = JSON.parse(localStorage.getItem('purchases_storage')) || [];
-    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const allPurchases = JSON.parse(localStorage.getItem('purchases_storage')) || [];
+    const currentUsers = JSON.parse(localStorage.getItem('current_user')) || {};
     const products = JSON.parse(localStorage.getItem('products')) || [];
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+
+    // log
+    console.log("All Purchases:", allPurchases);
+    console.log("Current User:", currentUsers);
+    console.log("Products:", products);
+    console.log("Users:", users);
+
+    //get products ids that belong to the current seller using seller email 
+    const sellerProductsIds = products.filter(p => p.sellerEmail == currentUsers.email).map(p => p.id);
+
+    // فلترة عمليات الشراء الخاصة بمنتجات البائع فقط
+    const purchases = allPurchases.filter(p => sellerProductsIds.includes(p.productId));
+
+    console.log("Current Seller ID:", currentUsers.id);
+    console.log("Seller's Product IDs:", sellerProductsIds);
+    console.log("Filtered Purchases for this seller:", purchases);
 
     const monthlySales = {};
     const productSales = {};
@@ -584,9 +666,9 @@ function loadSalesAnalytics() {
 
         if (!product || !user) return;
 
-        const price = product.price;
-        const address = user.address;
-        const productName = product.productName;
+        const price = product.price || 0;
+        const address = user.address || 'Unknown';
+        const productName = product.productName || 'Unnamed Product';
         const buyerId = user.id;
 
         monthlySales[monthKey] = (monthlySales[monthKey] || 0) + price;
@@ -598,30 +680,41 @@ function loadSalesAnalytics() {
         totalRevenue += price;
     });
 
-    // Find top stats
+    // استخراج البيانات الأهم
     const topProduct = Object.entries(productSales).sort((a, b) => b[1] - a[1])[0];
     const topRevenueProduct = Object.entries(revenuePerProduct).sort((a, b) => b[1] - a[1])[0];
     const topCustomer = Object.entries(customerOrders).sort((a, b) => b[1] - a[1])[0];
     const topAddress = Object.entries(addressCount).sort((a, b) => b[1] - a[1])[0];
 
-    // Get customer name for the top customer
-    const topCustomerName = topCustomer ? users.find(u => u.id == topCustomer[0])?.name : 'N/A';
+    const topCustomerName = topCustomer ? (users.find(u => u.id == topCustomer[0])?.name || 'Unknown') : null;
 
-    // Update summary in HTML
+    // تحديث البيانات في الصفحة
     document.getElementById('totalSales').textContent = `${totalRevenue} $`;
-    document.getElementById('topProduct').textContent = topProduct ? `${topProduct[0]} (${topProduct[1]} sales)` : 'N/A';
-    document.getElementById('topAddress').textContent = topAddress ? `${topAddress[0]} (${topAddress[1]} orders)` : 'N/A';
 
-    // Optional: Displaying the top revenue product and top customer
-    document.getElementById('topRevenueProduct').textContent = topRevenueProduct ? `${topRevenueProduct[0]} (${topRevenueProduct[1]} EGP)` : 'N/A';
-    document.getElementById('topCustomer').textContent = topCustomerName ? `${topCustomerName} (${topCustomer[1]} orders)` : 'N/A';
+    document.getElementById('topProduct').textContent = topProduct
+        ? `${topProduct[0]} (${topProduct[1]} sales)`
+        : 'N/A';
 
-    // Destroy the previous chart if it exists
+    document.getElementById('topAddress').textContent = topAddress
+        ? `${topAddress[0]} (${topAddress[1]} orders)`
+        : 'N/A';
+
+    document.getElementById('topRevenueProduct').textContent = topRevenueProduct
+        ? `${topRevenueProduct[0]} (${topRevenueProduct[1]} EGP)`
+        : 'N/A';
+
+    document.getElementById('topCustomer').textContent = (topCustomer && topCustomerName)
+        ? `${topCustomerName} (${topCustomer[1]} orders)`
+        : 'N/A';
+
+    document.getElementById('totalOrdersNum').textContent = totalOrders + " Order";
+
+    // حذف الرسم القديم لو موجود
     if (window.salesChart && window.salesChart.destroy) {
         window.salesChart.destroy();
     }
 
-    // Draw Monthly Sales Chart
+    // رسم الإيرادات الشهرية
     const ctx = document.getElementById('salesChart').getContext('2d');
     window.salesChart = new Chart(ctx, {
         type: 'line',
@@ -648,8 +741,14 @@ function loadSalesAnalytics() {
 }
 
 
+function logout() {
+    localStorage.removeItem("current_user");
+    window.location.replace("../../auth/login.html");
 
+}
 
-// Make sure this function is triggered when switching to Analytics tab
-// Example: if you use showPage('analytics') then call loadSalesAnalytics() inside it
+function goToRewaq() {
+    window.location.replace("../../home/Home_Page/index.html");
+}
+
 

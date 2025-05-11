@@ -1,4 +1,4 @@
-import { getProductById, getProducts ,decreaseProductStock} from "../../../../projectModules/productModule.js";
+import { decreaseProductStock, getProductById, getProducts } from "../../../../projectModules/productModule.js";
 
 
 
@@ -190,7 +190,7 @@ document.addEventListener("click", function (e) {
     //   quantity: 1,
     // };
 
-      
+
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     console.log(cart);
 
@@ -205,21 +205,21 @@ document.addEventListener("click", function (e) {
         existingProduct.quantity += 1;
         showToast('Product added to cart')
         console.log(price);
-        
-         decreaseProductStock(productId)
-       if (stockLabel) {
-         stockLabel.textContent = realProduct.getStock();
-         console.log( stockLabel.textContent);
-         
-         }
+
+        decreaseProductStock(productId)
+        if (stockLabel) {
+          stockLabel.textContent = realProduct.getStock();
+          console.log(stockLabel.textContent);
+
+        }
 
       } else {
-        showToast("Stock limited reached.",'danger');
+        showToast("Stock limited reached.", 'danger');
         return;
       }
 
     } else {
-    
+
       if (realProduct.getStock() > 0) {
         const newProduct = {
           id: productId,
@@ -229,12 +229,12 @@ document.addEventListener("click", function (e) {
           price,
           quantity: 1,
         };
-        
+
         cart.push(newProduct);
         decreaseProductStock(productId)
         if (stockLabel) {
-              stockLabel.textContent = realProduct.getStock();
-         console.log( stockLabel.textContent);
+          stockLabel.textContent = realProduct.getStock();
+          console.log(stockLabel.textContent);
 
         }
         showToast('Product added to cart')
@@ -242,7 +242,7 @@ document.addEventListener("click", function (e) {
         console.log('Product added to cart');
 
       } else {
-        showToast("Stock limited reached.",'danger');
+        showToast("Stock limited reached.", 'danger');
         return;
       }
     }
