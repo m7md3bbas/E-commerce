@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     e.stopPropagation();
 
-    // Check if email already exists
     if (getUsers().some((user) => user.getEmail() === emailInput.value)) {
       emailInput.setCustomValidity("Email already exists");
       emailInput.classList.add("is-invalid");
@@ -34,6 +33,14 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       emailInput.setCustomValidity("");
       emailInput.classList.remove("is-invalid");
+    }
+    if (passwordInput.value !== confirmPasswordInput.value) {
+      confirmPasswordInput.setCustomValidity("Passwords do not match");
+      confirmPasswordInput.classList.add("is-invalid");
+      return;
+    } else {
+      confirmPasswordInput.setCustomValidity("");
+      confirmPasswordInput.classList.remove("is-invalid");
     }
 
     if (!signupForm.checkValidity()) {
@@ -63,9 +70,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const newUser = getUsers().find((user) => user.getId() === id);
       const backupCode = newUser.getBackupCode();
-
       alert(
-        `Your backup code is: ${backupCode}\n\nPlease save this code somewhere safe. It will not be shown again.`
+        `
+        Your account has been created
+        Your backup code is: ${backupCode}\n\nPlease save this code somewhere safe. It will not be shown again.`
       );
 
       const blob = new Blob(

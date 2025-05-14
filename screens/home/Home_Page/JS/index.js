@@ -12,7 +12,6 @@ import {
 $(document).ready(function () {
   $("#owl-demo").owlCarousel({
     autoPlay: 500, //Set AutoPlay to 3 seconds
-
     items: 4,
     itemsDesktop: [1199, 3],
     itemsDesktopSmall: [979, 3],
@@ -98,7 +97,7 @@ function showToast(message, type = "success", duration = 1000) {
 // MARK: Display Products
 document.addEventListener("DOMContentLoaded", () => {
   const catalogContainer = document.querySelector(".cards");
-  const products = getProducts(); 
+  const products = getProducts();
 
   products.forEach((product) => {
     const productCard = document.createElement("div");
@@ -106,9 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     productCard.innerHTML = `
       <div class="card cursor-pointer">
-        <img src="${
-          product.getImages()[0]
-        }" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
+        <img src="${product.getImages()[0]
+      }" alt="${product.getProductName()}" width="100%" height="300px" class="details" data-id="${product.getId()}">
         <div class="links">
           <ul>
             <li><a><i class="fa-solid fa-cart-shopping addToCart" data-id="${product.getId()}"></i></a></li>
@@ -163,13 +161,13 @@ document.addEventListener("click", function (e) {
 
     const existingProduct = cart.find((item) => item.id === productId);
     const stockLabel = card.querySelector(".stock-label span");
-   
-let user =JSON.parse(localStorage.getItem("current_user")) ;
-console.log(user);
 
-   if(!user)  return showToast('Login First , please', 'danger')
-  
-    
+    let user = JSON.parse(localStorage.getItem("current_user"));
+    console.log(user);
+
+    if (!user) return showToast('Login First , please', 'danger')
+
+
     if (existingProduct) {
       if (realProduct.getStock() != 0) {
         existingProduct.quantity += 1;
@@ -207,9 +205,9 @@ console.log(user);
       }
     }
     localStorage.setItem("cart", JSON.stringify(cart));
- 
 
-}
+
+  }
 });
 
 ////////////////////////////////////////////////////////
@@ -330,10 +328,9 @@ const categoriesHTML = categories
   .map(
     (category) => `
   <div class="item">
-    <img src="${
-      categoryImagesPath[category] ||
+    <img src="${categoryImagesPath[category] ||
       "../../../assets/imgs/Home/other_products.jpg"
-    }" alt="" width="100%">
+      }" alt="" width="100%">
     <p class="fs-4">${category}</p>
   </div>
 `
