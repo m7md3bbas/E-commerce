@@ -119,7 +119,7 @@ function initProduct(productElement, itemData) {
   //   console.log(getProductById(itemData.id).getStock());
   //   console.log(quantity);
 
-    if (quantity < getProductById(itemData.id).getStock()) {
+    if ( getProductById(itemData.id).getStock() != 0) {
       quantity++;
      decreaseProductStock(itemData.id)
 
