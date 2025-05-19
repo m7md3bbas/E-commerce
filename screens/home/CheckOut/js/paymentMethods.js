@@ -41,6 +41,7 @@ function showToast(message, type = "success", duration = 2000) {
  document.getElementById('submitPayment').addEventListener('click',function(){
     submitPayment()
   })
+
   function submitPayment() {
     console.log('payment');
     
@@ -101,8 +102,8 @@ function showToast(message, type = "success", duration = 2000) {
       cardNumberErrorMsg.textContent = '';
     }
   
-    if (!cardNameValid) {
-      cardNameErrorMsg.textContent = 'Enter the cardholder name.';
+    if (!cardNameValid || /\d/.test(cardName.value.trim()) ) {
+      cardNameErrorMsg.textContent = 'Enter the cardholder name does not contains numbers.';
       isValid = false;
     } else {
       cardNameErrorMsg.textContent = '';

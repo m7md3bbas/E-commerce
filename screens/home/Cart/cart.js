@@ -16,11 +16,12 @@ window.addEventListener("load", function () {
   console.log();
 
   cartItems.forEach((item) => {
-    console.log(Number(parseFloat(item.price.split("$")[0]).toFixed(3)));
-    console.log((Number(item.price.split("$")[0]) * item.quantity).toFixed(3));
-    console.log(
-      Number((Number(item.price.split("$")[0]) * item.quantity).toFixed(3))
-    );
+
+    // console.log(Number(parseFloat(item.price.split("$")[0]).toFixed(3)));
+    // console.log((Number(item.price.split("$")[0]) * item.quantity).toFixed(3));
+    // console.log(
+    //   Number((Number(item.price.split("$")[0]) * item.quantity).toFixed(3))
+    // );
 
     const card = document.createElement("div");
     card.classList.add("col-md-4", "col-lg-3");
@@ -57,6 +58,7 @@ window.addEventListener("load", function () {
 
   updateCartTotal();
 });
+
 // MARK: initial 
 function initProduct(productElement, itemData) {
   const minusBtn = productElement.querySelector(".decrease");
@@ -121,7 +123,7 @@ function initProduct(productElement, itemData) {
 
     if ( getProductById(itemData.id).getStock() != 0) {
       quantity++;
-     decreaseProductStock(itemData.id)
+      decreaseProductStock(itemData.id)
 
       updateTotal();
     } else {
@@ -162,6 +164,7 @@ function initProduct(productElement, itemData) {
 
 }
 
+// MARK: updatacarttotal
 function updateCartTotal() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   const total = cart.reduce(
@@ -201,6 +204,7 @@ if (clearCartBtn) {
       })
       .then((result) => {
         if (result.isConfirmed) {
+          
           const products = JSON.parse(localStorage.getItem("cart"));
           const allProducts = JSON.parse(localStorage.getItem("products"));
 

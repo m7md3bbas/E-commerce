@@ -77,8 +77,8 @@ window.addEventListener("DOMContentLoaded", function () {
  document.getElementById("checkoutForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
-     addressValidation();
-
+    addressValidation();
+  
     localStorage.removeItem("cart");
     localStorage.removeItem("totalCartPrice");
    });
@@ -104,15 +104,15 @@ window.addEventListener("DOMContentLoaded", function () {
     const phoneErrorMsg = phoneInput.nextElementSibling.nextElementSibling;
 
     // Shipping Validation
-    if (cityInput.value.trim() === "") {
+    if (cityInput.value.trim() === "" ) {
       cityErrorMsg.textContent = "City is required.";
       isValid = false;
     } else {
       cityErrorMsg.textContent = "";
     }
 
-    if (!nameInput.value.trim()) {
-      nameErrorMsg.textContent = "Name is required.";
+    if (!nameInput.value.trim() ||  /\d/.test(nameInput.value.trim()) ) {
+      nameErrorMsg.textContent = "Name is required and must not contain numbers.";
       isValid = false;
     } else {
       nameErrorMsg.textContent = "";
@@ -168,6 +168,7 @@ window.addEventListener("DOMContentLoaded", function () {
         form.reset();
       }, 500);
     }
+
   }
    
 
