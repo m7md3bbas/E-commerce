@@ -33,9 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function handleEmailSubmission(e) {
         e.preventDefault();
-        e.stopPropagation();
 
-        // Bootstrap validation
+    
         if (!forgotPasswordForm.checkValidity()) {
             forgotPasswordForm.classList.add('was-validated');
             return;
@@ -43,15 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const email = emailInput.value.trim();
 
-        // Show loading state
         continueBtn.disabled = true;
         continueBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Checking...';
 
-        // Simulate API delay
         setTimeout(() => {
             const user = getUserByEmail(email);
 
-            // Reset button state
             continueBtn.disabled = false;
             continueBtn.innerHTML = 'Continue';
 
@@ -64,9 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }, 2000);
                     return;
                 }
-                emailInput.classList.add('is-invalid');
-                const invalidFeedback = emailInput.nextElementSibling;
-                invalidFeedback.textContent = "Email not found in our system";
+                showToast('Email not found. Please try again.', 'error');
                 return;
             }
 
@@ -78,8 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function verifyBackupCode() {
         const backupCodeInput = document.getElementById("backupCode");
-        
-        // Bootstrap validation
+
         backupCodeForm.classList.add('was-validated');
         if (!backupCodeForm.checkValidity()) {
             return;
@@ -87,11 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const code = backupCodeInput.value.trim();
 
-        // Show loading state
         verifyBackupCodeBtn.disabled = true;
         verifyBackupCodeBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Verifying...';
 
-        // Simulate verification delay
+
         setTimeout(() => {
             if (code !== currentUser.getBackupCode()) {
                 backupCodeInput.classList.add('is-invalid');
@@ -149,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
             console.error("Password update error:", error);
 
-            // Reset button state
             updatePasswordBtn.disabled = false;
             updatePasswordBtn.innerHTML = 'Update Password';
             showToast(error.message || "Failed to update password. Please try again.", 'error');
@@ -170,15 +161,13 @@ document.addEventListener("DOMContentLoaded", () => {
                             <i class="fas ${icon} me-2" style="color: #${borderColor};"></i>
                             ${message}
                         </div>
-                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
+
+                            </div>
                 </div>
             </div>
         `;
 
         document.body.insertAdjacentHTML('beforeend', toastHTML);
-
-        // Auto-remove after 5 seconds
         setTimeout(() => {
             const toast = document.querySelector('.toast.show');
             if (toast) {

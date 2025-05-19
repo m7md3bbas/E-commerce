@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    e.stopPropagation();
 
     if (!loginForm.checkValidity()) {
       loginForm.classList.add("was-validated");
@@ -59,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
       loginBtn.innerHTML = "Login";
 
       if (!user) {
-        Swal.fire("Invalid email or password");
+        showToast("Invalid email or password", "error");
 
         return;
       }
@@ -67,4 +66,35 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.replace("./../home/Home_Page/index.html");
     }, 1500);
   });
+
+  function showToast(message, type = 'success') {
+    const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+    const bgColor = type === 'success' ? 'd4edda' : 'f8d7da';
+    const borderColor = type === 'success' ? '28a745' : 'dc3545';
+    const textColor = type === 'success' ? '155724' : '721c24';
+
+    const toastHTML = `
+        <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1060; width: 100%; max-width: 500px;">
+            <div class="toast show align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                <div class="d-flex">
+                    <div class="toast-body d-flex align-items-center" style="color: #${textColor}; background-color: #${bgColor}; border-left: 4px solid #${borderColor}; padding: 1rem;">
+                        <i class="fas ${icon} me-2" style="color: #${borderColor};"></i>
+                        ${message}
+                    </div>
+                   </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', toastHTML);
+
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        const toast = document.querySelector('.toast.show');
+        if (toast) {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }
+    }, 5000);
+}
 });

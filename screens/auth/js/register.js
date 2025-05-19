@@ -24,29 +24,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
   signupForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    e.stopPropagation();
-
-    if (getUsers().some((user) => user.getEmail() === emailInput.value)) {
-      emailInput.setCustomValidity("Email already exists");
-      emailInput.classList.add("is-invalid");
-      return;
-    } else {
-      emailInput.setCustomValidity("");
-      emailInput.classList.remove("is-invalid");
-    }
-    if (passwordInput.value !== confirmPasswordInput.value) {
-      confirmPasswordInput.setCustomValidity("Passwords do not match");
-      confirmPasswordInput.classList.add("is-invalid");
-      return;
-    } else {
-      confirmPasswordInput.setCustomValidity("");
-      confirmPasswordInput.classList.remove("is-invalid");
-    }
-
     if (!signupForm.checkValidity()) {
       signupForm.classList.add("was-validated");
       return;
     }
+    if (nameInput.value.match(/[^a-zA-Z\s]/)) {
+      showToast("Name can only contain letters and spaces", 'error');
+      return;
+    }
+    if (getUsers().some((user) => user.getEmail() === emailInput.value)) {
+      showToast("Email already exists", 'error');
+      return;
+    }
+    if (passwordInput.value !== confirmPasswordInput.value) {
+      showToast("Passwords do not match", 'error');
+      return;
+    }
+
+
     signupBtn.disabled = true;
     signupBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...`;
 
@@ -70,10 +65,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const newUser = getUsers().find((user) => user.getId() === id);
       const backupCode = newUser.getBackupCode();
-      alert(
+      showToast(
         `
         Your account has been created
-        Your backup code is: ${backupCode}\n\nPlease save this code somewhere safe. It will not be shown again.`
+        Your backup code is: ${backupCode}\n\nPlease save this code somewhere safe. It will not be shown again.`,
+        "success"
       );
 
       const blob = new Blob(
@@ -98,4 +94,35 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 1500);
     }, 2000);
   });
+
+  function showToast(message, type = 'success') {
+    const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+    const bgColor = type === 'success' ? 'd4edda' : 'f8d7da';
+    const borderColor = type === 'success' ? '28a745' : 'dc3545';
+    const textColor = type === 'success' ? '155724' : '721c24';
+
+    const toastHTML = `
+        <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1060; width: 100%; max-width: 500px;">
+            <div class="toast show align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                <div class="d-flex">
+                    <div class="toast-body d-flex align-items-center" style="color: #${textColor}; background-color: #${bgColor}; border-left: 4px solid #${borderColor}; padding: 1rem;">
+                        <i class="fas ${icon} me-2" style="color: #${borderColor};"></i>
+                        ${message}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', toastHTML);
+
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      const toast = document.querySelector('.toast.show');
+      if (toast) {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 200);
+      }
+    }, 5000);
+  }
 });
