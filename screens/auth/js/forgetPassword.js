@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleEmailSubmission(e) {
         e.preventDefault();
 
-    
+
         if (!forgotPasswordForm.checkValidity()) {
             forgotPasswordForm.classList.add('was-validated');
             return;
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }, 2000);
                     return;
                 }
-                showToast('Email not found. Please try again.', 'error');
+                showToast('Email not found in our system ,please try again.', 'error');
                 return;
             }
 
@@ -127,7 +127,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const updatedUser = updateUserPassword(currentUser.getId(), newPassword);
 
                 if (!updatedUser) {
-                    throw new Error("Failed to update password");
+                    showToast('Failed to update password. Please try again.', 'error');
+                    return;
                 }
 
                 newPasswordModal.hide();

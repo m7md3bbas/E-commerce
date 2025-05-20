@@ -68,26 +68,27 @@ document.addEventListener("DOMContentLoaded", function () {
       showToast(
         `
         Your account has been created
-        Your backup code is: ${backupCode}\n\nPlease save this code somewhere safe. It will not be shown again.`,
+        Your backup code is: ${backupCode}\n\nPlease save this code somewhere safe. It will not be shown again.
+        `,
         "success"
       );
 
-      const blob = new Blob(
-        [
-          `Your backup code is: ${backupCode}\n\nKeep this code safe. It can be used to recover your account.`,
-        ],
-        { type: "text/plain" }
-      );
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `BackupCode-${nameInput.value}.txt`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      signupForm.reset();
-      signupForm.classList.remove("was-validated");
+        const blob = new Blob(
+          [
+            `Your backup code is: ${backupCode}\n\nKeep this code safe. It can be used to recover your account.`,
+          ],
+          { type: "text/plain" }
+        );
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `BackupCode-${nameInput.value}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        signupForm.reset();
+        signupForm.classList.remove("was-validated");
 
       setTimeout(() => {
         window.location.href = "./login.html";

@@ -8,7 +8,6 @@ import {
   getProducts,
 } from "../../../../projectModules/productModule.js";
 
-// MARK: Categories
 $(document).ready(function () {
   $("#owl-demo").owlCarousel({
     autoPlay: 500, //Set AutoPlay to 3 seconds
@@ -18,7 +17,6 @@ $(document).ready(function () {
   });
 });
 
-// MARK: Switch between login logout
 const current_user = JSON.parse(localStorage.getItem("current_user"));
 if (current_user) {
   $("#login").css("display", "none");
@@ -51,14 +49,12 @@ if (current_user) {
     window.location.href = "./../../auth/login.html";
   });
 }
-// MARK:Logout
 $("#logout").on("click", logout);
 function logout() {
   localStorage.removeItem("current_user");
   window.location.replace("./../../auth/login.html");
 }
 
-// MARK: Show cart
 document.querySelector(".cartHome").addEventListener("click", function () {
   window.location.href = "../Cart/cart.html";
 });
@@ -263,7 +259,7 @@ document.addEventListener("click", function (e) {
 searchInput.addEventListener("input", () => {
   const query = searchInput.value.toLowerCase();
   searchResults.innerHTML =
-    '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>'; // Show loading indicator
+    '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>'; 
 
   setTimeout(() => {
     const filtered = items.filter((item) =>

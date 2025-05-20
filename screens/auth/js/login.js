@@ -88,7 +88,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.body.insertAdjacentHTML('beforeend', toastHTML);
 
-    // Auto-remove after 5 seconds
     setTimeout(() => {
         const toast = document.querySelector('.toast.show');
         if (toast) {
