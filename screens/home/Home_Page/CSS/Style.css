@@ -347,3 +347,12 @@ MARK: Details
 .cartHome:hover {
   color: #be985a;
 }
+
+
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
+  background-color: #be985a;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):hover{
+  background-color: black;
+}

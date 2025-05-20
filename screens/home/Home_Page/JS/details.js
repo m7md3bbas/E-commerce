@@ -1,12 +1,12 @@
-import { getProductById ,decreaseProductStock } from "../../../../projectModules/productModule.js";
+import { decreaseProductStock, getProductById } from "../../../../projectModules/productModule.js";
 // MARK:Disply Details
 document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get("productId");
   document.querySelector(".addToCart").setAttribute("data-id", productId);
-  let checkedproductStock= getProductById(productId).getStock()
+  let checkedproductStock = getProductById(productId).getStock()
   console.log(checkedproductStock);
- 
+
 
   if (productId) {
     // استعراض المنتج بناءً على الـ productId
@@ -26,92 +26,93 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(selectedProduct);
     console.log(selectedProduct.productName);
     if (productId) {
-        // استعراض المنتج بناءً على الـ productId
-        //read products from local storage
-        var savedProducts = localStorage.getItem("products");
-        //parse products from local storage 
-        savedProducts = JSON.parse(savedProducts);
-        var selectedProduct = savedProducts.find(product => product.id == productId);
+      // استعراض المنتج بناءً على الـ productId
+      //read products from local storage
+      var savedProducts = localStorage.getItem("products");
+      //parse products from local storage 
+      savedProducts = JSON.parse(savedProducts);
+      var selectedProduct = savedProducts.find(product => product.id == productId);
 
-    if (selectedProduct) {
-      // select product-name from details page
-      document.querySelector(".product-name").textContent =
-        selectedProduct.productName;
-      // select product-image from details page
-      document.querySelector(".product-image").src = selectedProduct.images[0];
-      // select product-description from details page
-      document.querySelector(".product-description").textContent =
-        selectedProduct.description;
-      // select price from details page
-      document.querySelector(
-        ".product-price"
-      ).textContent = `${selectedProduct.price}$`;
-      // select rating from details page
-      document.querySelector(".rating").innerHTML = generateRatingStars(
-        selectedProduct.rating
-      );
-      
-      document.querySelector('.stock-label span').textContent=checkedproductStock;
-      document.querySelector('.category').textContent=selectedProduct.category;
+      if (selectedProduct) {
+        // select product-name from details page
+        document.querySelector(".product-name").textContent =
+          selectedProduct.productName;
+        // select product-image from details page
+        document.querySelector(".product-image").src = selectedProduct.images[0];
+        // select product-description from details page
+        document.querySelector(".product-description").textContent =
+          selectedProduct.description;
+        // select price from details page
+        document.querySelector(
+          ".product-price"
+        ).textContent = `${selectedProduct.price}$`;
+        // select rating from details page
+        document.querySelector(".rating").innerHTML = generateRatingStars(
+          selectedProduct.rating
+        );
 
-      const productImages = selectedProduct.images;
-      const thumbnailsContainer = document.querySelector(".image-thumbnails");
-      thumbnailsContainer.innerHTML = "";
-      const sizeSection = document.getElementById("sizes-container");
-      const sizesNumberSection = document.getElementById(
-        "sizes-numbers-container"
-      );
+        document.querySelector('.stock-label span').textContent = checkedproductStock;
+        document.querySelector('.category').textContent = selectedProduct.category;
 
-      const clothingCategories = ["tops", "mens-shirts", "womens-dresses"];
-      const shoesCategories = ["womens-shoes", "mens-shoes"];
+        const productImages = selectedProduct.images;
+        const thumbnailsContainer = document.querySelector(".image-thumbnails");
+        thumbnailsContainer.innerHTML = "";
+        const sizeSection = document.getElementById("sizes-container");
+        const sizesNumberSection = document.getElementById(
+          "sizes-numbers-container"
+        );
 
-      sizeSection.style.display = "none";
-      sizesNumberSection.style.display = "none";
+        const clothingCategories = ["tops", "mens-shirts", "womens-dresses"];
+        const shoesCategories = ["womens-shoes", "mens-shoes"];
 
-      if (clothingCategories.includes(selectedProduct.category)) {
-        sizeSection.style.display = "block";
-      }
-      else if (shoesCategories.includes(selectedProduct.category)) {
-        sizesNumberSection.style.display = "block";
-      }
+        sizeSection.style.display = "none";
+        sizesNumberSection.style.display = "none";
 
-      /***********Same image For same Product***************************/
-      productImages.forEach((imgSrc, index) => {
-        const thumb = document.createElement("img");
-        thumb.src = imgSrc;
-        thumb.alt = `Thumbnail ${index + 1}`;
-        thumb.classList.add("thumbnail-image");
-        thumb.style.width = "80px";
-        thumb.style.height = "80px";
-        thumb.style.cursor = "pointer";
-        thumb.style.objectFit = "cover";
+        if (clothingCategories.includes(selectedProduct.category)) {
+          sizeSection.style.display = "block";
+        }
+        else if (shoesCategories.includes(selectedProduct.category)) {
+          sizesNumberSection.style.display = "block";
+        }
 
-        thumb.addEventListener("click", () => {
-          document.querySelector(".product-image").src = imgSrc;
+        /***********Same image For same Product***************************/
+        productImages.forEach((imgSrc, index) => {
+          const thumb = document.createElement("img");
+          thumb.src = imgSrc;
+          thumb.alt = `Thumbnail ${index + 1}`;
+          thumb.classList.add("thumbnail-image");
+          thumb.style.width = "80px";
+          thumb.style.height = "80px";
+          thumb.style.cursor = "pointer";
+          thumb.style.objectFit = "cover";
+
+          thumb.addEventListener("click", () => {
+            document.querySelector(".product-image").src = imgSrc;
+          });
+
+          thumbnailsContainer.appendChild(thumb);
         });
+        displayRelatedProducts(selectedProduct.category, selectedProduct.id);
+      } else {
+        console.log(urlParams);
+        console.log(productId);
+        console.error("Product not found!");
+      }
 
-        thumbnailsContainer.appendChild(thumb);
-      });
-      displayRelatedProducts(selectedProduct.category, selectedProduct.id);
+      // displayRelatedProducts(selectedProduct?.getCategory());
     } else {
-      console.log(urlParams);
-      console.log(productId);
-      console.error("Product not found!");
+      console.error("Product ID not found!");
     }
-
-    // displayRelatedProducts(selectedProduct?.getCategory());
-  } else {
-    console.error("Product ID not found!");
   }
-}});
+});
 
 function generateRatingStars(rating) {
   let stars = "";
   for (let i = 0; i < Math.floor(rating); i++) {
     stars += "★";
   }
-  if (rating % 1 !== 0) {ري
-    stars += "☆"; 
+  if (rating % 1 !== 0) {
+    stars += "☆";
   }
   return stars;
 }
@@ -127,7 +128,7 @@ function displayRelatedProducts(category, currentProductId) {
   );
 
   const relatedContainer = document.querySelector(".related-products .cards");
-  relatedContainer.innerHTML = ""; 
+  relatedContainer.innerHTML = "";
 
   if (related.length === 0) {
     relatedContainer.innerHTML = "<p>No related products found.</p>";
@@ -140,20 +141,19 @@ function displayRelatedProducts(category, currentProductId) {
 
     productCard.innerHTML = `
     <div class="card">
-        <a href="./datails.html?productId=${ product.id}" class="text-decoration-none text-dark">
+        <a href="./datails.html?productId=${product.id}" class="text-decoration-none text-dark">
             <img src="${product.images[0]}" alt="${product.productName}" class="related-image" />
             <div class="info p-2">
-                <h4 class="related-name text-truncate " id='productItem'>${ product.productName}</h4>
+                <h4 class="related-name text-truncate " id='productItem'>${product.productName}</h4>
                 <div class="d-flex justify-content-between align-items-center px-2">
-                    <p class="related-price mb-0" id='price'>$${ product.price}</p>
-                    <span class="text-warning">${generateRatingStars( product.rating  )}</span>
+                    <p class="related-price mb-0" id='price'>$${product.price}</p>
+                    <span class="text-warning">${generateRatingStars(product.rating)}</span>
                 </div>
             </div>
             </a>
 
-          <button  class="w-100 addToCart"   data-id="${
-              product.id
-            }">Add To Cart</button>
+          <button  class="w-100 addToCart"   data-id="${product.id
+      }">Add To Cart</button>
         </div>
             
       `;
@@ -224,17 +224,17 @@ document.addEventListener("click", function (e) {
     const price = card.querySelector(".product-price").textContent;
 
     console.log(price);
-    
+
 
     const product = {
       id: productId,
       img: img.src,
       name: productItem,
-      category:productCategory,
+      category: productCategory,
       price,
       quantity: 1,
     };
- 
+
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -244,69 +244,69 @@ document.addEventListener("click", function (e) {
     const existingProduct = cart.find((item) => item.id === productId);
 
     const stockLabel = card.querySelector(".stock-label span");
-    
-    
-        if (existingProduct) {
-          if (existingProduct.quantity < realProduct.getStock()) {
-            existingProduct.quantity += 1;
-            showToast('Product added to cart')
-            
-             decreaseProductStock(productId)
-             console.log(realProduct.getStock());
 
-             
-           if (stockLabel) {
-             stockLabel.textContent = realProduct.getStock();
-             console.log(realProduct.getStock());
 
-             }
-    
-          } else {
-            showToast("Stock limit reached.",'danger');
+    if (existingProduct) {
+      if (existingProduct.quantity < realProduct.getStock()) {
+        existingProduct.quantity += 1;
+        showToast('Product added to cart')
 
-            return;
-          }
-    
-        } else {
-          
-          if (realProduct.getStock() > 0) {
-            const newProduct = {
-              id: productId,
-              img: img.src,
-              name: productItem,
-              category:productCategory,
-              price,
-              quantity: 1,
-            };
-            console.log(cart);
-            
-            cart.push(newProduct);
-            console.log(cart);
-            
-            decreaseProductStock(productId)
-            if (stockLabel) {
-                  stockLabel.textContent = realProduct.getStock();
-            }
-            showToast('Product added to cart')
-    
-            console.log('Product added to cart');
-    
-          } else {
-            showToast("Stock limit reached.",'danger');
-            return;
-          }
+        decreaseProductStock(productId)
+        console.log(realProduct.getStock());
+
+
+        if (stockLabel) {
+          stockLabel.textContent = realProduct.getStock();
+          console.log(realProduct.getStock());
+
         }
-        localStorage.setItem("cart", JSON.stringify(cart));
-        console.log(JSON.parse(localStorage.getItem('cart')));
-    
+
+      } else {
+        showToast("Stock limit reached.", 'danger');
+
+        return;
       }
+
+    } else {
+
+      if (realProduct.getStock() > 0) {
+        const newProduct = {
+          id: productId,
+          img: img.src,
+          name: productItem,
+          category: productCategory,
+          price,
+          quantity: 1,
+        };
+        console.log(cart);
+
+        cart.push(newProduct);
+        console.log(cart);
+
+        decreaseProductStock(productId)
+        if (stockLabel) {
+          stockLabel.textContent = realProduct.getStock();
+        }
+        showToast('Product added to cart')
+
+        console.log('Product added to cart');
+
+      } else {
+        showToast("Stock limit reached.", 'danger');
+        return;
+      }
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    console.log(JSON.parse(localStorage.getItem('cart')));
+
+  }
 });
 
 // MARK: Switch to cart 
 
-let goToCart=document.querySelector('.cartHome')
-if(goToCart){
-  goToCart.addEventListener('click',function(){
-    window.location.href='../Cart/cart.html'
+let goToCart = document.querySelector('.cartHome')
+if (goToCart) {
+  goToCart.addEventListener('click', function () {
+    window.location.href = '../Cart/cart.html'
   })
 }
