@@ -110,7 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="links">
           <ul>
             <li><a><i class="fa-solid fa-cart-shopping addToCart" data-id="${product.getId()}"></i></a></li>
-            <li><a><i class="fa-regular fa-heart"></i></a></li>
             <li><a href="./datails.html?productId=${product.getId()}"><i class="fa-solid fa-circle-info"></i></a></li>
           </ul>
         </div>
