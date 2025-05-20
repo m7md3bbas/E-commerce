@@ -24,7 +24,6 @@ filteredProducts.forEach((product) => {
         <div class="links">
           <ul>
             <li><a><i class="fa-solid fa-cart-shopping addToCart" data-id="${product.id}"></i></a></li>
-            <li><a><i class="fa-regular fa-heart"></i></a></li>
             <li><a href="./datails.html?productId=${product.id}"><i class="fa-solid fa-circle-info"></i></a></li>
           </ul>
         </div>
