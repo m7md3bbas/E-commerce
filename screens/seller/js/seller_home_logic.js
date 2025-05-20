@@ -690,7 +690,7 @@ function loadSalesAnalytics() {
     const topCustomerName = topCustomer ? (users.find(u => u.id == topCustomer[0])?.name || 'Unknown') : null;
 
     // تحديث البيانات في الصفحة
-    document.getElementById('totalSales').textContent = `${totalRevenue} $`;
+    document.getElementById('totalSales').textContent = `${totalRevenue.toFixed(2)} $`;
 
     document.getElementById('topProduct').textContent = topProduct
         ? `${topProduct[0]} (${topProduct[1]} sales)`
